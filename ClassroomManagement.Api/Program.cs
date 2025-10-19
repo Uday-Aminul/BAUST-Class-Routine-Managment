@@ -1,8 +1,15 @@
+using ClassroomManagement.Api.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ClassroomManagementDbContext>(options => options.UseSqlServer(
+    builder.Configuration.GetConnectionString("ClassroomManagementConnectionString")
+    ));
 
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
