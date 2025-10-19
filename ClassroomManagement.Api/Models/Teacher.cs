@@ -15,8 +15,10 @@ namespace ClassroomManagement.Api.Models
         public int DepartmentId { get; set; }
 
         //navigation Property
-        public List<Course> Courses { get; set; }
-        public List<ClassSchedule> Classes { get; set; }
-        public Department Department { get; set; }        
+        public List<Course>? Courses { get; set; }
+        public List<ClassSchedule>? Classes { get; set; }
+        public Department Department { get; set; }  
+
+        //How much credit a teacher can take?      
     }
 }

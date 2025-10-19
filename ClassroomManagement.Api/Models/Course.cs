@@ -9,12 +9,15 @@ namespace ClassroomManagement.Api.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Department { get; set; } = "CSE";
         public int Level { get; set; }
         public int Term { get; set; }
         public int Credit { get; set; }
 
+        //Foreign Key
+        public int? DepartmentId { get; set; }
+
         //Navigation Property
-        public List<Teacher> Teachers { get; set; }
+        public List<Teacher>? Teachers { get; set; }
+        public Department? Department { get; set; }
     }
 }

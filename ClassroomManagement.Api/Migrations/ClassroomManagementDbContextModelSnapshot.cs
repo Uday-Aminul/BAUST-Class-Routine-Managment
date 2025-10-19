@@ -77,6 +77,63 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 301,
+                            IsLab = true
+                        },
+                        new
+                        {
+                            Id = 302,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 303,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 304,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 305,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 306,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 307,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 308,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 309,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 310,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 311,
+                            IsLab = true
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
@@ -90,8 +147,8 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<int>("Credit")
                         .HasColumnType("int");
 
-                    b.Property<string>("Department")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("DepartmentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -105,7 +162,47 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("DepartmentId");
+
                     b.ToTable("Courses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 501,
+                            Credit = 3,
+                            DepartmentId = 1001,
+                            Level = 3,
+                            Name = "Data Structures",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 502,
+                            Credit = 3,
+                            DepartmentId = 1001,
+                            Level = 3,
+                            Name = "Algorithms",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 503,
+                            Credit = 3,
+                            DepartmentId = 1002,
+                            Level = 3,
+                            Name = "Circuit Analysis",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 504,
+                            Credit = 3,
+                            DepartmentId = 1002,
+                            Level = 3,
+                            Name = "Electromagnetics",
+                            Term = 2
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Department", b =>
@@ -123,6 +220,33 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1001,
+                            Name = "CSE"
+                        },
+                        new
+                        {
+                            Id = 1002,
+                            Name = "EEE"
+                        },
+                        new
+                        {
+                            Id = 1003,
+                            Name = "BBA"
+                        },
+                        new
+                        {
+                            Id = 1004,
+                            Name = "English"
+                        },
+                        new
+                        {
+                            Id = 1005,
+                            Name = "ME"
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
@@ -149,6 +273,29 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Teachers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 2001,
+                            DepartmentId = 1001,
+                            Designation = "Assistant Professor",
+                            Name = "Alice Smith"
+                        },
+                        new
+                        {
+                            Id = 2002,
+                            DepartmentId = 1002,
+                            Designation = "Associate Professor",
+                            Name = "Bob Johnson"
+                        },
+                        new
+                        {
+                            Id = 2003,
+                            DepartmentId = 1003,
+                            Designation = "Professor",
+                            Name = "Carol Williams"
+                        });
                 });
 
             modelBuilder.Entity("CourseTeacher", b =>
@@ -191,6 +338,15 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId");
+
+                    b.Navigation("Department");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>

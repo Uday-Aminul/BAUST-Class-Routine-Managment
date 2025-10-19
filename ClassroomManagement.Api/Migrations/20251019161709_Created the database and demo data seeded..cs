@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ClassroomManagement.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreation : Migration
+    public partial class Createdthedatabaseanddemodataseeded : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,23 +27,6 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Department = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Term = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
@@ -52,6 +37,28 @@ namespace ClassroomManagement.Api.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Term = table.Column<int>(type: "int", nullable: false),
+                    Credit = table.Column<int>(type: "int", nullable: false),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Courses_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -136,6 +143,57 @@ namespace ClassroomManagement.Api.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Classrooms",
+                columns: new[] { "Id", "IsLab" },
+                values: new object[,]
+                {
+                    { 301, true },
+                    { 302, false },
+                    { 303, false },
+                    { 304, false },
+                    { 305, false },
+                    { 306, false },
+                    { 307, false },
+                    { 308, false },
+                    { 309, false },
+                    { 310, false },
+                    { 311, true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1001, "CSE" },
+                    { 1002, "EEE" },
+                    { 1003, "BBA" },
+                    { 1004, "English" },
+                    { 1005, "ME" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "Credit", "DepartmentId", "Level", "Name", "Term" },
+                values: new object[,]
+                {
+                    { 501, 3, 1001, 3, "Data Structures", 1 },
+                    { 502, 3, 1001, 3, "Algorithms", 2 },
+                    { 503, 3, 1002, 3, "Circuit Analysis", 1 },
+                    { 504, 3, 1002, 3, "Electromagnetics", 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Teachers",
+                columns: new[] { "Id", "DepartmentId", "Designation", "Name" },
+                values: new object[,]
+                {
+                    { 2001, 1001, "Assistant Professor", "Alice Smith" },
+                    { 2002, 1002, "Associate Professor", "Bob Johnson" },
+                    { 2003, 1003, "Professor", "Carol Williams" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ClassSchedule_ClassroomId",
                 table: "ClassSchedule",
@@ -150,6 +208,11 @@ namespace ClassroomManagement.Api.Migrations
                 name: "IX_ClassSchedule_TeacherId",
                 table: "ClassSchedule",
                 column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_DepartmentId",
+                table: "Courses",
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseTeacher_TeachersId",

@@ -11,6 +11,8 @@ namespace ClassroomManagement.Api.Models
         public bool IsLab { get; set; }
 
         //Navigation Property
-        public List<ClassSchedule> ClassSchedules { get; set; }
+        public List<ClassSchedule>? ClassSchedules { get; set; }
+
+        //What to do with other labs that are on the other departments?
     }
 }
