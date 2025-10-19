@@ -35,7 +35,7 @@ namespace ClassroomManagement.Api.Repositories
             return await _dbContext.Classrooms.ToListAsync();
         }
 
-        public async Task<List<Classroom>> GetAllClassroomAsync()
+        public async Task<List<Classroom>> GetAllClassroomsAsync()
         {
             var classroomDomains = await _dbContext.Classrooms.Include(x => x.ClassSchedules).ThenInclude(x => x.Course).Include(x => x.ClassSchedules).ThenInclude(x => x.Teacher).ToListAsync();
             return classroomDomains;
