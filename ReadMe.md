@@ -1,5 +1,5 @@
 **About The Project:**
-<img src="G:\ClassRoutineManagement" alt="Class-Routine-Management" width="300" height="200">
+<img src="ClassRoutineManagement.jpg" alt="Class Routine Management">
 
 **Description:**
 This project will have simple frontend for taking teachers details as input and will give the entire class routine as the output.
