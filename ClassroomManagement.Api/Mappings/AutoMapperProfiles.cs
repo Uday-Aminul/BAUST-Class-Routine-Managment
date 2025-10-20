@@ -13,7 +13,8 @@ namespace ClassroomManagement.Api.Mappings
         public AutoMapperProfiles()
         {
             CreateMap<TeacherDto, Teacher>().ReverseMap();
-            CreateMap<ClassroomDto,Classroom>().ReverseMap();
+            CreateMap<ClassroomDto, Classroom>().ReverseMap();
+            CreateMap<ClassroomPublicDto, Classroom>().ReverseMap();
         }
     }
 }

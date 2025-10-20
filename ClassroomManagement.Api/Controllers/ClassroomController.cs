@@ -28,7 +28,7 @@ namespace ClassroomManagement.Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var ClassroomsDomain = await _classroomRepository.GetAllClassroomsAsync();
-            var ClassroomsDto = _mapper.Map<List<ClassroomDto>>(ClassroomsDomain);
+            var ClassroomsDto = _mapper.Map<List<ClassroomPublicDto>>(ClassroomsDomain);
             return Ok(ClassroomsDto);
         }
 
@@ -54,7 +54,7 @@ namespace ClassroomManagement.Api.Controllers
             {
                 return NotFound();
             }
-            var ClassroomsDto = _mapper.Map<List<ClassroomDto>>(ClassroomsDomain);
+            var ClassroomsDto = _mapper.Map<List<ClassroomPublicDto>>(ClassroomsDomain);
             return Ok(ClassroomsDto);
         }
 
@@ -62,23 +62,23 @@ namespace ClassroomManagement.Api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ClassroomDto updatedClassroom)
         {
-            var ClassroomDomain = _mapper.Map<Classroom>(updatedClassroom);
-            ClassroomDomain = await _classroomRepository.UpdateClassroomAsync(id, ClassroomDomain);
-            if (ClassroomDomain is null)
+            var classroomDomain = _mapper.Map<Classroom>(updatedClassroom);
+            classroomDomain = await _classroomRepository.UpdateClassroomAsync(id, classroomDomain);
+            if (classroomDomain is null)
             {
                 return NotFound();
             }
-            var ClassroomDto = _mapper.Map<ClassroomDto>(ClassroomDomain);
-            return CreatedAtAction(nameof(GetById), new{id=ClassroomDto.Id}, ClassroomDto);
+            var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
+            return CreatedAtAction(nameof(GetById), new{id=classroomDomain.Id}, ClassroomDto);
         }
         
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClassroomDto newClassroom)
         {
-            var ClassroomDomain = _mapper.Map<Classroom>(newClassroom);
-            ClassroomDomain = await _classroomRepository.CreateClassroomAsync(ClassroomDomain);
-            var ClassroomDto = _mapper.Map<ClassroomDto>(ClassroomDomain);
-            return CreatedAtAction(nameof(GetById), new{id=ClassroomDto.Id}, ClassroomDto);
+            var classroomDomain = _mapper.Map<Classroom>(newClassroom);
+            classroomDomain = await _classroomRepository.CreateClassroomAsync(classroomDomain);
+            var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
+            return CreatedAtAction(nameof(GetById), new{id=classroomDomain.Id}, ClassroomDto);
         }
     }
 }

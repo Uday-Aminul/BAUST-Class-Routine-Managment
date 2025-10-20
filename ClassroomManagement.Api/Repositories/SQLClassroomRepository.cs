@@ -54,7 +54,6 @@ namespace ClassroomManagement.Api.Repositories
             {
                 return null;
             }
-            existingClassroom.Id = classroom.Id;
             existingClassroom.IsLab = classroom.IsLab;
             await _dbContext.SaveChangesAsync();
             return existingClassroom;

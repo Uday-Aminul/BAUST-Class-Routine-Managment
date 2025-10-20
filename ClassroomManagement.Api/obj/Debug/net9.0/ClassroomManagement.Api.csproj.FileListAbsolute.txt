@@ -163,3 +163,8 @@ G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api
 G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\obj\Debug\net9.0\ClassroomManagement.Api.pdb
 G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\obj\Debug\net9.0\ClassroomManagement.Api.genruntimeconfig.cache
 G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\obj\Debug\net9.0\ref\ClassroomManagement.Api.dll
+G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\bin\Debug\net9.0\AutoMapper.dll
+G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\bin\Debug\net9.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+G:\GitHub\PersonalProjects\BAUST-Class-Routine-Managment\ClassroomManagement.Api\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace ClassroomManagement.Api.Models.DTOs
 {
-    public class ClassroomDto
+    public class ClassroomPublicDto
     {
+        public int Id { get; set; }
         public bool IsLab { get; set; }
     }
 }
