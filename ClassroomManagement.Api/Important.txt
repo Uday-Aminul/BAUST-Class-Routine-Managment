@@ -1,0 +1,8 @@
+Features Required:
+1. when given teacher Id all schedules of him/her in the entire week will be shown.
+2. when given Room Id all schedules of him/her in the entire week will be shown.
+3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
+
+Problems:
+Need another domain model Level-Term which will have property called "section".
+Teachers need to be assigned to sections...so another model is required for like Level-Term and teachers need foreign keys for sections....

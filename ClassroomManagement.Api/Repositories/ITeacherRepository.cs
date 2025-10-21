@@ -11,7 +11,7 @@ namespace TeacherManagement.Api.Repositories
         Task<List<Teacher>> GetAllTeachersAsync();
         Task<Teacher?> GetTeacherByIdAsync(int id);
         Task<Teacher> CreateTeacherAsync(Teacher teacher);
-        Task<Teacher?> UpdateTeacherAsync(int id, Teacher teacher);
-        Task<List<Teacher>?> DeleteTeacherAsync(int id);
+        Task<Teacher?> UpdateTeacherByIdAsync(int id, Teacher teacher);
+        Task<List<Teacher>?> DeleteTeacherByIdAsync(int id);
     }
 }

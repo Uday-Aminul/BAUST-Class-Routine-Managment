@@ -23,7 +23,7 @@ namespace TeacherManagement.Api.Repositories
             return teacher;
         }
 
-        public async Task<List<Teacher>?> DeleteTeacherAsync(int id)
+        public async Task<List<Teacher>?> DeleteTeacherByIdAsync(int id)
         {
             var Teacher = await _dbContext.Teachers.FirstOrDefaultAsync(x => x.Id == id);
             if (Teacher is null)
@@ -37,19 +37,19 @@ namespace TeacherManagement.Api.Repositories
 
         public async Task<List<Teacher>> GetAllTeachersAsync()
         {
-            var TeacherDomains = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).Include(x => x.Department).ToListAsync();
+            var TeacherDomains = await _dbContext.Teachers.Include(x=>x.Courses).Include(x=>x.Classes).ToListAsync();
             return TeacherDomains;
         }
 
         public async Task<Teacher?> GetTeacherByIdAsync(int id)
         {
-            var TeacherDomain = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
+            var TeacherDomain = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).FirstOrDefaultAsync(x => x.Id == id);
             return TeacherDomain;
         }
 
-        public async Task<Teacher?> UpdateTeacherAsync(int id, Teacher teacher)
+        public async Task<Teacher?> UpdateTeacherByIdAsync(int id, Teacher teacher)
         {
-            var existingTeacher = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).Include(x => x.Department).FirstOrDefaultAsync(x => x.Id == id);
+            var existingTeacher = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).FirstOrDefaultAsync(x => x.Id == id);
             if (existingTeacher is null)
             {
                 return null;

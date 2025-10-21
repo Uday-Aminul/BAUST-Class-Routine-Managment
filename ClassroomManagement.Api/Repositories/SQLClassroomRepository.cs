@@ -23,7 +23,7 @@ namespace ClassroomManagement.Api.Repositories
             return classroom;
         }
 
-        public async Task<List<Classroom>?> DeleteClassroomAsync(int id)
+        public async Task<List<Classroom>?> DeleteClassroomByIdAsync(int id)
         {
             var Classroom = await _dbContext.Classrooms.FirstOrDefaultAsync(x => x.Id == id);
             if (Classroom is null)
@@ -47,7 +47,7 @@ namespace ClassroomManagement.Api.Repositories
             return classroomDomain;
         }
 
-        public async Task<Classroom?> UpdateClassroomAsync(int id, Classroom classroom)
+        public async Task<Classroom?> UpdateClassroomByIdAsync(int id, Classroom classroom)
         {
             var existingClassroom = await _dbContext.Classrooms.Include(x => x.ClassSchedules).ThenInclude(x => x.Course).Include(x => x.ClassSchedules).ThenInclude(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
             if (existingClassroom is null)

@@ -11,7 +11,7 @@ namespace ClassroomManagement.Api.Repositories
         Task<List<Classroom>> GetAllClassroomsAsync();
         Task<Classroom?> GetClassroomByIdAsync(int id);
         Task<Classroom> CreateClassroomAsync(Classroom classroom);
-        Task<Classroom?> UpdateClassroomAsync(int id, Classroom classroom);
-        Task<List<Classroom>?> DeleteClassroomAsync(int id);
+        Task<Classroom?> UpdateClassroomByIdAsync(int id, Classroom classroom);
+        Task<List<Classroom>?> DeleteClassroomByIdAsync(int id);
     }
 }

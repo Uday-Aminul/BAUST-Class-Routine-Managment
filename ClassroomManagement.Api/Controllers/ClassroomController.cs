@@ -16,46 +16,46 @@ namespace ClassroomManagement.Api.Controllers
     [Route("api/[controller]")]
     public class ClassroomController : ControllerBase
     {
-        private readonly IClassroomRepository _classroomRepository;
+        private readonly IClassroomRepository _classroomsRepository;
         private readonly IMapper _mapper;
         public ClassroomController(IClassroomRepository classroomRepository, IMapper mapper)
         {
-            _classroomRepository = classroomRepository;
+            _classroomsRepository = classroomRepository;
             _mapper = mapper;
         }
 
-       [HttpGet]
+        [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var ClassroomsDomain = await _classroomRepository.GetAllClassroomsAsync();
-            var ClassroomsDto = _mapper.Map<List<ClassroomPublicDto>>(ClassroomsDomain);
-            return Ok(ClassroomsDto);
+            var classroomDomains = await _classroomsRepository.GetAllClassroomsAsync();
+            var classroomDtos = _mapper.Map<List<ClassroomPublicDto>>(classroomDomains);
+            return Ok(classroomDtos);
         }
 
         [HttpGet]
         [Route("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var ClassroomDomain = await _classroomRepository.GetClassroomByIdAsync(id);
-            if (ClassroomDomain is null)
+            var classroomDomain = await _classroomsRepository.GetClassroomByIdAsync(id);
+            if (classroomDomain is null)
             {
                 return NotFound();
             }
-            var ClassroomDto = _mapper.Map<ClassroomDto>(ClassroomDomain);
-            return Ok(ClassroomDto);
+            var classroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
+            return Ok(classroomDto);
         }
 
         [HttpDelete]
         [Route("{id:int}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            var ClassroomsDomain = await _classroomRepository.DeleteClassroomAsync(id);
-            if (ClassroomsDomain is null)
+            var classroomDomains = await _classroomsRepository.DeleteClassroomByIdAsync(id);
+            if (classroomDomains is null)
             {
                 return NotFound();
             }
-            var ClassroomsDto = _mapper.Map<List<ClassroomPublicDto>>(ClassroomsDomain);
-            return Ok(ClassroomsDto);
+            var ClassroomDtos = _mapper.Map<List<ClassroomPublicDto>>(classroomDomains);
+            return Ok(ClassroomDtos);
         }
 
         [HttpPut]
@@ -63,20 +63,20 @@ namespace ClassroomManagement.Api.Controllers
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ClassroomDto updatedClassroom)
         {
             var classroomDomain = _mapper.Map<Classroom>(updatedClassroom);
-            classroomDomain = await _classroomRepository.UpdateClassroomAsync(id, classroomDomain);
+            classroomDomain = await _classroomsRepository.UpdateClassroomByIdAsync(id, classroomDomain);
             if (classroomDomain is null)
             {
                 return NotFound();
             }
-            var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
-            return CreatedAtAction(nameof(GetById), new{id=classroomDomain.Id}, ClassroomDto);
+            var classroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
+            return Ok(classroomDto);
         }
         
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ClassroomDto newClassroom)
         {
             var classroomDomain = _mapper.Map<Classroom>(newClassroom);
-            classroomDomain = await _classroomRepository.CreateClassroomAsync(classroomDomain);
+            classroomDomain = await _classroomsRepository.CreateClassroomAsync(classroomDomain);
             var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
             return CreatedAtAction(nameof(GetById), new{id=classroomDomain.Id}, ClassroomDto);
         }
