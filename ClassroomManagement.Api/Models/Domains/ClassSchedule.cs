@@ -21,6 +21,6 @@ namespace ClassroomManagement.Api.Models
         //Navigation Properties
         public Classroom Classroom { get; set; }
         public Course Course { get; set; }
-        public Teacher Teacher { get; set; }
+        public Teacher? Teacher { get; set; }
     }
 }

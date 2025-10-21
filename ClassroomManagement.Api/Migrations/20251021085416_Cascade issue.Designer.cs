@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20251019161709_Created the database and demo data seeded.")]
-    partial class Createdthedatabaseanddemodataseeded
+    [Migration("20251021085416_Cascade issue")]
+    partial class Cascadeissue
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,63 +80,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Classrooms");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 301,
-                            IsLab = true
-                        },
-                        new
-                        {
-                            Id = 302,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 303,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 304,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 305,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 306,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 307,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 308,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 309,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 310,
-                            IsLab = false
-                        },
-                        new
-                        {
-                            Id = 311,
-                            IsLab = true
-                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
@@ -150,7 +93,7 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<int>("Credit")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DepartmentId")
+                    b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<int>("Level")
@@ -160,12 +103,15 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TeacherId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
 
@@ -177,6 +123,7 @@ namespace ClassroomManagement.Api.Migrations
                             DepartmentId = 1001,
                             Level = 3,
                             Name = "Data Structures",
+                            TeacherId = 2001,
                             Term = 1
                         },
                         new
@@ -186,6 +133,7 @@ namespace ClassroomManagement.Api.Migrations
                             DepartmentId = 1001,
                             Level = 3,
                             Name = "Algorithms",
+                            TeacherId = 2001,
                             Term = 2
                         },
                         new
@@ -195,6 +143,7 @@ namespace ClassroomManagement.Api.Migrations
                             DepartmentId = 1002,
                             Level = 3,
                             Name = "Circuit Analysis",
+                            TeacherId = 2002,
                             Term = 1
                         },
                         new
@@ -204,51 +153,8 @@ namespace ClassroomManagement.Api.Migrations
                             DepartmentId = 1002,
                             Level = 3,
                             Name = "Electromagnetics",
+                            TeacherId = 2003,
                             Term = 2
-                        });
-                });
-
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Department", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Departments");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1001,
-                            Name = "CSE"
-                        },
-                        new
-                        {
-                            Id = 1002,
-                            Name = "EEE"
-                        },
-                        new
-                        {
-                            Id = 1003,
-                            Name = "BBA"
-                        },
-                        new
-                        {
-                            Id = 1004,
-                            Name = "English"
-                        },
-                        new
-                        {
-                            Id = 1005,
-                            Name = "ME"
                         });
                 });
 
@@ -260,9 +166,6 @@ namespace ClassroomManagement.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Designation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -273,47 +176,27 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
-
                     b.ToTable("Teachers");
 
                     b.HasData(
                         new
                         {
                             Id = 2001,
-                            DepartmentId = 1001,
                             Designation = "Assistant Professor",
                             Name = "Alice Smith"
                         },
                         new
                         {
                             Id = 2002,
-                            DepartmentId = 1002,
                             Designation = "Associate Professor",
                             Name = "Bob Johnson"
                         },
                         new
                         {
                             Id = 2003,
-                            DepartmentId = 1003,
                             Designation = "Professor",
                             Name = "Carol Williams"
                         });
-                });
-
-            modelBuilder.Entity("CourseTeacher", b =>
-                {
-                    b.Property<int>("CoursesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeachersId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CoursesId", "TeachersId");
-
-                    b.HasIndex("TeachersId");
-
-                    b.ToTable("CourseTeacher");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.ClassSchedule", b =>
@@ -345,37 +228,11 @@ namespace ClassroomManagement.Api.Migrations
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
                 {
-                    b.HasOne("ClassroomManagement.Api.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId");
+                    b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
+                        .WithMany("Courses")
+                        .HasForeignKey("TeacherId");
 
-                    b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Department", "Department")
-                        .WithMany("Teachers")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("CourseTeacher", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Course", null)
-                        .WithMany()
-                        .HasForeignKey("CoursesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
-                        .WithMany()
-                        .HasForeignKey("TeachersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
@@ -383,14 +240,11 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("ClassSchedules");
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Department", b =>
-                {
-                    b.Navigation("Teachers");
-                });
-
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
                 {
                     b.Navigation("Classes");
+
+                    b.Navigation("Courses");
                 });
 #pragma warning restore 612, 618
         }

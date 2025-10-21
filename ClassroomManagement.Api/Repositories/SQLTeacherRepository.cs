@@ -56,7 +56,6 @@ namespace TeacherManagement.Api.Repositories
             }
             existingTeacher.Name = teacher.Name;
             existingTeacher.Designation = teacher.Designation;
-            existingTeacher.DepartmentId = teacher.DepartmentId;
             await _dbContext.SaveChangesAsync();
             return existingTeacher;
         }

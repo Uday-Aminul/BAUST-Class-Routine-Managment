@@ -13,6 +13,5 @@ namespace ClassroomManagement.Api.Models.DTOs
 
         public List<Course>? Courses { get; set; }
         public List<ClassSchedule>? Classes { get; set; }
-        public Department Department { get; set; }
     }
 }

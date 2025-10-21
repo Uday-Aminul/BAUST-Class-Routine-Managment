@@ -14,10 +14,9 @@ namespace ClassroomManagement.Api.Models
         public int Credit { get; set; }
 
         //Foreign Key
-        public int? DepartmentId { get; set; }
+        public int? TeacherId { get; set; }
 
         //Navigation Property
-        public List<Teacher>? Teachers { get; set; }
-        public Department? Department { get; set; }
+        public Teacher? Teacher { get; set; }
     }
 }

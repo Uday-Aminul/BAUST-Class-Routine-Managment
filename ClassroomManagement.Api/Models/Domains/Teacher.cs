@@ -11,14 +11,10 @@ namespace ClassroomManagement.Api.Models
         public string Name { get; set; }
         public string Designation { get; set; }
 
-        //Foreign Key
-        public int DepartmentId { get; set; }
-
         //navigation Property
         public List<Course>? Courses { get; set; }
         public List<ClassSchedule>? Classes { get; set; }
-        public Department Department { get; set; }  
 
-        //How much credit a teacher can take?      
+        //Credit of a teacher is determined by how many courses he is assigned to?      
     }
 }
