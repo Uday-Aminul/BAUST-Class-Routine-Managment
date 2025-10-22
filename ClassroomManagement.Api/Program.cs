@@ -1,5 +1,6 @@
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Repositories;
+using ClassScheduleManagement.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 using TeacherManagement.Api.Repositories;
 
@@ -14,6 +15,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddScoped<IClassroomRepository, SQLClassroomRepository>();
 builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
+builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

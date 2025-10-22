@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClassroomManagement.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Cascadeissue : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,7 +50,6 @@ namespace ClassroomManagement.Api.Migrations
                     Level = table.Column<int>(type: "int", nullable: false),
                     Term = table.Column<int>(type: "int", nullable: false),
                     Credit = table.Column<int>(type: "int", nullable: false),
-                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     TeacherId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -64,7 +63,7 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassSchedule",
+                name: "ClassSchedules",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -79,25 +78,43 @@ namespace ClassroomManagement.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassSchedule", x => x.Id);
+                    table.PrimaryKey("PK_ClassSchedules", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClassSchedule_Classrooms_ClassroomId",
+                        name: "FK_ClassSchedules_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClassSchedule_Courses_CourseId",
+                        name: "FK_ClassSchedules_Courses_CourseId",
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClassSchedule_Teachers_TeacherId",
+                        name: "FK_ClassSchedules_Teachers_TeacherId",
                         column: x => x.TeacherId,
                         principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Classrooms",
+                columns: new[] { "Id", "IsLab" },
+                values: new object[,]
+                {
+                    { 301, true },
+                    { 302, false },
+                    { 303, false },
+                    { 304, false },
+                    { 305, false },
+                    { 306, false },
+                    { 307, false },
+                    { 308, false },
+                    { 309, false },
+                    { 310, false },
+                    { 311, true }
                 });
 
             migrationBuilder.InsertData(
@@ -112,28 +129,39 @@ namespace ClassroomManagement.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Courses",
-                columns: new[] { "Id", "Credit", "DepartmentId", "Level", "Name", "TeacherId", "Term" },
+                columns: new[] { "Id", "Credit", "Level", "Name", "TeacherId", "Term" },
                 values: new object[,]
                 {
-                    { 501, 3, 1001, 3, "Data Structures", 2001, 1 },
-                    { 502, 3, 1001, 3, "Algorithms", 2001, 2 },
-                    { 503, 3, 1002, 3, "Circuit Analysis", 2002, 1 },
-                    { 504, 3, 1002, 3, "Electromagnetics", 2003, 2 }
+                    { 501, 3, 3, "Data Structures", 2001, 1 },
+                    { 502, 3, 3, "Algorithms", 2001, 2 },
+                    { 503, 3, 3, "Circuit Analysis", 2002, 1 },
+                    { 504, 3, 3, "Electromagnetics", 2003, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ClassSchedules",
+                columns: new[] { "Id", "ClassroomId", "CourseId", "Day", "EndTime", "Section", "StartTime", "TeacherId" },
+                values: new object[,]
+                {
+                    { 4001, 302, 501, 1, new TimeOnly(10, 30, 0), "A", new TimeOnly(9, 0, 0), 2001 },
+                    { 4002, 303, 502, 3, new TimeOnly(12, 30, 0), "A", new TimeOnly(11, 0, 0), 2001 },
+                    { 4003, 304, 503, 2, new TimeOnly(11, 30, 0), "B", new TimeOnly(10, 0, 0), 2002 },
+                    { 4004, 305, 504, 4, new TimeOnly(14, 30, 0), "c", new TimeOnly(13, 0, 0), 2003 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassSchedule_ClassroomId",
-                table: "ClassSchedule",
+                name: "IX_ClassSchedules_ClassroomId",
+                table: "ClassSchedules",
                 column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassSchedule_CourseId",
-                table: "ClassSchedule",
+                name: "IX_ClassSchedules_CourseId",
+                table: "ClassSchedules",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassSchedule_TeacherId",
-                table: "ClassSchedule",
+                name: "IX_ClassSchedules_TeacherId",
+                table: "ClassSchedules",
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
@@ -146,7 +174,7 @@ namespace ClassroomManagement.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ClassSchedule");
+                name: "ClassSchedules");
 
             migrationBuilder.DropTable(
                 name: "Classrooms");

@@ -60,7 +60,53 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("ClassSchedule");
+                    b.ToTable("ClassSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4001,
+                            ClassroomId = 302,
+                            CourseId = 501,
+                            Day = 1,
+                            EndTime = new TimeOnly(10, 30, 0),
+                            Section = "A",
+                            StartTime = new TimeOnly(9, 0, 0),
+                            TeacherId = 2001
+                        },
+                        new
+                        {
+                            Id = 4002,
+                            ClassroomId = 303,
+                            CourseId = 502,
+                            Day = 3,
+                            EndTime = new TimeOnly(12, 30, 0),
+                            Section = "A",
+                            StartTime = new TimeOnly(11, 0, 0),
+                            TeacherId = 2001
+                        },
+                        new
+                        {
+                            Id = 4003,
+                            ClassroomId = 304,
+                            CourseId = 503,
+                            Day = 2,
+                            EndTime = new TimeOnly(11, 30, 0),
+                            Section = "B",
+                            StartTime = new TimeOnly(10, 0, 0),
+                            TeacherId = 2002
+                        },
+                        new
+                        {
+                            Id = 4004,
+                            ClassroomId = 305,
+                            CourseId = 504,
+                            Day = 4,
+                            EndTime = new TimeOnly(14, 30, 0),
+                            Section = "c",
+                            StartTime = new TimeOnly(13, 0, 0),
+                            TeacherId = 2003
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
@@ -77,6 +123,63 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Classrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 301,
+                            IsLab = true
+                        },
+                        new
+                        {
+                            Id = 302,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 303,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 304,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 305,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 306,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 307,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 308,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 309,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 310,
+                            IsLab = false
+                        },
+                        new
+                        {
+                            Id = 311,
+                            IsLab = true
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
