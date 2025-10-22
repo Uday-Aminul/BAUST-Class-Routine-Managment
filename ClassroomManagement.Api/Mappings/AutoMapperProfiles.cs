@@ -12,10 +12,17 @@ namespace ClassroomManagement.Api.Mappings
     {
         public AutoMapperProfiles()
         {
-            CreateMap<TeacherDto, Teacher>().ReverseMap();
-            CreateMap<ClassroomDto, Classroom>().ReverseMap();
+            CreateMap<Teacher, TeacherDto>();
             CreateMap<AddTeacherRequestDto, Teacher>();
             CreateMap<UpdateTeacherRequestDto, Teacher>();
+
+            CreateMap<Classroom, ClassroomDto>();
+            CreateMap<UpdateClassroomRequestDto, Classroom>();
+            CreateMap<AddClassroomRequestDto, Classroom>();
+
+            CreateMap<ClassSchedule, ClassScheduleDto>();
+            CreateMap<UpdateClassScheduleRequestDto, Classroom>();
+            CreateMap<AddClassScheduleRequestDto, Classroom>();
         }
     }
 }
