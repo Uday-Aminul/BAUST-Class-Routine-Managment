@@ -14,7 +14,8 @@ namespace ClassroomManagement.Api.Mappings
         {
             CreateMap<TeacherDto, Teacher>().ReverseMap();
             CreateMap<ClassroomDto, Classroom>().ReverseMap();
-            CreateMap<ClassroomPublicDto, Classroom>().ReverseMap();
+            CreateMap<AddTeacherRequestDto, Teacher>();
+            CreateMap<UpdateTeacherRequestDto, Teacher>();
         }
     }
 }

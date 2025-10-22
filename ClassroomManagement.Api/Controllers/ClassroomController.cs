@@ -28,7 +28,7 @@ namespace ClassroomManagement.Api.Controllers
         public async Task<IActionResult> GetAll()
         {
             var classroomDomains = await _classroomsRepository.GetAllClassroomsAsync();
-            var classroomDtos = _mapper.Map<List<ClassroomPublicDto>>(classroomDomains);
+            var classroomDtos = _mapper.Map<List<ClassroomDto>>(classroomDomains);
             return Ok(classroomDtos);
         }
 
@@ -54,13 +54,13 @@ namespace ClassroomManagement.Api.Controllers
             {
                 return NotFound();
             }
-            var ClassroomDtos = _mapper.Map<List<ClassroomPublicDto>>(classroomDomains);
+            var ClassroomDtos = _mapper.Map<List<ClassroomDto>>(classroomDomains);
             return Ok(ClassroomDtos);
         }
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] ClassroomDto updatedClassroom)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateClassroomRequestDto updatedClassroom)
         {
             var classroomDomain = _mapper.Map<Classroom>(updatedClassroom);
             classroomDomain = await _classroomsRepository.UpdateClassroomByIdAsync(id, classroomDomain);
@@ -73,7 +73,7 @@ namespace ClassroomManagement.Api.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ClassroomDto newClassroom)
+        public async Task<IActionResult> Create([FromBody] AddClassroomRequestDto newClassroom)
         {
             var classroomDomain = _mapper.Map<Classroom>(newClassroom);
             classroomDomain = await _classroomsRepository.CreateClassroomAsync(classroomDomain);

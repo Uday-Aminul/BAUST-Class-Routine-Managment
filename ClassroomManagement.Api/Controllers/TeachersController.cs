@@ -60,7 +60,7 @@ namespace teachersManagement.Api.Controllers
 
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] TeacherDto updatedteachers)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateTeacherRequestDto updatedteachers)
         {
             var teacherDomain = _mapper.Map<Teacher>(updatedteachers);
             teacherDomain = await _teachersRepository.UpdateTeacherByIdAsync(id, teacherDomain);
@@ -73,7 +73,7 @@ namespace teachersManagement.Api.Controllers
         }
         
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] TeacherDto newteachers)
+        public async Task<IActionResult> Create([FromBody] AddTeacherRequestDto newteachers)
         {
             var teacherDomain = _mapper.Map<Teacher>(newteachers);
             teacherDomain = await _teachersRepository.CreateTeacherAsync(teacherDomain);
