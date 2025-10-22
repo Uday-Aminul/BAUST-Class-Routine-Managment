@@ -17,6 +17,7 @@ namespace ClassroomManagement.Api.Data
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<ClassSchedule> ClassSchedules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -54,6 +55,7 @@ namespace ClassroomManagement.Api.Data
                 new Classroom { Id=310, IsLab=false },
                 new Classroom { Id=311, IsLab=true }
             };
+            modelBuilder.Entity<Classroom>().HasData(ClassRooms);
 
             //These need to be actual courses.
             var Courses = new List<Course>
@@ -74,13 +76,14 @@ namespace ClassroomManagement.Api.Data
             };
             modelBuilder.Entity<Teacher>().HasData(Teachers);
 
-            var ClassSchedule= new List<ClassSchedule>
+            var ClassSchedule = new List<ClassSchedule>
             {
-                new ClassSchedule { Id=4001, CourseId=501, TeacherId=2001, ClassroomId=301, Day=DayOfWeek.Monday, StartTime=new TimeOnly(9,0,0), EndTime=new TimeOnly(10,30,0), Section="A" },
-                new ClassSchedule { Id=4002, CourseId=502, TeacherId=2001, ClassroomId=302, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(11,0,0), EndTime=new TimeOnly(12,30,0), Section="A" },
-                new ClassSchedule { Id=4003, CourseId=503, TeacherId=2002, ClassroomId=303, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(10,0,0), EndTime=new TimeOnly(11,30,0), Section="B" },
-                new ClassSchedule { Id=4004, CourseId=504, TeacherId=2003, ClassroomId=304, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(13,0,0), EndTime=new TimeOnly(14,30,0), Section="c" }
+                new ClassSchedule { Id=4001, CourseId=501, TeacherId=2001, ClassroomId=302, Day=DayOfWeek.Monday, StartTime=new TimeOnly(9,0,0), EndTime=new TimeOnly(10,30,0), Section="A" },
+                new ClassSchedule { Id=4002, CourseId=502, TeacherId=2001, ClassroomId=303, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(11,0,0), EndTime=new TimeOnly(12,30,0), Section="A" },
+                new ClassSchedule { Id=4003, CourseId=503, TeacherId=2002, ClassroomId=304, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(10,0,0), EndTime=new TimeOnly(11,30,0), Section="B" },
+                new ClassSchedule { Id=4004, CourseId=504, TeacherId=2003, ClassroomId=305, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(13,0,0), EndTime=new TimeOnly(14,30,0), Section="c" }
             };
+            modelBuilder.Entity<ClassSchedule>().HasData(ClassSchedule);
         }
     }
 }
