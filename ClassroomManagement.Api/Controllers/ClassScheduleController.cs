@@ -15,7 +15,6 @@ namespace ClassroomManagement.Api.Controllers
     [Route("[controller]")]
     public class ClassScheduleController : Controller
     {
-
         private readonly IMapper _mapper;
         private readonly IClassScheduleRepository _classSchedulesRepository;
 
