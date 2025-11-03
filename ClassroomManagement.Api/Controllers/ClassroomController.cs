@@ -7,6 +7,7 @@ using AutoMapper;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.DTOs;
 using ClassroomManagement.Api.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -25,6 +26,7 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetAll()
         {
             var classroomDomains = await _classroomsRepository.GetAllClassroomsAsync();
@@ -71,14 +73,14 @@ namespace ClassroomManagement.Api.Controllers
             var classroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
             return Ok(classroomDto);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddClassroomRequestDto newClassroom)
         {
             var classroomDomain = _mapper.Map<Classroom>(newClassroom);
             classroomDomain = await _classroomsRepository.CreateClassroomAsync(classroomDomain);
             var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
-            return CreatedAtAction(nameof(GetById), new{id=classroomDomain.Id}, ClassroomDto);
+            return CreatedAtAction(nameof(GetById), new { id = classroomDomain.Id }, ClassroomDto);
         }
     }
 }
