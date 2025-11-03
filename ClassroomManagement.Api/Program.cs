@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IClassroomRepository, SQLClassroomRepository>();
 builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
 builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>();
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
