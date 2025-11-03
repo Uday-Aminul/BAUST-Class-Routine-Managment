@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using TeacherManagement.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +20,33 @@ builder.Services.AddDbContext<ClassroomManagementAuthDbContext>(options => optio
     ));
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "TrackNStock Api", Version = "v1" });
+    options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = JwtBearerDefaults.AuthenticationScheme
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement(){
+        {
+            new OpenApiSecurityScheme(){
+                Reference=new OpenApiReference(){
+                    Type=ReferenceType.SecurityScheme,
+                    Id=JwtBearerDefaults.AuthenticationScheme
+                },
+                Scheme="Oauth2",
+                Name=JwtBearerDefaults.AuthenticationScheme,
+                In=ParameterLocation.Header
+            },
+            new List<string>()
+        }
+    });
+});
 
 builder.Services.AddScoped<IClassroomRepository, SQLClassroomRepository>();
 builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
@@ -29,7 +57,7 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddIdentityCore<IdentityUser>()
     .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("NZWalks")
+    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ClassroomManagement")
     .AddEntityFrameworkStores<ClassroomManagementAuthDbContext>()
     .AddDefaultTokenProviders();
 
