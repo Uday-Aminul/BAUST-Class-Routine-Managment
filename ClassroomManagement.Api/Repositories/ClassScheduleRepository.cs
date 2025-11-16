@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClassScheduleManagement.Api.Repositories
 {
-    public class SQLClassScheduleRepository:IClassScheduleRepository
+    public class SQLClassScheduleRepository : IClassScheduleRepository
     {
         private readonly ClassroomManagementDbContext _dbContext;
-        
+
         public SQLClassScheduleRepository(ClassroomManagementDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -40,19 +40,19 @@ namespace ClassScheduleManagement.Api.Repositories
 
         public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync()
         {
-            var classScheduleDomains = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x=>x.Teacher).ToListAsync();
+            var classScheduleDomains = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).ToListAsync();
             return classScheduleDomains;
         }
 
         public async Task<ClassSchedule?> GetClassScheduleByIdAsync(int id)
         {
-            var ClassScheduleDomain = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x=>x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var ClassScheduleDomain = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
             return ClassScheduleDomain;
         }
 
         public async Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule updatedClassSchedule)
         {
-            var existingClassSchedule = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x=>x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var existingClassSchedule = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
             if (existingClassSchedule is null)
             {
                 return null;
@@ -60,7 +60,6 @@ namespace ClassScheduleManagement.Api.Repositories
             existingClassSchedule.Day = updatedClassSchedule.Day;
             existingClassSchedule.StartTime = updatedClassSchedule.StartTime;
             existingClassSchedule.EndTime = updatedClassSchedule.EndTime;
-            existingClassSchedule.Section = updatedClassSchedule.Section;
             existingClassSchedule.ClassroomId = updatedClassSchedule.ClassroomId;
             existingClassSchedule.CourseId = updatedClassSchedule.CourseId;
             existingClassSchedule.TeacherId = updatedClassSchedule.TeacherId;

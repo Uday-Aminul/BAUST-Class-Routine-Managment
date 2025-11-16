@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClassroomManagement.Api.Repositories
 {
-    public class SQLClassroomRepository: IClassroomRepository
+    public class SQLClassroomRepository : IClassroomRepository
     {
         private readonly ClassroomManagementDbContext _dbContext;
         public SQLClassroomRepository(ClassroomManagementDbContext dbContext)
@@ -54,7 +54,6 @@ namespace ClassroomManagement.Api.Repositories
             {
                 return null;
             }
-            existingClassroom.IsLab = classroom.IsLab;
             await _dbContext.SaveChangesAsync();
             return existingClassroom;
         }
