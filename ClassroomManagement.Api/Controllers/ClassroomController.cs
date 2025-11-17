@@ -26,7 +26,7 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Writer")]
+        //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> GetAll()
         {
             var classroomDomains = await _classroomsRepository.GetAllClassroomsAsync();

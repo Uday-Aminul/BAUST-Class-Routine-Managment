@@ -24,7 +24,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "TrackNStock Api", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo() { Title = "Class Routine Management", Version = "v1" });
     options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme, new OpenApiSecurityScheme()
     {
         Name = "Authorization",

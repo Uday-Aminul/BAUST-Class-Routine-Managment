@@ -8,7 +8,7 @@ namespace ClassScheduleManagement.Api.Repositories
 {
     public interface IClassScheduleRepository
     {
-        Task<List<ClassSchedule>> GetAllClassSchedulesAsync();
+        Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term);
         Task<ClassSchedule?> GetClassScheduleByIdAsync(int id);
         Task<ClassSchedule> CreateClassScheduleAsync(ClassSchedule ClassSchedule);
         Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule ClassSchedule);

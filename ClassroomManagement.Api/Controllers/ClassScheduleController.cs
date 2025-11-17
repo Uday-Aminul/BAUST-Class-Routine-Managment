@@ -25,9 +25,9 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] int? level, [FromQuery] int? term)
         {
-            var classScheduleDomains = await _classSchedulesRepository.GetAllClassSchedulesAsync();
+            var classScheduleDomains = await _classSchedulesRepository.GetAllClassSchedulesAsync(level, term);
             var classScheduleDtos = _mapper.Map<List<ClassScheduleDto>>(classScheduleDomains);
             return Ok(classScheduleDtos);
         }
@@ -71,14 +71,14 @@ namespace ClassroomManagement.Api.Controllers
             var classScheduleDto = _mapper.Map<ClassScheduleDto>(classScheduleDomain);
             return Ok(classScheduleDto);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddClassScheduleRequestDto newClassSchedules)
         {
             var classScheduleDomain = _mapper.Map<ClassSchedule>(newClassSchedules);
             classScheduleDomain = await _classSchedulesRepository.CreateClassScheduleAsync(classScheduleDomain);
             var classScheduleDto = _mapper.Map<ClassScheduleDto>(classScheduleDomain);
-            return CreatedAtAction(nameof(GetById), new{id=classScheduleDto.Id}, classScheduleDto);
+            return CreatedAtAction(nameof(GetById), new { id = classScheduleDto.Id }, classScheduleDto);
         }
     }
 }

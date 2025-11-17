@@ -114,14 +114,24 @@ namespace ClassroomManagement.Api.Data
             };
             modelBuilder.Entity<Course>().HasData(Courses);
 
-            /*var ClassSchedule = new List<ClassSchedule>
+            var ClassSchedule = new List<ClassSchedule>
             {
-                new ClassSchedule { Id=4001, CourseId=501, TeacherId=2001, ClassroomId=302, Day=DayOfWeek.Monday, StartTime=new TimeOnly(9,0,0), EndTime=new TimeOnly(10,30,0), },
-                new ClassSchedule { Id=4002, CourseId=502, TeacherId=2001, ClassroomId=303, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(11,0,0), EndTime=new TimeOnly(12,30,0), },
-                new ClassSchedule { Id=4003, CourseId=503, TeacherId=2002, ClassroomId=304, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(10,0,0), EndTime=new TimeOnly(11,30,0), },
-                new ClassSchedule { Id=4004, CourseId=504, TeacherId=2003, ClassroomId=305, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(13,0,0), EndTime=new TimeOnly(14,30,0), }
+                new ClassSchedule { Id=4001, CourseId=501, TeacherId=101, ClassroomId=304, Day=DayOfWeek.Monday, StartTime=new TimeOnly(9,0,0), EndTime=new TimeOnly(10,30,0), },
+                new ClassSchedule { Id=4002, CourseId=502, TeacherId=101, ClassroomId=304, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(11,0,0), EndTime=new TimeOnly(12,30,0), },
+                new ClassSchedule { Id=4003, CourseId=503, TeacherId=102, ClassroomId=304, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(10,0,0), EndTime=new TimeOnly(11,30,0), },
+                new ClassSchedule { Id=4004, CourseId=504, TeacherId=102, ClassroomId=305, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(13,0,0), EndTime=new TimeOnly(14,30,0) },
+                new ClassSchedule { Id=4005, CourseId=501, TeacherId=102, ClassroomId=305, Day=DayOfWeek.Sunday, StartTime=new TimeOnly(9,0,0), EndTime=new TimeOnly(10,30,0) },
+                new ClassSchedule { Id=4006, CourseId=502, TeacherId=104, ClassroomId=306, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(14,0,0), EndTime=new TimeOnly(15,30,0) },
+                new ClassSchedule { Id=4007, CourseId=503, TeacherId=105, ClassroomId=306, Day=DayOfWeek.Monday, StartTime=new TimeOnly(8,30,0), EndTime=new TimeOnly(10,0,0) },
+                new ClassSchedule { Id=4008, CourseId=504, TeacherId=103, ClassroomId=308, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(12,0,0), EndTime=new TimeOnly(13,30,0) },
+                new ClassSchedule { Id=4009, CourseId=501, TeacherId=105, ClassroomId=308, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(15,0,0), EndTime=new TimeOnly(16,30,0) },
+                new ClassSchedule { Id=4010, CourseId=502, TeacherId=104, ClassroomId=308, Day=DayOfWeek.Sunday, StartTime=new TimeOnly(10,0,0), EndTime=new TimeOnly(11,30,0) },
+                new ClassSchedule { Id=4011, CourseId=503, TeacherId=105, ClassroomId=308, Day=DayOfWeek.Tuesday, StartTime=new TimeOnly(11,0,0), EndTime=new TimeOnly(12,30,0) },
+                new ClassSchedule { Id=4012, CourseId=504, TeacherId=101, ClassroomId=309, Day=DayOfWeek.Monday, StartTime=new TimeOnly(13,0,0), EndTime=new TimeOnly(14,30,0) },
+                new ClassSchedule { Id=4013, CourseId=501, TeacherId=102, ClassroomId=309, Day=DayOfWeek.Wednesday, StartTime=new TimeOnly(9,30,0), EndTime=new TimeOnly(11,0,0) },
+                new ClassSchedule { Id=4014, CourseId=502, TeacherId=103, ClassroomId=310, Day=DayOfWeek.Thursday, StartTime=new TimeOnly(14,0,0), EndTime=new TimeOnly(15,30,0) },
             };
-            modelBuilder.Entity<ClassSchedule>().HasData(ClassSchedule);*/
+            modelBuilder.Entity<ClassSchedule>().HasData(ClassSchedule);
         }
     }
 }

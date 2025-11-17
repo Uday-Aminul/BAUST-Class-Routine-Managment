@@ -180,14 +180,13 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Courses",
-                columns: new[] { "Id", "CourseCode", "Credit", "Level", "Name", "TeacherId", "Term" },
+                table: "Labrooms",
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 501, null, 3, 3, "Data Structures", 2001, 1 },
-                    { 502, null, 3, 3, "Algorithms", 2001, 2 },
-                    { 503, null, 3, 3, "Circuit Analysis", 2002, 1 },
-                    { 504, null, 3, 3, "Electromagnetics", 2003, 2 }
+                    { 302, "Computer Lab A" },
+                    { 307, "Computer Lab B" },
+                    { 311, "Computer Lab c" }
                 });
 
             migrationBuilder.InsertData(
@@ -225,6 +224,17 @@ namespace ClassroomManagement.Api.Migrations
                     { 128, null, "Assistant Lecturer", "CC" },
                     { 129, null, "Assistant Lecturer", "DD" },
                     { 130, null, "Assistant Lecturer", "EE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Courses",
+                columns: new[] { "Id", "CourseCode", "Credit", "Level", "Name", "TeacherId", "Term" },
+                values: new object[,]
+                {
+                    { 501, null, 3, 3, "Data Structures", 101, 1 },
+                    { 502, null, 3, 3, "Algorithms", 102, 2 },
+                    { 503, null, 3, 3, "Circuit Analysis", 103, 1 },
+                    { 504, null, 3, 3, "Electromagnetics", 104, 2 }
                 });
 
             migrationBuilder.CreateIndex(

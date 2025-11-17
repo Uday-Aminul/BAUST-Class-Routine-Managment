@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20251103075954_Updated seeded data")]
-    partial class Updatedseededdata
+    [Migration("20251116223450_Initial Create.")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -149,7 +149,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Data Structures",
-                            TeacherId = 2001,
+                            TeacherId = 101,
                             Term = 1
                         },
                         new
@@ -158,7 +158,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Algorithms",
-                            TeacherId = 2001,
+                            TeacherId = 102,
                             Term = 2
                         },
                         new
@@ -167,7 +167,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Circuit Analysis",
-                            TeacherId = 2002,
+                            TeacherId = 103,
                             Term = 1
                         },
                         new
@@ -176,7 +176,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Electromagnetics",
-                            TeacherId = 2003,
+                            TeacherId = 104,
                             Term = 2
                         });
                 });
@@ -196,6 +196,23 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Labrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 302,
+                            Name = "Computer Lab A"
+                        },
+                        new
+                        {
+                            Id = 307,
+                            Name = "Computer Lab B"
+                        },
+                        new
+                        {
+                            Id = 311,
+                            Name = "Computer Lab c"
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>

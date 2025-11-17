@@ -3,16 +3,15 @@ Features Required:
 2. when given Room Id all schedules of him/her in the entire week will be shown.
 3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
 
-Problems:
-Need another domain model.
-
-All the teacher types
-
-
-
-
 Suggestion:
 when starting scheduling for a day first check for the lab if it can be given after break if not check all the labs in the list then if 
 none can be given then try to put before break if even that doesnt work then put all courses.
 
 If 0.75 credit course exists then will have to plan for even and odd week
+
+
+Problems:
+All the teacher types like Lecturer, Associate Professor.
+Labrooms corresponding to Sessionals.
+All teacher info and what courses they would take.
+All course and Sessional Credits.

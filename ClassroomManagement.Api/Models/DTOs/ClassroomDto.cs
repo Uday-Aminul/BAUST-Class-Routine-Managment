@@ -8,6 +8,8 @@ namespace ClassroomManagement.Api.Models.DTOs
     public class ClassroomDto
     {
         public int Id { get; set; }
-        public bool IsLab { get; set; }
+
+        //Navigation Property
+        public List<ClassScheduleDto>? ClassSchedules { get; set; }
     }
 }

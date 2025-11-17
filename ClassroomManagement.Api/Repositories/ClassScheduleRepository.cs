@@ -38,10 +38,33 @@ namespace ClassScheduleManagement.Api.Repositories
             return classScheduleDomains;
         }
 
-        public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync()
+        public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term)
         {
-            var classScheduleDomains = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).ToListAsync();
-            return classScheduleDomains;
+            var classSchedules = _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).AsQueryable();
+
+            if (level is not null && term is not null)
+            {
+                classSchedules = classSchedules.Where(x => x.Course.Level == level && x.Course.Term == term);
+            }
+            // {
+            //     if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
+            //     {
+            //         classSchedules = classSchedules.Where(x => x.Name.Contains(filterQuery));
+            //     }
+            // }
+
+            // if (string.IsNullOrEmpty(sortBy) is false)
+            // {
+            //     if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
+            //     {
+            //         classSchedules = isAscending ? classSchedules.OrderBy(x => x.Name) : classSchedules.OrderByDescending(x => x.Name);
+            //     }
+            //     else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
+            //     {
+            //         classSchedules = isAscending ? classSchedules.OrderBy(x => x.LengthInKm) : classSchedules.OrderByDescending(x => x.LengthInKm);
+            //     }
+            // }
+            return await classSchedules.ToListAsync();
         }
 
         public async Task<ClassSchedule?> GetClassScheduleByIdAsync(int id)

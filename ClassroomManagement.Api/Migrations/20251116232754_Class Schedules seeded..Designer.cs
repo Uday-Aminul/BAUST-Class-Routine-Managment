@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20251103075722_Initial Create")]
-    partial class InitialCreate
+    [Migration("20251116232754_Class Schedules seeded.")]
+    partial class ClassSchedulesseeded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,6 +68,148 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("ClassSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 4001,
+                            ClassroomId = 304,
+                            CourseId = 501,
+                            Day = 1,
+                            EndTime = new TimeOnly(10, 30, 0),
+                            StartTime = new TimeOnly(9, 0, 0),
+                            TeacherId = 101
+                        },
+                        new
+                        {
+                            Id = 4002,
+                            ClassroomId = 304,
+                            CourseId = 502,
+                            Day = 3,
+                            EndTime = new TimeOnly(12, 30, 0),
+                            StartTime = new TimeOnly(11, 0, 0),
+                            TeacherId = 101
+                        },
+                        new
+                        {
+                            Id = 4003,
+                            ClassroomId = 304,
+                            CourseId = 503,
+                            Day = 2,
+                            EndTime = new TimeOnly(11, 30, 0),
+                            StartTime = new TimeOnly(10, 0, 0),
+                            TeacherId = 102
+                        },
+                        new
+                        {
+                            Id = 4004,
+                            ClassroomId = 305,
+                            CourseId = 504,
+                            Day = 4,
+                            EndTime = new TimeOnly(14, 30, 0),
+                            StartTime = new TimeOnly(13, 0, 0),
+                            TeacherId = 102
+                        },
+                        new
+                        {
+                            Id = 4005,
+                            ClassroomId = 305,
+                            CourseId = 501,
+                            Day = 0,
+                            EndTime = new TimeOnly(10, 30, 0),
+                            StartTime = new TimeOnly(9, 0, 0),
+                            TeacherId = 102
+                        },
+                        new
+                        {
+                            Id = 4006,
+                            ClassroomId = 306,
+                            CourseId = 502,
+                            Day = 2,
+                            EndTime = new TimeOnly(15, 30, 0),
+                            StartTime = new TimeOnly(14, 0, 0),
+                            TeacherId = 104
+                        },
+                        new
+                        {
+                            Id = 4007,
+                            ClassroomId = 306,
+                            CourseId = 503,
+                            Day = 1,
+                            EndTime = new TimeOnly(10, 0, 0),
+                            StartTime = new TimeOnly(8, 30, 0),
+                            TeacherId = 105
+                        },
+                        new
+                        {
+                            Id = 4008,
+                            ClassroomId = 308,
+                            CourseId = 504,
+                            Day = 3,
+                            EndTime = new TimeOnly(13, 30, 0),
+                            StartTime = new TimeOnly(12, 0, 0),
+                            TeacherId = 103
+                        },
+                        new
+                        {
+                            Id = 4009,
+                            ClassroomId = 308,
+                            CourseId = 501,
+                            Day = 4,
+                            EndTime = new TimeOnly(16, 30, 0),
+                            StartTime = new TimeOnly(15, 0, 0),
+                            TeacherId = 105
+                        },
+                        new
+                        {
+                            Id = 4010,
+                            ClassroomId = 308,
+                            CourseId = 502,
+                            Day = 0,
+                            EndTime = new TimeOnly(11, 30, 0),
+                            StartTime = new TimeOnly(10, 0, 0),
+                            TeacherId = 104
+                        },
+                        new
+                        {
+                            Id = 4011,
+                            ClassroomId = 308,
+                            CourseId = 503,
+                            Day = 2,
+                            EndTime = new TimeOnly(12, 30, 0),
+                            StartTime = new TimeOnly(11, 0, 0),
+                            TeacherId = 105
+                        },
+                        new
+                        {
+                            Id = 4012,
+                            ClassroomId = 309,
+                            CourseId = 504,
+                            Day = 1,
+                            EndTime = new TimeOnly(14, 30, 0),
+                            StartTime = new TimeOnly(13, 0, 0),
+                            TeacherId = 101
+                        },
+                        new
+                        {
+                            Id = 4013,
+                            ClassroomId = 309,
+                            CourseId = 501,
+                            Day = 3,
+                            EndTime = new TimeOnly(11, 0, 0),
+                            StartTime = new TimeOnly(9, 30, 0),
+                            TeacherId = 102
+                        },
+                        new
+                        {
+                            Id = 4014,
+                            ClassroomId = 310,
+                            CourseId = 502,
+                            Day = 4,
+                            EndTime = new TimeOnly(15, 30, 0),
+                            StartTime = new TimeOnly(14, 0, 0),
+                            TeacherId = 103
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
@@ -149,7 +291,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Data Structures",
-                            TeacherId = 2001,
+                            TeacherId = 101,
                             Term = 1
                         },
                         new
@@ -158,7 +300,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Algorithms",
-                            TeacherId = 2001,
+                            TeacherId = 102,
                             Term = 2
                         },
                         new
@@ -167,7 +309,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Circuit Analysis",
-                            TeacherId = 2002,
+                            TeacherId = 103,
                             Term = 1
                         },
                         new
@@ -176,7 +318,7 @@ namespace ClassroomManagement.Api.Migrations
                             Credit = 3,
                             Level = 3,
                             Name = "Electromagnetics",
-                            TeacherId = 2003,
+                            TeacherId = 104,
                             Term = 2
                         });
                 });
@@ -196,6 +338,23 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Labrooms");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 302,
+                            Name = "Computer Lab A"
+                        },
+                        new
+                        {
+                            Id = 307,
+                            Name = "Computer Lab B"
+                        },
+                        new
+                        {
+                            Id = 311,
+                            Name = "Computer Lab c"
+                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>
