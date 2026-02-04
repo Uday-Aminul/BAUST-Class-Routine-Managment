@@ -11,7 +11,7 @@ If 0.75 credit course exists then will have to plan for even and odd week
 
 
 Problems:
-All the teacher types like Lecturer, Associate Professor.
+All the teacher types like Lecturer, Associate Professor and their credits.
 Labrooms corresponding to Sessionals.
 All teacher info and what courses they would take.
 All course and Sessional Credits.
