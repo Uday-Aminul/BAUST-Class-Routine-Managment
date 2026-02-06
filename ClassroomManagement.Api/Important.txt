@@ -11,7 +11,6 @@ If 0.75 credit course exists then will have to plan for even and odd week
 
 
 Problems:
-All the teacher types like Lecturer, Associate Professor and their credits.
-Labrooms corresponding to Sessionals.
-All teacher info and what courses they would take.
-All course and Sessional Credits.
+1. LevelTerm navigation property on Classroom table
+2. Sessional<-->Labroom many to many relation so cant add navigation properties with HasData()...need UI like SwaggerGen.
+3. need to convert Term in LevelTerm table from int to string.
