@@ -15,9 +15,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ClassroomManagementDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ClassroomManagementConnectionString")
     ));
-builder.Services.AddDbContext<ClassroomManagementAuthDbContext>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("ClassroomManagementAuthConnectionString")
-    ));
+// builder.Services.AddDbContext<ClassroomManagementAuthDbContext>(options => options.UseSqlServer(
+//     builder.Configuration.GetConnectionString("ClassroomManagementAuthConnectionString")
+//     ));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -55,35 +55,35 @@ builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-builder.Services.AddIdentityCore<IdentityUser>()
-    .AddRoles<IdentityRole>()
-    .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ClassroomManagement")
-    .AddEntityFrameworkStores<ClassroomManagementAuthDbContext>()
-    .AddDefaultTokenProviders();
+// builder.Services.AddIdentityCore<IdentityUser>()
+//     .AddRoles<IdentityRole>()
+//     .AddTokenProvider<DataProtectorTokenProvider<IdentityUser>>("ClassroomManagement")
+//     .AddEntityFrameworkStores<ClassroomManagementAuthDbContext>()
+//     .AddDefaultTokenProviders();
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.User.RequireUniqueEmail = true;
-    options.Password.RequiredLength = 4;
-    options.Password.RequiredUniqueChars = 0;
-    options.Password.RequireUppercase = false;
-    options.Password.RequireLowercase = false;
-    options.Password.RequireDigit = false;
-    options.Password.RequireNonAlphanumeric = false;
-});
+// builder.Services.Configure<IdentityOptions>(options =>
+// {
+//     options.User.RequireUniqueEmail = true;
+//     options.Password.RequiredLength = 4;
+//     options.Password.RequiredUniqueChars = 0;
+//     options.Password.RequireUppercase = false;
+//     options.Password.RequireLowercase = false;
+//     options.Password.RequireDigit = false;
+//     options.Password.RequireNonAlphanumeric = false;
+// });
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    });
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     .AddJwtBearer(options =>
+//     options.TokenValidationParameters = new TokenValidationParameters
+//     {
+//         ValidateIssuer = true,
+//         ValidateAudience = true,
+//         ValidateLifetime = true,
+//         ValidateIssuerSigningKey = true,
+//         ValidIssuer = builder.Configuration["Jwt:Issuer"],
+//         ValidAudience = builder.Configuration["Jwt:Audience"],
+//         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+//     });
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 

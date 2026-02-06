@@ -42,11 +42,8 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<TimeOnly>("EndTime")
                         .HasColumnType("time");
 
-                    b.Property<int?>("LabroomId")
+                    b.Property<int>("LabroomId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SessionalStatus")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time");
@@ -65,148 +62,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("ClassSchedules");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 4001,
-                            ClassroomId = 304,
-                            CourseId = 501,
-                            Day = 1,
-                            EndTime = new TimeOnly(10, 30, 0),
-                            StartTime = new TimeOnly(9, 0, 0),
-                            TeacherId = 101
-                        },
-                        new
-                        {
-                            Id = 4002,
-                            ClassroomId = 304,
-                            CourseId = 502,
-                            Day = 3,
-                            EndTime = new TimeOnly(12, 30, 0),
-                            StartTime = new TimeOnly(11, 0, 0),
-                            TeacherId = 101
-                        },
-                        new
-                        {
-                            Id = 4003,
-                            ClassroomId = 304,
-                            CourseId = 503,
-                            Day = 2,
-                            EndTime = new TimeOnly(11, 30, 0),
-                            StartTime = new TimeOnly(10, 0, 0),
-                            TeacherId = 102
-                        },
-                        new
-                        {
-                            Id = 4004,
-                            ClassroomId = 305,
-                            CourseId = 504,
-                            Day = 4,
-                            EndTime = new TimeOnly(14, 30, 0),
-                            StartTime = new TimeOnly(13, 0, 0),
-                            TeacherId = 102
-                        },
-                        new
-                        {
-                            Id = 4005,
-                            ClassroomId = 305,
-                            CourseId = 501,
-                            Day = 0,
-                            EndTime = new TimeOnly(10, 30, 0),
-                            StartTime = new TimeOnly(9, 0, 0),
-                            TeacherId = 102
-                        },
-                        new
-                        {
-                            Id = 4006,
-                            ClassroomId = 306,
-                            CourseId = 502,
-                            Day = 2,
-                            EndTime = new TimeOnly(15, 30, 0),
-                            StartTime = new TimeOnly(14, 0, 0),
-                            TeacherId = 104
-                        },
-                        new
-                        {
-                            Id = 4007,
-                            ClassroomId = 306,
-                            CourseId = 503,
-                            Day = 1,
-                            EndTime = new TimeOnly(10, 0, 0),
-                            StartTime = new TimeOnly(8, 30, 0),
-                            TeacherId = 105
-                        },
-                        new
-                        {
-                            Id = 4008,
-                            ClassroomId = 308,
-                            CourseId = 504,
-                            Day = 3,
-                            EndTime = new TimeOnly(13, 30, 0),
-                            StartTime = new TimeOnly(12, 0, 0),
-                            TeacherId = 103
-                        },
-                        new
-                        {
-                            Id = 4009,
-                            ClassroomId = 308,
-                            CourseId = 501,
-                            Day = 4,
-                            EndTime = new TimeOnly(16, 30, 0),
-                            StartTime = new TimeOnly(15, 0, 0),
-                            TeacherId = 105
-                        },
-                        new
-                        {
-                            Id = 4010,
-                            ClassroomId = 308,
-                            CourseId = 502,
-                            Day = 0,
-                            EndTime = new TimeOnly(11, 30, 0),
-                            StartTime = new TimeOnly(10, 0, 0),
-                            TeacherId = 104
-                        },
-                        new
-                        {
-                            Id = 4011,
-                            ClassroomId = 308,
-                            CourseId = 503,
-                            Day = 2,
-                            EndTime = new TimeOnly(12, 30, 0),
-                            StartTime = new TimeOnly(11, 0, 0),
-                            TeacherId = 105
-                        },
-                        new
-                        {
-                            Id = 4012,
-                            ClassroomId = 309,
-                            CourseId = 504,
-                            Day = 1,
-                            EndTime = new TimeOnly(14, 30, 0),
-                            StartTime = new TimeOnly(13, 0, 0),
-                            TeacherId = 101
-                        },
-                        new
-                        {
-                            Id = 4013,
-                            ClassroomId = 309,
-                            CourseId = 501,
-                            Day = 3,
-                            EndTime = new TimeOnly(11, 0, 0),
-                            StartTime = new TimeOnly(9, 30, 0),
-                            TeacherId = 102
-                        },
-                        new
-                        {
-                            Id = 4014,
-                            ClassroomId = 310,
-                            CourseId = 502,
-                            Day = 4,
-                            EndTime = new TimeOnly(15, 30, 0),
-                            StartTime = new TimeOnly(14, 0, 0),
-                            TeacherId = 103
-                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
@@ -222,6 +77,14 @@ namespace ClassroomManagement.Api.Migrations
                     b.ToTable("Classrooms");
 
                     b.HasData(
+                        new
+                        {
+                            Id = 204
+                        },
+                        new
+                        {
+                            Id = 205
+                        },
                         new
                         {
                             Id = 304
@@ -245,6 +108,18 @@ namespace ClassroomManagement.Api.Migrations
                         new
                         {
                             Id = 310
+                        },
+                        new
+                        {
+                            Id = 311
+                        },
+                        new
+                        {
+                            Id = 407
+                        },
+                        new
+                        {
+                            Id = 408
                         });
                 });
 
@@ -259,8 +134,8 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<string>("CourseCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
+                    b.Property<float>("Credit")
+                        .HasColumnType("real");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -280,44 +155,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 501,
-                            Credit = 3,
-                            Level = 3,
-                            Name = "Data Structures",
-                            TeacherId = 101,
-                            Term = 1
-                        },
-                        new
-                        {
-                            Id = 502,
-                            Credit = 3,
-                            Level = 3,
-                            Name = "Algorithms",
-                            TeacherId = 102,
-                            Term = 2
-                        },
-                        new
-                        {
-                            Id = 503,
-                            Credit = 3,
-                            Level = 3,
-                            Name = "Circuit Analysis",
-                            TeacherId = 103,
-                            Term = 1
-                        },
-                        new
-                        {
-                            Id = 504,
-                            Credit = 3,
-                            Level = 3,
-                            Name = "Electromagnetics",
-                            TeacherId = 104,
-                            Term = 2
-                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Labroom", b =>
@@ -339,19 +176,93 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasData(
                         new
                         {
+                            Id = 202,
+                            Name = "EEE"
+                        },
+                        new
+                        {
+                            Id = 210,
+                            Name = "CSE"
+                        },
+                        new
+                        {
                             Id = 302,
-                            Name = "Computer Lab A"
+                            Name = "CSE"
                         },
                         new
                         {
                             Id = 307,
-                            Name = "Computer Lab B"
+                            Name = "CSE"
                         },
                         new
                         {
                             Id = 311,
-                            Name = "Computer Lab c"
+                            Name = "CSE"
+                        },
+                        new
+                        {
+                            Id = 402,
+                            Name = "CSE, CAD"
+                        },
+                        new
+                        {
+                            Id = 411,
+                            Name = "CSE"
+                        },
+                        new
+                        {
+                            Id = 1001,
+                            Name = "AC Circuit Lab"
+                        },
+                        new
+                        {
+                            Id = 1002,
+                            Name = "DC Circuit Lab"
+                        },
+                        new
+                        {
+                            Id = 1003,
+                            Name = "AC Circuit Lab"
+                        },
+                        new
+                        {
+                            Id = 1004,
+                            Name = "DWM Seminar Hall"
+                        },
+                        new
+                        {
+                            Id = 1005,
+                            Name = "Electronics Lab"
+                        },
+                        new
+                        {
+                            Id = 1006,
+                            Name = "Physics Lab"
                         });
+                });
+
+            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTerm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ClassroomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Term")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassroomId");
+
+                    b.ToTable("LevelTerms");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>
@@ -362,8 +273,8 @@ namespace ClassroomManagement.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Credit")
-                        .HasColumnType("int");
+                    b.Property<float>("Credit")
+                        .HasColumnType("real");
 
                     b.Property<int>("Level")
                         .HasColumnType("int");
@@ -411,201 +322,19 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teachers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 101,
-                            Designation = "Associate Professor",
-                            Name = "A"
-                        },
-                        new
-                        {
-                            Id = 102,
-                            Designation = "Associate Professor",
-                            Name = "B"
-                        },
-                        new
-                        {
-                            Id = 103,
-                            Designation = "Associate Professor",
-                            Name = "C"
-                        },
-                        new
-                        {
-                            Id = 104,
-                            Designation = "Associate Professor",
-                            Name = "E"
-                        },
-                        new
-                        {
-                            Id = 105,
-                            Designation = "Lecturer",
-                            Name = "F"
-                        },
-                        new
-                        {
-                            Id = 106,
-                            Designation = "Lecturer",
-                            Name = "G"
-                        },
-                        new
-                        {
-                            Id = 107,
-                            Designation = "Lecturer",
-                            Name = "H"
-                        },
-                        new
-                        {
-                            Id = 108,
-                            Designation = "Lecturer",
-                            Name = "I"
-                        },
-                        new
-                        {
-                            Id = 109,
-                            Designation = "Lecturer",
-                            Name = "J"
-                        },
-                        new
-                        {
-                            Id = 110,
-                            Designation = "Lecturer",
-                            Name = "K"
-                        },
-                        new
-                        {
-                            Id = 111,
-                            Designation = "Lecturer",
-                            Name = "L"
-                        },
-                        new
-                        {
-                            Id = 112,
-                            Designation = "Lecturer",
-                            Name = "M"
-                        },
-                        new
-                        {
-                            Id = 113,
-                            Designation = "Lecturer",
-                            Name = "N"
-                        },
-                        new
-                        {
-                            Id = 114,
-                            Designation = "Lecturer",
-                            Name = "O"
-                        },
-                        new
-                        {
-                            Id = 115,
-                            Designation = "Lecturer",
-                            Name = "P"
-                        },
-                        new
-                        {
-                            Id = 116,
-                            Designation = "Lecturer",
-                            Name = "Q"
-                        },
-                        new
-                        {
-                            Id = 117,
-                            Designation = "Lecturer",
-                            Name = "R"
-                        },
-                        new
-                        {
-                            Id = 118,
-                            Designation = "Lecturer",
-                            Name = "S"
-                        },
-                        new
-                        {
-                            Id = 119,
-                            Designation = "Lecturer",
-                            Name = "T"
-                        },
-                        new
-                        {
-                            Id = 120,
-                            Designation = "Lecturer",
-                            Name = "U"
-                        },
-                        new
-                        {
-                            Id = 121,
-                            Designation = "Lecturer",
-                            Name = "V"
-                        },
-                        new
-                        {
-                            Id = 122,
-                            Designation = "Lecturer",
-                            Name = "W"
-                        },
-                        new
-                        {
-                            Id = 123,
-                            Designation = "Lecturer",
-                            Name = "X"
-                        },
-                        new
-                        {
-                            Id = 124,
-                            Designation = "Lecturer",
-                            Name = "Y"
-                        },
-                        new
-                        {
-                            Id = 125,
-                            Designation = "Lecturer",
-                            Name = "Z"
-                        },
-                        new
-                        {
-                            Id = 126,
-                            Designation = "Assistant Lecturer",
-                            Name = "AA"
-                        },
-                        new
-                        {
-                            Id = 127,
-                            Designation = "Assistant Lecturer",
-                            Name = "BB"
-                        },
-                        new
-                        {
-                            Id = 128,
-                            Designation = "Assistant Lecturer",
-                            Name = "CC"
-                        },
-                        new
-                        {
-                            Id = 129,
-                            Designation = "Assistant Lecturer",
-                            Name = "DD"
-                        },
-                        new
-                        {
-                            Id = 130,
-                            Designation = "Assistant Lecturer",
-                            Name = "EE"
-                        });
                 });
 
             modelBuilder.Entity("LabroomSessional", b =>
                 {
+                    b.Property<int>("AllowedSessionalsId")
+                        .HasColumnType("int");
+
                     b.Property<int>("LabroomsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SessionalsId")
-                        .HasColumnType("int");
+                    b.HasKey("AllowedSessionalsId", "LabroomsId");
 
-                    b.HasKey("LabroomsId", "SessionalsId");
-
-                    b.HasIndex("SessionalsId");
+                    b.HasIndex("LabroomsId");
 
                     b.ToTable("LabroomSessional");
                 });
@@ -624,9 +353,11 @@ namespace ClassroomManagement.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", null)
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", "Labroom")
                         .WithMany("ClassSchedules")
-                        .HasForeignKey("LabroomId");
+                        .HasForeignKey("LabroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
                         .WithMany("Classes")
@@ -638,22 +369,35 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.Navigation("Course");
 
+                    b.Navigation("Labroom");
+
                     b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
-                        .WithMany("Courses")
+                        .WithMany("AssignedCourses")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
                 });
 
+            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTerm", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.Classroom", "Classroom")
+                        .WithMany()
+                        .HasForeignKey("ClassroomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Classroom");
+                });
+
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
-                        .WithMany()
+                        .WithMany("AssignedSessionals")
                         .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
@@ -661,15 +405,15 @@ namespace ClassroomManagement.Api.Migrations
 
             modelBuilder.Entity("LabroomSessional", b =>
                 {
-                    b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", null)
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
                         .WithMany()
-                        .HasForeignKey("LabroomsId")
+                        .HasForeignKey("AllowedSessionalsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", null)
                         .WithMany()
-                        .HasForeignKey("SessionalsId")
+                        .HasForeignKey("LabroomsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -686,9 +430,11 @@ namespace ClassroomManagement.Api.Migrations
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
                 {
-                    b.Navigation("Classes");
+                    b.Navigation("AssignedCourses");
 
-                    b.Navigation("Courses");
+                    b.Navigation("AssignedSessionals");
+
+                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

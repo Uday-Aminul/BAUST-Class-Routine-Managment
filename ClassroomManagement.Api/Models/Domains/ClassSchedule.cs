@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using ClassroomManagement.Api.Models.Domains;
 
 namespace ClassroomManagement.Api.Models
 {
@@ -12,19 +8,18 @@ namespace ClassroomManagement.Api.Models
         public DayOfWeek Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
-        public string? SessionalStatus { get; set; }  // Even or Odd for 0.75credit sessionals
+        //public string? SessionalStatus { get; set; } Even or Odd for 0.75credit sessionals
 
         //Foreign Keys
         public int ClassroomId { get; set; }
         public int CourseId { get; set; }
         public int TeacherId { get; set; }
+        public int LabroomId { get; set; }
 
         //Navigation Properties
-        [JsonIgnore]
         public Classroom Classroom { get; set; }
-        [JsonIgnore]
+        public Labroom Labroom { get; set; }
         public Course Course { get; set; }
-        [JsonIgnore]
         public Teacher? Teacher { get; set; }
     }
 }

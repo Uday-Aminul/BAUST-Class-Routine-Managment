@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace ClassroomManagement.Api.Models.Domains
 {
     public class Sessional
@@ -12,14 +7,13 @@ namespace ClassroomManagement.Api.Models.Domains
         public string SessionalCode { get; set; }
         public int Level { get; set; }
         public int Term { get; set; }
-        public int Credit { get; set; }
+        public float Credit { get; set; }
 
         //Foreign Key
         public int? TeacherId { get; set; }
 
         //Navigation Property
-        // Should labrooms be linked to sessionals.
         public Teacher? Teacher { get; set; }
-        public List<Labroom> Labrooms { get; set; }
+        public List<Labroom>? Labrooms { get; set; }
     }
 }
