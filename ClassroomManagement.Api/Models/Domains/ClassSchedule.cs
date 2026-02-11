@@ -8,6 +8,7 @@ namespace ClassroomManagement.Api.Models
         public DayOfWeek Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
+        //Class Section should be mentioned here as well.
         //public string? SessionalStatus { get; set; } Even or Odd for 0.75credit sessionals
 
         //Foreign Keys

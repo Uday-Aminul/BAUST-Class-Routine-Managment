@@ -14,3 +14,9 @@ Problems:
 1. LevelTerm navigation property on Classroom table
 2. Sessional<-->Labroom many to many relation so cant add navigation properties with HasData()...need UI like SwaggerGen.
 3. need to convert Term in LevelTerm table from int to string.
+4. Need to add batch advisor to all sections.
+5. The Controller ClassroomManagementAuthController should be renamed to ClassRoutineManagementAuthController.
+6. Assigned Credit isn't working.
+7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
+8. Need to fix Teacher table Update and Add operation.
+9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

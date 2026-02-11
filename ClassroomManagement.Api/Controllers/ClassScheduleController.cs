@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.DTOs;
+using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
 using ClassScheduleManagement.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+
 
 namespace ClassroomManagement.Api.Controllers
 {

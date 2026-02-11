@@ -1,16 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.DTOs;
 using ClassroomManagement.Api.Repositories;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace ClassroomManagement.Api.Controllers
 {
     [ApiController]
@@ -60,19 +52,19 @@ namespace ClassroomManagement.Api.Controllers
             return Ok(ClassroomDtos);
         }
 
-        [HttpPut]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateClassroomRequestDto updatedClassroom)
-        {
-            var classroomDomain = _mapper.Map<Classroom>(updatedClassroom);
-            classroomDomain = await _classroomsRepository.UpdateClassroomByIdAsync(id, classroomDomain);
-            if (classroomDomain is null)
-            {
-                return NotFound();
-            }
-            var classroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
-            return Ok(classroomDto);
-        }
+        // [HttpPut]
+        // [Route("{id:int}")]
+        // public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateClassroomRequestDto updatedClassroom)
+        // {
+        //     var classroomDomain = _mapper.Map<Classroom>(updatedClassroom);
+        //     classroomDomain = await _classroomsRepository.UpdateClassroomByIdAsync(id, classroomDomain);
+        //     if (classroomDomain is null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     var classroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
+        //     return Ok(classroomDto);
+        // }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddClassroomRequestDto newClassroom)

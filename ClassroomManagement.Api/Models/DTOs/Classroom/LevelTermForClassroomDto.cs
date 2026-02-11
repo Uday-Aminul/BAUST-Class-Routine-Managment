@@ -5,8 +5,10 @@ using System.Threading.Tasks;
 
 namespace ClassroomManagement.Api.Models.DTOs
 {
-    public class UpdateClassroomRequestDto
+    public class LevelTermForClassroomDto
     {
-        public bool IsLab { get; set; }
+        public int Id { get; set; }
+        public int Level { get; set; }
+        public int Term { get; set; }
     }
 }

@@ -69,7 +69,7 @@ namespace ClassScheduleManagement.Api.Repositories
 
         public async Task<ClassSchedule?> GetClassScheduleByIdAsync(int id)
         {
-            var ClassScheduleDomain = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var ClassScheduleDomain = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Labroom).Include(x => x.Course).Include(x => x.Sessional).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
             return ClassScheduleDomain;
         }
 

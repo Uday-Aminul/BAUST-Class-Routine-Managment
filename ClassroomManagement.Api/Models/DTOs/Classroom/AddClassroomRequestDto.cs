@@ -7,6 +7,6 @@ namespace ClassroomManagement.Api.Models.DTOs
 {
     public class AddClassroomRequestDto
     {
-        public bool IsLab { get; set; }
+        public int Id { get; set; }
     }
 }
