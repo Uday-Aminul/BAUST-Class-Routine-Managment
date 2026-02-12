@@ -258,33 +258,32 @@ namespace ClassroomManagement.Api.Data
 
             var classSchedules4IIA = new List<ClassSchedule>
             {
-                // Monday Classes - ALL in Room 407
-                new ClassSchedule { Id = 1, Day = DayOfWeek.Monday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 33, TeacherId = 39 },
-                new ClassSchedule { Id = 2, Day = DayOfWeek.Monday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 3, Day = DayOfWeek.Monday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 407, CourseId = 41, TeacherId = 38 },
+                // SUNDAY
+                new ClassSchedule { Id = 1, Day = DayOfWeek.Sunday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), LabroomId = 307, SessionalId = 31, TeacherId = 31 }, // CSE 4252: Data Warehousing and Data Mining Sessional
                 
-                // Tuesday Classes - ALL in Room 407
-                new ClassSchedule { Id = 4, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 41, TeacherId = 38 },
-                new ClassSchedule { Id = 5, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 6, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 7, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 33, TeacherId = 39 },
+                // MONDAY
+                new ClassSchedule { Id = 2, Day = DayOfWeek.Monday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 33, TeacherId = 39 }, // IPE 4217: Industrial Management
+                new ClassSchedule { Id = 3, Day = DayOfWeek.Monday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 39, TeacherId = 31 }, // CSE 4251: Data Warehousing and Data Mining
+                new ClassSchedule { Id = 4, Day = DayOfWeek.Monday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 310, CourseId = 41, TeacherId = 38 }, // CSE 4215: Professional Issues and Ethics in Computer Science [310]
                 
-                // Wednesday Classes - ALL in Room 407
-                new ClassSchedule { Id = 8, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 42, TeacherId = 40 },
-                new ClassSchedule { Id = 9, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 10, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(13, 30), EndTime = new TimeOnly(14, 20), ClassroomId = 407, CourseId = 33, TeacherId = 39 },
+                // TUESDAY
+                new ClassSchedule { Id = 5, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 41, TeacherId = 38 }, // CSE 4215: Professional Issues and Ethics in Computer Science [407]
+                new ClassSchedule { Id = 6, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 }, // CSE 4251: Data Warehousing and Data Mining [407]
+                new ClassSchedule { Id = 7, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 }, // CSE 4245: Digital Image Processing [407]
+                new ClassSchedule { Id = 8, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 33, TeacherId = 39 }, // IPE 4217: Industrial Management [407]
                 
-                // Thursday Theory Classes - ALL in Room 407
-                new ClassSchedule { Id = 11, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 12, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 13, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 42, TeacherId = 40 },
-                new ClassSchedule { Id = 14, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 43, TeacherId = 41 },
+                // WEDNESDAY
+                new ClassSchedule { Id = 9, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 42, TeacherId = 40 }, // HUM 4273: Financial, Cost and Managerial Accounting [407]
+                new ClassSchedule { Id = 10, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 407, CourseId = 40, TeacherId = 33 }, // CSE 4245: Digital Image Processing [407]
+                new ClassSchedule { Id = 11, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(13, 30), EndTime = new TimeOnly(14, 20), ClassroomId = 407, CourseId = 33, TeacherId = 39 }, // IPE 4217: Industrial Management [407]
                 
-                // Thursday Sessional - Lab 411
-                new ClassSchedule { Id = 15, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(2, 30), EndTime = new TimeOnly(3, 20), LabroomId = 411, SessionalId = 30, TeacherId = 33 },
+                // THURSDAY
+                new ClassSchedule { Id = 12, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 }, // CSE 4245: Digital Image Processing [407]
+                new ClassSchedule { Id = 13, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 }, // CSE 4251: Data Warehousing and Data Mining [407]
+                new ClassSchedule { Id = 14, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 42, TeacherId = 40 }, // HUM 4273: Financial, Cost and Managerial Accounting [407]
+                new ClassSchedule { Id = 15, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 305, CourseId = 43, TeacherId = 41 }, // CSE 4249: VLSI Design [305]
                 
-                // Sunday Sessional - Lab 307
-                new ClassSchedule { Id = 16, Day = DayOfWeek.Sunday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), LabroomId = 307, SessionalId = 31, TeacherId = 31 }
+                // NOTE: CSE 4246: Digital Image Processing Sessional is NOT scheduled in the routine
             };
             modelBuilder.Entity<ClassSchedule>().HasData(classSchedules4IIA);
         }
