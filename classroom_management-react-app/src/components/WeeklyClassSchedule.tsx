@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 interface Classroom {
   id: number;
@@ -10,7 +11,7 @@ interface Labroom {
 interface Course {
   id: number;
   name: string;
-  code: string;
+  courseCode: string;
   level: number;
   term: number;
   credit: number;
@@ -18,7 +19,7 @@ interface Course {
 interface Sessional {
   id: number;
   name: string;
-  code: string;
+  sessionalCode: string;
   level: number;
   term: number;
   credit: number;
@@ -41,15 +42,79 @@ interface Schedule {
   teacher: Teacher;
 }
 
+// Time slots in order
+const TIME_SLOTS = [
+  "08:00:00",
+  "09:00:00",
+  "10:00:00",
+  "BREAK",
+  "11:30:00",
+  "12:30:00",
+  "13:30:00",
+  "14:30:00",
+  "15:30:00",
+  "16:30:00",
+];
+const DAYS = ["SUN", "MON", "TUE", "WED", "THU"];
+
 function WeeklyClassSchedule() {
-  //useEffect()
+  const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5299/ClassSchedule?level=4&term=2")
+      .then((response) => {
+        setSchedules(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
+  }, []);
+
+  // Helper function to format schedule cell content
+  const formatScheduleCell = (schedule: Schedule | undefined) => {
+    if (!schedule) return "";
+
+    if (schedule.course) {
+      return `(${schedule.course.courseCode} (${schedule.teacher?.code || ""}) [${schedule.classroom?.id || ""}])`;
+    } else if (schedule.sessional) {
+      return `${schedule.sessional.sessionalCode} (${schedule.teacher?.code || ""}) [${schedule.labroom?.id || ""}]`;
+    }
+    return "";
+  };
+
+  // Get schedule for a specific day and time
+  const getScheduleForTimeSlot = (day: number, timeSlot: string) => {
+    return schedules.find((s) => s.day === day && s.startTime === timeSlot);
+  };
+
+  //get the info if its a course or sessional
+  const isSessional = (schedule: Schedule | undefined) => {
+    if (schedule?.sessional) {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <>
+      {error && <p className="text-danger">{error}</p>}
+
+      {loading && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
+
       <div className="mb-4">
-        <h5 className="mb-3">Weekly Class Schedule</h5>
+        <h5 className="mb-3">Weekly Class Schedule - Level 4, Term 2</h5>
         <div className="table-responsive">
-          <table className="table table-bordered text-center">
+          <table className="table table-bordered text-center align-middle">
             <thead>
               <tr>
                 <th>Day</th>
@@ -60,95 +125,101 @@ function WeeklyClassSchedule() {
                 <th>11.30-12.20</th>
                 <th>12.30-01.20</th>
                 <th>01.30-02.20</th>
-                <th>2.30-3.20</th>
-                <th>3.30-4.20</th>
-                <th>4.30-5.20</th>
+                <th>02.30-03.20</th>
+                <th>03.30-04.20</th>
+                <th>04.30-05.20</th>
               </tr>
             </thead>
             <tbody>
-              {/* Sunday */}
-              <tr>
-                <td>
-                  <strong>SUN</strong>
-                </td>
-                <td colSpan={3}>CSE 4252 (NR, SA) #EVEN# [307]</td>
-                <td>10.50-11.30</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td colSpan={3}>CSE 4246 (JA, SA) #ODD# [411]</td>
-              </tr>
+              {DAYS.map((dayName, dayIndex) => (
+                <tr key={dayIndex}>
+                  <td className="fw-bold bg-light">{dayName}</td>
 
-              {/* Monday */}
-              <tr>
-                <td>
-                  <strong>MON</strong>
-                </td>
-                <td></td>
-                <td></td>
-                <td>IPE 4217 (IPE) [407]</td>
-                <td>10.50-11.30</td>
-                <td>CSE 4251 (NR) [407]</td>
-                <td>CSE 4215 (NF1) [310]</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+                  {/* 8:00 - 8:50 */}
+                  <td
+                    colSpan={
+                      isSessional(
+                        getScheduleForTimeSlot(dayIndex, TIME_SLOTS[0]),
+                      )
+                        ? 3
+                        : 1
+                    }
+                  >
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[0]),
+                    )}
+                  </td>
 
-              {/* Tuesday */}
-              <tr>
-                <td>
-                  <strong>TUE</strong>
-                </td>
-                <td>CSE 4215 (NF1) [407]</td>
-                <td>CSE 4251 (NR) [407]</td>
-                <td>CSE 4245 (JA) [407]</td>
-                <td>10.50-11.30</td>
-                <td>IPE 4217 (IPE) [407]</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+                  {/* 9:00 - 9:50 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[1]),
+                    )}
+                  </td>
 
-              {/* Wednesday */}
-              <tr>
-                <td>
-                  <strong>WED</strong>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>10.50-11.30</td>
-                <td>HUM 4273 (AIS) [407]</td>
-                <td>CSE 4245 (JA) [407]</td>
-                <td>IPE 4217 (IPE) [407]</td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+                  {/* 10:00 - 10:50 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[2]),
+                    )}
+                  </td>
 
-              {/* Thursday */}
-              <tr>
-                <td>
-                  <strong>THU</strong>
-                </td>
-                <td>CSE 4245 (JA) [407]</td>
-                <td>CSE 4251 (NR) [407]</td>
-                <td>HUM 4273 (AIS) [407]</td>
-                <td>10.50-11.30</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
+                  {/* Break */}
+                  <td>10.50-11.30</td>
+
+                  {/* 11:30 - 12:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[4]),
+                    )}
+                  </td>
+
+                  {/* 12:30 - 13:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[5]),
+                    )}
+                  </td>
+
+                  {/* 13:30 - 14:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[6]),
+                    )}
+                  </td>
+
+                  {/* 14:30 - 15:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[7]),
+                    )}
+                  </td>
+
+                  {/* 15:30 - 16:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[8]),
+                    )}
+                  </td>
+
+                  {/* 16:30 - 17:20 */}
+                  <td>
+                    {formatScheduleCell(
+                      getScheduleForTimeSlot(dayIndex, TIME_SLOTS[9]),
+                    )}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
+
+        {/* Debug info - remove in production */}
+        {schedules.length === 0 && !loading && !error && (
+          <div className="alert alert-info">
+            No schedules found for Level 4, Term 2
+          </div>
+        )}
       </div>
     </>
   );

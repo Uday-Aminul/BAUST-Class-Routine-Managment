@@ -2,6 +2,7 @@ import "./ClassRoutine.css";
 import CourseSummery from "./CourseSummery";
 import SectionInformation from "./SectionInformation";
 import WeeklyClassSchedule from "./WeeklyClassSchedule";
+import WeeklyClassScheduleDemo from "./WeeklyClassScheduleDemo";
 
 function ClassRoutine() {
   return (
@@ -32,6 +33,9 @@ function ClassRoutine() {
 
         {/* Weekly Class Schedule */}
         <WeeklyClassSchedule></WeeklyClassSchedule>
+
+        {/* Weekly Class Schedule Demo*/}
+        <WeeklyClassScheduleDemo></WeeklyClassScheduleDemo>
 
         {/* Course Summary */}
         <CourseSummery></CourseSummery>

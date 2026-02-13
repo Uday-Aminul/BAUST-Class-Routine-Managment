@@ -4,7 +4,7 @@ function WeeklyClassScheduleDemo() {
   return (
     <>
       <div className="mb-4">
-        <h5 className="mb-3">Weekly Class Schedule</h5>
+        <h5 className="mb-3">Weekly Class Schedule Demo</h5>
         <div className="table-responsive">
           <table className="table table-bordered text-center">
             <thead>
