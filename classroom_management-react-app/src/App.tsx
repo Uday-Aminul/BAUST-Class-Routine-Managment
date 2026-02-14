@@ -1,9 +1,9 @@
-import ClassRoutine from "./components/ClassRoutine";
+import ClassRoutine from "./components/Class Routine/ClassRoutine";
 
 function App() {
   return (
     <>
-      <ClassRoutine></ClassRoutine>
+      <ClassRoutine level={1} term={1} section="A"></ClassRoutine>
     </>
   );
 }

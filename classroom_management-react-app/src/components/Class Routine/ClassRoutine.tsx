@@ -2,9 +2,14 @@ import "./ClassRoutine.css";
 import CourseSummery from "./CourseSummery";
 import SectionInformation from "./SectionInformation";
 import WeeklyClassSchedule from "./WeeklyClassSchedule";
-import WeeklyClassScheduleDemo from "./WeeklyClassScheduleDemo";
 
-function ClassRoutine() {
+interface Props {
+  level: number;
+  term: number;
+  section: string;
+}
+
+function ClassRoutine({ level, term, section }: Props) {
   return (
     <>
       <div className="container mt-3">
@@ -12,7 +17,13 @@ function ClassRoutine() {
         <div className="row mb-4">
           <div className="col-auto">
             {/* Logo placeholder */}
-            <div className="logo-placeholder">LOGO</div>
+            <div className="logo-placeholder my-2">
+              <img
+                src="../../public/images/BaustLogo.png"
+                alt="BAUST Logo"
+                className="BaustLogo"
+              />
+            </div>
           </div>
           <div className="col">
             <h4>
@@ -29,13 +40,14 @@ function ClassRoutine() {
         </div>
 
         {/* Section Information */}
-        <SectionInformation></SectionInformation>
+        <SectionInformation
+          level={level}
+          term={term}
+          section={section}
+        ></SectionInformation>
 
         {/* Weekly Class Schedule */}
-        <WeeklyClassSchedule></WeeklyClassSchedule>
-
-        {/* Weekly Class Schedule Demo*/}
-        <WeeklyClassScheduleDemo></WeeklyClassScheduleDemo>
+        <WeeklyClassSchedule level={level} term={term}></WeeklyClassSchedule>
 
         {/* Course Summary */}
         <CourseSummery></CourseSummery>

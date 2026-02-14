@@ -1,4 +1,15 @@
+import { useEffect } from "react";
+
+interface Props {
+  level: number;
+  term: number;
+}
+
 function CourseSummery() {
+  // useEffect(() => {
+  //   axios.get("")
+  // },[]);
+
   return (
     <>
       {/* Courses Summary */}

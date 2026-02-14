@@ -1,0 +1,3 @@
+1. Need to remove the columns after 2:30pm if no class or lab exists.
+2. Need to put the logo of University in the "ClassRoutine" component.
+3, A teachers table must exist in the Class Routine page.

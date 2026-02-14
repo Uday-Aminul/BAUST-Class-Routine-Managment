@@ -1,0 +1,60 @@
+/* Container styling */
+.section-info-container {
+  font-family: Arial, sans-serif;
+}
+
+/* Table styling */
+.info-table {
+  border: 1px solid #dee2e6;
+  margin: 0;
+}
+
+.info-table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+/* Label styling */
+.info-label {
+  font-weight: 600;
+  width: 40%;
+  background-color: #f8f9fa;
+  border-right: 2px solid #dee2e6 !important;
+}
+
+/* Value styling */
+.info-value {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Phone number styling */
+.phone-number {
+  color: #6c757d;
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .info-table td {
+    padding: 0.5rem;
+  }
+  
+  .info-label {
+    width: 45%;
+  }
+}
+
+/* Optional: Add subtle hover effect */
+.info-table tr:hover td {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+/* Optional: Add border radius to tables */
+.info-table {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
