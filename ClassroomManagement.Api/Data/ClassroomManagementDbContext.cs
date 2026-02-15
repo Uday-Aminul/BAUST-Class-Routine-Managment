@@ -174,7 +174,7 @@ namespace ClassroomManagement.Api.Data
                 new Course { Id = 30, Name = "Mathematical Analysis for Computer Science", CourseCode = "CSE 3207", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 25 }, // GR (Id: 25)
                 new Course { Id = 31, Name = "Computer Networks", CourseCode = "CSE 3205", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 31 }, // NR (Id: 31)
                 new Course { Id = 32, Name = "Information System Design", CourseCode = "CSE 3209", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 13 }, // MSZ (Id: 13)
-                new Course { Id = 33, Name = "Industrial Management", CourseCode = "IPE 4217", Level = 3, Term = 2, Credit = 2.0f, TeacherId = 39 }, // IPE (Id: 39)
+                new Course { Id = 33, Name = "Industrial Management", CourseCode = "IPE 4217", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 39 }, // IPE (Id: 39)
                 
                 // Level 4, Term 1 - Section A
                 new Course { Id = 34, Name = "Machine Learning", CourseCode = "CSE 4139", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 33 }, // JA (Id: 33)
@@ -283,7 +283,8 @@ namespace ClassroomManagement.Api.Data
                 new ClassSchedule { Id = 14, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 42, TeacherId = 40 }, // HUM 4273: Financial, Cost and Managerial Accounting [407]
                 new ClassSchedule { Id = 15, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 305, CourseId = 43, TeacherId = 41 }, // CSE 4249: VLSI Design [305]
                 
-                // NOTE: CSE 4246: Digital Image Processing Sessional is NOT scheduled in the routine
+                //Sunday lab which was missed the first time
+                new ClassSchedule { Id = 16, Day = DayOfWeek.Sunday, StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(15, 20), LabroomId = 411, SessionalId = 30, TeacherId = 33 }, // CSE 4246: Digital Image Processing Sessional (JA, SA) [411]
             };
             modelBuilder.Entity<ClassSchedule>().HasData(classSchedules4IIA);
         }

@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Models;
-using ClassScheduleManagement.Api.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClassScheduleManagement.Api.Repositories
@@ -34,17 +29,29 @@ namespace ClassScheduleManagement.Api.Repositories
             }
             _dbContext.ClassSchedules.Remove(classSchedule);
             await _dbContext.SaveChangesAsync();
-            var classScheduleDomains = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).ToListAsync();
+            var classScheduleDomains = await _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Labroom)
+                .Include(x => x.Course)
+                .Include(x => x.Sessional)
+                .Include(x => x.Teacher)
+                .ToListAsync();
             return classScheduleDomains;
         }
 
         public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term)
         {
-            var classSchedules = _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).AsQueryable();
+            var classSchedules = _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Labroom)
+                .Include(x => x.Course)
+                .Include(x => x.Sessional)
+                .Include(x => x.Teacher)
+                .AsQueryable();
 
             if (level is not null && term is not null)
             {
-                classSchedules = classSchedules.Where(x => x.Course.Level == level && x.Course.Term == term);
+                classSchedules = classSchedules.Where(x => (x.Course != null && x.Course.Level == level && x.Course.Term == term) || (x.Sessional != null && x.Sessional.Level == level && x.Sessional.Term == term));
             }
             // {
             //     if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))

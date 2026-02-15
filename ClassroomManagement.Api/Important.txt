@@ -20,3 +20,6 @@ Problems:
 7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
 8. Need to fix Teacher table Update and Add operation.
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.
+10. Single Sessional is assigned to two teachers not one.
+11. Need to add credit hours for Courses and Sessionals
+12. Need to add GetAll method with a bit Pagination for Course and Sessional table.

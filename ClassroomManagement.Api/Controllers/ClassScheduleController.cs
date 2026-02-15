@@ -2,6 +2,7 @@ using AutoMapper;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.DTOs;
 using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
+using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,10 +14,12 @@ namespace ClassroomManagement.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IClassScheduleRepository _classSchedulesRepository;
+        private readonly IScheduleGeneratorService _scheduleGenerator;
 
-        public ClassScheduleController(IClassScheduleRepository classScheduleRepository, IMapper mapper)
+        public ClassScheduleController(IClassScheduleRepository classScheduleRepository, IScheduleGeneratorService scheduleGenerator, IMapper mapper)
         {
             _classSchedulesRepository = classScheduleRepository;
+            _scheduleGenerator = scheduleGenerator;
             _mapper = mapper;
         }
 
@@ -75,6 +78,18 @@ namespace ClassroomManagement.Api.Controllers
             classScheduleDomain = await _classSchedulesRepository.CreateClassScheduleAsync(classScheduleDomain);
             var classScheduleDto = _mapper.Map<ClassScheduleDto>(classScheduleDomain);
             return CreatedAtAction(nameof(GetById), new { id = classScheduleDto.Id }, classScheduleDto);
+        }
+
+        [HttpPost]
+        [Route("GenerateClassSchedules")]
+        public async Task<IActionResult> GenerateClassSchedules([FromQuery] bool act)
+        {
+            if (act is true)
+            {
+                var result = await _scheduleGenerator.GenerateScheduleAsync();
+                return Ok(result);
+            }
+            return Ok("Class schedule generation not triggered.");
         }
     }
 }

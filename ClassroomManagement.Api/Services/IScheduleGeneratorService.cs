@@ -7,6 +7,6 @@ namespace ClassroomManagement.Api.Services
 {
     public interface IScheduleGeneratorService
     {
-        Task<bool> GenerateScheduleAsync();
+        Task<string> GenerateScheduleAsync();
     }
 }

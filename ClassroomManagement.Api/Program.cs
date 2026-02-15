@@ -1,11 +1,10 @@
 using System.Text;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Repositories;
+using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TeacherManagement.Api.Repositories;
 
@@ -49,9 +48,11 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddScoped<IClassroomRepository, SQLClassroomRepository>();
+builder.Services.AddScoped<ILabroomRepository, SQLLabroomRepository>();
 builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
 builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
+builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -91,6 +92,18 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // Your React app URL
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // If you need cookies/auth
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -108,7 +121,7 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty; // makes Swagger UI the default page
     });
 }
-
+app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

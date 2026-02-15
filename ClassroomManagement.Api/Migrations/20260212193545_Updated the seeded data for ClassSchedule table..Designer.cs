@@ -4,6 +4,7 @@ using ClassroomManagement.Api.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    partial class ClassroomManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260212193545_Updated the seeded data for ClassSchedule table.")]
+    partial class UpdatedtheseededdataforClassScheduletable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -652,7 +655,7 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 33,
                             CourseCode = "IPE 4217",
                             Credit = 2f,
-                            Level = 4,
+                            Level = 3,
                             Name = "Industrial Management",
                             TeacherId = 39,
                             Term = 2
