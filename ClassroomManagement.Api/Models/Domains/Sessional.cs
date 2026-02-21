@@ -9,11 +9,8 @@ namespace ClassroomManagement.Api.Models.Domains
         public int Term { get; set; }
         public float Credit { get; set; }
 
-        //Foreign Key
-        public int? TeacherId { get; set; }
-
         //Navigation Property
-        public Teacher? Teacher { get; set; }
+        public List<Teacher>? Teacher { get; set; }
         public List<Labroom>? Labrooms { get; set; }
     }
 }

@@ -20,11 +20,8 @@ namespace ClassroomManagement.Api.Services
             _dbContext = dbContext;
         }
 
-        public async Task<string> GenerateScheduleAsync()
+        public async Task<string> GenerateScheduleAsync(int level, int term)
         {
-            var level = 1;
-            var term = 1;
-
             //getting classroom
             var levelTerm = await _dbContext.LevelTerms.FirstOrDefaultAsync(lt => lt.Level == 1 && lt.Term == 1);
             if (levelTerm is null)
@@ -54,7 +51,20 @@ namespace ClassroomManagement.Api.Services
                 return "No courses or sessionals found for Level-1 Term-1.";
             }
 
+            //Creating SchedulingState a backpack object 
+            var schedulingState = new SchedulingState
+            {
+                Sessionals = sessionals,
+                Courses = courses.ToList(),
+                LabPlacedToday = 0,
+                SchedulesToAdd = new List<ClassSchedule>(),
+                DualLabPlacement = true,
+                Classroom = classroom
+            };
+
+            //Clearing existing schedules for the level and term before generating new ones.
             await ClearExistingSchedules(level, term);
+
             //For Level-1 Term-1
             //Actual Logic
             var days = new[]
@@ -66,86 +76,36 @@ namespace ClassroomManagement.Api.Services
                 DayOfWeek.Thursday
             };
 
-            // var theorySlots = new[]
-            // {
-            //     new { Start = new TimeOnly(8, 0), End = new TimeOnly(8, 50) },
-            //     new { Start = new TimeOnly(9, 0), End = new TimeOnly(9, 50) },
-            //     new { Start = new TimeOnly(10, 0), End = new TimeOnly(10, 50) },
-            //     new { Start = new TimeOnly(11, 30), End = new TimeOnly(12, 20) },
-            //     new { Start = new TimeOnly(12, 30), End = new TimeOnly(13, 20) },
-            //     new { Start = new TimeOnly(13, 30), End = new TimeOnly(14, 20) },
-            //     new { Start = new TimeOnly(14, 30), End = new TimeOnly(15, 20) },
-            //     new { Start = new TimeOnly(15, 30), End = new TimeOnly(16, 20) },
-            //     new { Start = new TimeOnly(16, 30), End = new TimeOnly(17, 20) }
-            // };
-            // var labSlots = new[]
-            // {
-            //     new { Start = new TimeOnly(8, 0), End = new TimeOnly(10, 50) },   // Morning lab
-            //     new { Start = new TimeOnly(11, 30), End = new TimeOnly(14, 20) }, // Afternoon lab
-            //     new { Start = new TimeOnly(14, 30), End = new TimeOnly(17, 20) }  // Evening lab
-            // };
-            var dualLabPlacement = true;
-            var schedulesToAdd = new List<ClassSchedule>();
-
             foreach (var day in days)
             {
-                var labPlacedToday = 0;
+                schedulingState.LabPlacedToday = 0;
                 var sessionalPlaced = false;
-                if (sessionals.Any())
+                if (schedulingState.Sessionals.Any())
                 {
-                    var schedulingState = new SchedulingState
-                    {
-                        Sessionals = sessionals,
-                        Courses = courses,
-                        SchedulesToAdd = schedulesToAdd,
-                        LabPlacedToday = labPlacedToday,
-                        DualLabPlacement = dualLabPlacement,
-                    };
-                    sessionalPlaced = await PlaceLabAsync(schedulingState, day, new TimeOnly(8, 0), new TimeOnly(10, 50));
+                    sessionalPlaced = await PlaceSessionalAsync(schedulingState, day, new TimeOnly(8, 0), new TimeOnly(10, 50));
                 }
-
                 //Placing theory in case lab couldn't be placed.
                 if (sessionalPlaced is false)
                 {
-                    var slots = new[]{
-                    new { Start = new TimeOnly(8, 0), End = new TimeOnly(8, 50) },
-                    new { Start = new TimeOnly(9, 0), End = new TimeOnly(9, 50) },
-                    new { Start = new TimeOnly(10, 0), End = new TimeOnly(10, 50) }
-                    };
-                    foreach (var slot in slots)
-                    {
-                        foreach (var course in courses)
-                        {
-                            var teacher = await _dbContext.Teachers.FindAsync(course.TeacherId);
-                            var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
-                            if (teacherAvailable is true)
-                            {
-                                var schedule = new ClassSchedule
-                                {
-                                    Day = day,
-                                    StartTime = slot.Start,
-                                    EndTime = slot.End,
-                                    ClassroomId = classroom,
-                                    CourseId = course.Id,
-                                    TeacherId = course.TeacherId.Value
-                                };
-                                schedulesToAdd.Add(schedule);
-                                courses.Remove(course);
-                                break; // Move to the next time slot after placing one course
-                            }
-                        }
-                    }
+                    await PlaceTheoryAsync(schedulingState, day, new TimeOnly(8, 0), new TimeOnly(8, 50), new TimeOnly(9, 0), new TimeOnly(9, 50), new TimeOnly(10, 0), new TimeOnly(10, 50));
                 }
 
-
-                if (dualLabPlacement)
+                //After Tiffin Break
+                if (schedulingState.DualLabPlacement is true && schedulingState.Sessionals.Any())
                 {
+                    sessionalPlaced = await PlaceSessionalAsync(schedulingState, day, new TimeOnly(11, 30), new TimeOnly(14, 20));
+                }
+                //Placing theory in case lab couldn't be placed.
+                if (sessionalPlaced is false)
+                {
+                    await PlaceTheoryAsync(schedulingState, day, new TimeOnly(11, 30), new TimeOnly(12, 20), new TimeOnly(12, 30), new TimeOnly(1, 20), new TimeOnly(1, 30), new TimeOnly(2, 20));
+                }
 
+                if (schedulingState.LabPlacedToday >= 2)
+                {
+                    schedulingState.DualLabPlacement = false;
                 }
             }
-
-
-
 
             if (totalCourseCredit is 0 && sessionalCount is 0)
             {
@@ -154,8 +114,50 @@ namespace ClassroomManagement.Api.Services
             return $"Some error occurred during generating schedules for Level-{level} Term-{term}";
         }
 
+        //Placing a theory
+        private async Task PlaceTheoryAsync(
+            SchedulingState schedulingState,
+            DayOfWeek day,
+            TimeOnly startTime1, TimeOnly endTime1,
+            TimeOnly startTime2, TimeOnly endTime2,
+            TimeOnly startTime3, TimeOnly endTime3)
+        {
+            var slots = new[]{
+                new { Start = startTime1, End = endTime1 },
+                new { Start = startTime2, End = endTime2 },
+                new { Start = startTime3, End = endTime3 }
+                };
+            var courseToConsider = schedulingState.Courses.Where(c => c.Credit > 0).ToList(); // For Modifying the list while iterating
+
+            foreach (var slot in slots)
+            {
+                var coursesCopy = courseToConsider.ToList(); // Refreshing the copy for each slot
+                foreach (var course in coursesCopy)
+                {
+                    var teacher = await _dbContext.Teachers.FindAsync(course.TeacherId);
+                    var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
+                    if (teacherAvailable is true)
+                    {
+                        var schedule = new ClassSchedule
+                        {
+                            Day = day,
+                            StartTime = slot.Start,
+                            EndTime = slot.End,
+                            ClassroomId = schedulingState.Classroom,
+                            CourseId = course.Id,
+                            TeacherId = course.TeacherId.Value
+                        };
+                        schedulingState.SchedulesToAdd.Add(schedule);
+                        courseToConsider.Remove(course);
+                        schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+                        break; // Done assigning a course to this slot.
+                    }
+                }
+            }
+        }
+
         //Placing a lab
-        private async Task<bool> PlaceLabAsync(
+        private async Task<bool> PlaceSessionalAsync(
             SchedulingState schedulingState,
             DayOfWeek day,
             TimeOnly startTime,

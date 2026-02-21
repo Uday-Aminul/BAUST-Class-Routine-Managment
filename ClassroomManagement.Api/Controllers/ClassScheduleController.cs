@@ -82,11 +82,11 @@ namespace ClassroomManagement.Api.Controllers
 
         [HttpPost]
         [Route("GenerateClassSchedules")]
-        public async Task<IActionResult> GenerateClassSchedules([FromQuery] bool act)
+        public async Task<IActionResult> GenerateClassSchedules([FromQuery] bool act, [FromQuery] int level, [FromQuery] int term)
         {
             if (act is true)
             {
-                var result = await _scheduleGenerator.GenerateScheduleAsync();
+                var result = await _scheduleGenerator.GenerateScheduleAsync(level, term);
                 return Ok(result);
             }
             return Ok("Class schedule generation not triggered.");

@@ -14,5 +14,6 @@ namespace ClassroomManagement.Api.Services
         public List<ClassSchedule> SchedulesToAdd { get; set; }
         public int LabPlacedToday { get; set; }
         public bool DualLabPlacement { get; set; }
+        public int Classroom { get; set; }
     }
 }
