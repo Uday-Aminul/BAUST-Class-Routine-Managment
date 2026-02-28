@@ -22,6 +22,9 @@ namespace ClassroomManagement.Api.Data
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ClassSchedule> ClassSchedules { get; set; }
 
+        public DbSet<Dictionary<string, object>> SessionalTeacher { get; set; }
+        public DbSet<Dictionary<string, object>> SessionalLabroom { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -228,110 +231,110 @@ namespace ClassroomManagement.Api.Data
             };
             modelBuilder.Entity<Sessional>().HasData(sessionals);
 
-            // Sessional-Teacher Many-to-Many
-            modelBuilder.Entity("SessionalTeacher").HasData(
-                new { SessionalsId = 1, TeachersId = 9 },  // CSE 1100 - MH
-                new { SessionalsId = 1, TeachersId = 14 }, // CSE 1100 - AHS
-                new { SessionalsId = 2, TeachersId = 2 },  // CSE 1102 - NHC
-                new { SessionalsId = 2, TeachersId = 4 },  // CSE 1102 - MAM
-                new { SessionalsId = 3, TeachersId = 7 },  // EEE 1164 - MA
-                new { SessionalsId = 4, TeachersId = 3 },  // PHY 1132 - PHY
-                new { SessionalsId = 5, TeachersId = 8 },  // CSE 1204 - AH
-                new { SessionalsId = 5, TeachersId = 9 },  // CSE 1204 - MH
-                new { SessionalsId = 5, TeachersId = 15 }, // CSE 1204 - ASM
-                new { SessionalsId = 5, TeachersId = 12 }, // CSE 1204 - SG
-                new { SessionalsId = 6, TeachersId = 12 }, // CSE 1208 - SG
-                new { SessionalsId = 6, TeachersId = 13 }, // CSE 1208 - MSZ
-                new { SessionalsId = 7, TeachersId = 26 }, // EEE 1270 - EAS
-                new { SessionalsId = 8, TeachersId = 43 }, // CE 1250 - PR
-                new { SessionalsId = 9, TeachersId = 44 }, // ENG 1228 - ENG2
-                new { SessionalsId = 10, TeachersId = 37 }, // CSE 2102 - SA
-                new { SessionalsId = 11, TeachersId = 19 }, // CSE 2104 - MZH
-                new { SessionalsId = 11, TeachersId = 34 }, // CSE 2104 - AA
-                new { SessionalsId = 12, TeachersId = 34 }, // CSE 2108 - AA
-                new { SessionalsId = 13, TeachersId = 4 },  // CSE 2100 - MAM
-                new { SessionalsId = 13, TeachersId = 30 }, // CSE 2100 - NAO
-                new { SessionalsId = 14, TeachersId = 20 }, // CSE 2202 - MO
-                new { SessionalsId = 14, TeachersId = 21 }, // CSE 2202 - RR
-                new { SessionalsId = 15, TeachersId = 24 }, // CSE 2206 - AKZ
-                new { SessionalsId = 15, TeachersId = 25 }, // CSE 2206 - GR
-                new { SessionalsId = 16, TeachersId = 27 }, // EEE 2270 - EEE2
-                new { SessionalsId = 16, TeachersId = 26 }, // EEE 2270 - EAS
-                new { SessionalsId = 17, TeachersId = 12 }, // CSE 3102 - SG
-                new { SessionalsId = 18, TeachersId = 29 }, // CSE 3104 - TMM
-                new { SessionalsId = 18, TeachersId = 31 }, // CSE 3104 - NR
-                new { SessionalsId = 18, TeachersId = 32 }, // CSE 3104 - AS
-                new { SessionalsId = 19, TeachersId = 28 }, // CSE 3110 - MI
-                new { SessionalsId = 19, TeachersId = 34 }, // CSE 3110 - AA
-                new { SessionalsId = 20, TeachersId = 4 },  // CSE 3100 - MAM
-                new { SessionalsId = 21, TeachersId = 32 }, // CSE 3202 - AS
-                new { SessionalsId = 21, TeachersId = 28 }, // CSE 3202 - MI
-                new { SessionalsId = 22, TeachersId = 37 }, // CSE 3204 - SA
-                new { SessionalsId = 22, TeachersId = 30 }, // CSE 3204 - NAO
-                new { SessionalsId = 23, TeachersId = 28 }, // CSE 3206 - MI
-                new { SessionalsId = 23, TeachersId = 31 }, // CSE 3206 - NR
-                new { SessionalsId = 24, TeachersId = 32 }, // CSE 3210 - AS
-                new { SessionalsId = 24, TeachersId = 13 }, // CSE 3210 - MSZ
-                new { SessionalsId = 25, TeachersId = 23 }, // CSE 3200 - ST
-                new { SessionalsId = 25, TeachersId = 15 }, // CSE 3200 - ASM
-                new { SessionalsId = 26, TeachersId = 35 }, // CSE 4102 - AZ
-                new { SessionalsId = 26, TeachersId = 30 }, // CSE 4102 - NAO
-                new { SessionalsId = 26, TeachersId = 38 }, // CSE 4102 - NF1
-                new { SessionalsId = 27, TeachersId = 29 }, // CSE 4104 - TMM
-                new { SessionalsId = 27, TeachersId = 34 }, // CSE 4104 - AA
-                new { SessionalsId = 28, TeachersId = 16 }, // CSE 4140 - MSA
-                new { SessionalsId = 28, TeachersId = 35 }, // CSE 4140 - AZ
-                new { SessionalsId = 29, TeachersId = 8 },  // CSE 4142 - AH
-                new { SessionalsId = 29, TeachersId = 25 }, // CSE 4142 - GR
-                new { SessionalsId = 30, TeachersId = 33 }, // CSE 4246 - JA
-                new { SessionalsId = 30, TeachersId = 37 }, // CSE 4246 - SA
-                new { SessionalsId = 31, TeachersId = 31 }, // CSE 4252 - NR
-                new { SessionalsId = 31, TeachersId = 37 }  // CSE 4252 - SA
-            );
+            // // Sessional-Teacher Many-to-Many
+            // modelBuilder.Entity("SessionalTeacher").HasData(
+            //     new { SessionalsId = 1, TeachersId = 9 },  // CSE 1100 - MH
+            //     new { SessionalsId = 1, TeachersId = 14 }, // CSE 1100 - AHS
+            //     new { SessionalsId = 2, TeachersId = 2 },  // CSE 1102 - NHC
+            //     new { SessionalsId = 2, TeachersId = 4 },  // CSE 1102 - MAM
+            //     new { SessionalsId = 3, TeachersId = 7 },  // EEE 1164 - MA
+            //     new { SessionalsId = 4, TeachersId = 3 },  // PHY 1132 - PHY
+            //     new { SessionalsId = 5, TeachersId = 8 },  // CSE 1204 - AH
+            //     new { SessionalsId = 5, TeachersId = 9 },  // CSE 1204 - MH
+            //     new { SessionalsId = 5, TeachersId = 15 }, // CSE 1204 - ASM
+            //     new { SessionalsId = 5, TeachersId = 12 }, // CSE 1204 - SG
+            //     new { SessionalsId = 6, TeachersId = 12 }, // CSE 1208 - SG
+            //     new { SessionalsId = 6, TeachersId = 13 }, // CSE 1208 - MSZ
+            //     new { SessionalsId = 7, TeachersId = 26 }, // EEE 1270 - EAS
+            //     new { SessionalsId = 8, TeachersId = 43 }, // CE 1250 - PR
+            //     new { SessionalsId = 9, TeachersId = 44 }, // ENG 1228 - ENG2
+            //     new { SessionalsId = 10, TeachersId = 37 }, // CSE 2102 - SA
+            //     new { SessionalsId = 11, TeachersId = 19 }, // CSE 2104 - MZH
+            //     new { SessionalsId = 11, TeachersId = 34 }, // CSE 2104 - AA
+            //     new { SessionalsId = 12, TeachersId = 34 }, // CSE 2108 - AA
+            //     new { SessionalsId = 13, TeachersId = 4 },  // CSE 2100 - MAM
+            //     new { SessionalsId = 13, TeachersId = 30 }, // CSE 2100 - NAO
+            //     new { SessionalsId = 14, TeachersId = 20 }, // CSE 2202 - MO
+            //     new { SessionalsId = 14, TeachersId = 21 }, // CSE 2202 - RR
+            //     new { SessionalsId = 15, TeachersId = 24 }, // CSE 2206 - AKZ
+            //     new { SessionalsId = 15, TeachersId = 25 }, // CSE 2206 - GR
+            //     new { SessionalsId = 16, TeachersId = 27 }, // EEE 2270 - EEE2
+            //     new { SessionalsId = 16, TeachersId = 26 }, // EEE 2270 - EAS
+            //     new { SessionalsId = 17, TeachersId = 12 }, // CSE 3102 - SG
+            //     new { SessionalsId = 18, TeachersId = 29 }, // CSE 3104 - TMM
+            //     new { SessionalsId = 18, TeachersId = 31 }, // CSE 3104 - NR
+            //     new { SessionalsId = 18, TeachersId = 32 }, // CSE 3104 - AS
+            //     new { SessionalsId = 19, TeachersId = 28 }, // CSE 3110 - MI
+            //     new { SessionalsId = 19, TeachersId = 34 }, // CSE 3110 - AA
+            //     new { SessionalsId = 20, TeachersId = 4 },  // CSE 3100 - MAM
+            //     new { SessionalsId = 21, TeachersId = 32 }, // CSE 3202 - AS
+            //     new { SessionalsId = 21, TeachersId = 28 }, // CSE 3202 - MI
+            //     new { SessionalsId = 22, TeachersId = 37 }, // CSE 3204 - SA
+            //     new { SessionalsId = 22, TeachersId = 30 }, // CSE 3204 - NAO
+            //     new { SessionalsId = 23, TeachersId = 28 }, // CSE 3206 - MI
+            //     new { SessionalsId = 23, TeachersId = 31 }, // CSE 3206 - NR
+            //     new { SessionalsId = 24, TeachersId = 32 }, // CSE 3210 - AS
+            //     new { SessionalsId = 24, TeachersId = 13 }, // CSE 3210 - MSZ
+            //     new { SessionalsId = 25, TeachersId = 23 }, // CSE 3200 - ST
+            //     new { SessionalsId = 25, TeachersId = 15 }, // CSE 3200 - ASM
+            //     new { SessionalsId = 26, TeachersId = 35 }, // CSE 4102 - AZ
+            //     new { SessionalsId = 26, TeachersId = 30 }, // CSE 4102 - NAO
+            //     new { SessionalsId = 26, TeachersId = 38 }, // CSE 4102 - NF1
+            //     new { SessionalsId = 27, TeachersId = 29 }, // CSE 4104 - TMM
+            //     new { SessionalsId = 27, TeachersId = 34 }, // CSE 4104 - AA
+            //     new { SessionalsId = 28, TeachersId = 16 }, // CSE 4140 - MSA
+            //     new { SessionalsId = 28, TeachersId = 35 }, // CSE 4140 - AZ
+            //     new { SessionalsId = 29, TeachersId = 8 },  // CSE 4142 - AH
+            //     new { SessionalsId = 29, TeachersId = 25 }, // CSE 4142 - GR
+            //     new { SessionalsId = 30, TeachersId = 33 }, // CSE 4246 - JA
+            //     new { SessionalsId = 30, TeachersId = 37 }, // CSE 4246 - SA
+            //     new { SessionalsId = 31, TeachersId = 31 }, // CSE 4252 - NR
+            //     new { SessionalsId = 31, TeachersId = 37 }  // CSE 4252 - SA
+            // );
 
-            // Sessional-Labroom Many-to-Many
-            modelBuilder.Entity("SessionalLabroom").HasData(
-                new { SessionalsId = 1, LabroomsId = 411 },
-                new { SessionalsId = 2, LabroomsId = 411 },
-                new { SessionalsId = 3, LabroomsId = 1003 },
-                new { SessionalsId = 3, LabroomsId = 1002 },
-                new { SessionalsId = 4, LabroomsId = 1005 },
-                new { SessionalsId = 5, LabroomsId = 411 },
-                new { SessionalsId = 5, LabroomsId = 311 },
-                new { SessionalsId = 6, LabroomsId = 302 },
-                new { SessionalsId = 6, LabroomsId = 311 },
-                new { SessionalsId = 7, LabroomsId = 1004 },
-                new { SessionalsId = 8, LabroomsId = 402 },
-                new { SessionalsId = 9, LabroomsId = 402 },
-                new { SessionalsId = 10, LabroomsId = 307 },
-                new { SessionalsId = 11, LabroomsId = 302 },
-                new { SessionalsId = 12, LabroomsId = 302 },
-                new { SessionalsId = 12, LabroomsId = 311 },
-                new { SessionalsId = 13, LabroomsId = 402 },
-                new { SessionalsId = 14, LabroomsId = 302 },
-                new { SessionalsId = 15, LabroomsId = 411 },
-                new { SessionalsId = 15, LabroomsId = 311 },
-                new { SessionalsId = 16, LabroomsId = 202 },
-                new { SessionalsId = 17, LabroomsId = 302 },
-                new { SessionalsId = 17, LabroomsId = 411 },
-                new { SessionalsId = 18, LabroomsId = 402 },
-                new { SessionalsId = 19, LabroomsId = 302 },
-                new { SessionalsId = 20, LabroomsId = 302 },
-                new { SessionalsId = 20, LabroomsId = 411 },
-                new { SessionalsId = 21, LabroomsId = 411 },
-                new { SessionalsId = 22, LabroomsId = 311 },
-                new { SessionalsId = 23, LabroomsId = 311 },
-                new { SessionalsId = 24, LabroomsId = 411 },
-                new { SessionalsId = 25, LabroomsId = 302 },
-                new { SessionalsId = 25, LabroomsId = 210 },
-                new { SessionalsId = 26, LabroomsId = 311 },
-                new { SessionalsId = 26, LabroomsId = 302 },
-                new { SessionalsId = 27, LabroomsId = 311 },
-                new { SessionalsId = 28, LabroomsId = 311 },
-                new { SessionalsId = 29, LabroomsId = 311 },
-                new { SessionalsId = 30, LabroomsId = 411 },
-                new { SessionalsId = 31, LabroomsId = 307 }
-            );
+            // // Sessional-Labroom Many-to-Many
+            // modelBuilder.Entity("SessionalLabroom").HasData(
+            //     new { SessionalsId = 1, LabroomsId = 411 },
+            //     new { SessionalsId = 2, LabroomsId = 411 },
+            //     new { SessionalsId = 3, LabroomsId = 1003 },
+            //     new { SessionalsId = 3, LabroomsId = 1002 },
+            //     new { SessionalsId = 4, LabroomsId = 1005 },
+            //     new { SessionalsId = 5, LabroomsId = 411 },
+            //     new { SessionalsId = 5, LabroomsId = 311 },
+            //     new { SessionalsId = 6, LabroomsId = 302 },
+            //     new { SessionalsId = 6, LabroomsId = 311 },
+            //     new { SessionalsId = 7, LabroomsId = 1004 },
+            //     new { SessionalsId = 8, LabroomsId = 402 },
+            //     new { SessionalsId = 9, LabroomsId = 402 },
+            //     new { SessionalsId = 10, LabroomsId = 307 },
+            //     new { SessionalsId = 11, LabroomsId = 302 },
+            //     new { SessionalsId = 12, LabroomsId = 302 },
+            //     new { SessionalsId = 12, LabroomsId = 311 },
+            //     new { SessionalsId = 13, LabroomsId = 402 },
+            //     new { SessionalsId = 14, LabroomsId = 302 },
+            //     new { SessionalsId = 15, LabroomsId = 411 },
+            //     new { SessionalsId = 15, LabroomsId = 311 },
+            //     new { SessionalsId = 16, LabroomsId = 202 },
+            //     new { SessionalsId = 17, LabroomsId = 302 },
+            //     new { SessionalsId = 17, LabroomsId = 411 },
+            //     new { SessionalsId = 18, LabroomsId = 402 },
+            //     new { SessionalsId = 19, LabroomsId = 302 },
+            //     new { SessionalsId = 20, LabroomsId = 302 },
+            //     new { SessionalsId = 20, LabroomsId = 411 },
+            //     new { SessionalsId = 21, LabroomsId = 411 },
+            //     new { SessionalsId = 22, LabroomsId = 311 },
+            //     new { SessionalsId = 23, LabroomsId = 311 },
+            //     new { SessionalsId = 24, LabroomsId = 411 },
+            //     new { SessionalsId = 25, LabroomsId = 302 },
+            //     new { SessionalsId = 25, LabroomsId = 210 },
+            //     new { SessionalsId = 26, LabroomsId = 311 },
+            //     new { SessionalsId = 26, LabroomsId = 302 },
+            //     new { SessionalsId = 27, LabroomsId = 311 },
+            //     new { SessionalsId = 28, LabroomsId = 311 },
+            //     new { SessionalsId = 29, LabroomsId = 311 },
+            //     new { SessionalsId = 30, LabroomsId = 411 },
+            //     new { SessionalsId = 31, LabroomsId = 307 }
+            // );
 
             // LevelTerms
             var levelTerms = new List<LevelTerm>
@@ -346,37 +349,6 @@ namespace ClassroomManagement.Api.Data
                 new LevelTerm { Id = 8, Level = 4, Term = 2, ClassroomId = 407 }
             };
             modelBuilder.Entity<LevelTerm>().HasData(levelTerms);
-
-            // Class Schedules for 4/II A
-            var classSchedules4IIA = new List<ClassSchedule>
-            {
-                // Sunday
-                new ClassSchedule { Id = 1, Day = DayOfWeek.Sunday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), LabroomId = 307, SessionalId = 31, TeacherId = 31 },
-                new ClassSchedule { Id = 16, Day = DayOfWeek.Sunday, StartTime = new TimeOnly(14, 30), EndTime = new TimeOnly(15, 20), LabroomId = 411, SessionalId = 30, TeacherId = 33 },
-                
-                // Monday
-                new ClassSchedule { Id = 2, Day = DayOfWeek.Monday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 38, TeacherId = 39 },
-                new ClassSchedule { Id = 3, Day = DayOfWeek.Monday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 4, Day = DayOfWeek.Monday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 310, CourseId = 41, TeacherId = 38 },
-                
-                // Tuesday
-                new ClassSchedule { Id = 5, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 41, TeacherId = 38 },
-                new ClassSchedule { Id = 6, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 7, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 8, Day = DayOfWeek.Tuesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 38, TeacherId = 39 },
-                
-                // Wednesday
-                new ClassSchedule { Id = 9, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 407, CourseId = 42, TeacherId = 40 },
-                new ClassSchedule { Id = 10, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 11, Day = DayOfWeek.Wednesday, StartTime = new TimeOnly(13, 30), EndTime = new TimeOnly(14, 20), ClassroomId = 407, CourseId = 38, TeacherId = 39 },
-                
-                // Thursday
-                new ClassSchedule { Id = 12, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50), ClassroomId = 407, CourseId = 40, TeacherId = 33 },
-                new ClassSchedule { Id = 13, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50), ClassroomId = 407, CourseId = 39, TeacherId = 31 },
-                new ClassSchedule { Id = 14, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50), ClassroomId = 407, CourseId = 42, TeacherId = 40 },
-                new ClassSchedule { Id = 15, Day = DayOfWeek.Thursday, StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20), ClassroomId = 305, CourseId = 43, TeacherId = 41 }
-            };
-            modelBuilder.Entity<ClassSchedule>().HasData(classSchedules4IIA);
         }
     }
 }

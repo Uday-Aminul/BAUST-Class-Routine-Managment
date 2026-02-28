@@ -43,5 +43,12 @@ namespace ClassroomManagement.Api.Controllers
             return Ok(labroomDto);
         }
 
+        [HttpPost]
+        [Route("AssignSessionals")]
+        public async Task<IActionResult> AssignSessionals()
+        {
+            await _labroomRepository.SeedSessionalsForLabroomsAsync();
+            return Ok("Sessionals assigned to labrooms successfully.");
+        }
     }
 }

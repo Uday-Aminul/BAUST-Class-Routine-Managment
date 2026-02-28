@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20260212161957_Updated the schedules for 4-II.")]
-    partial class Updatedtheschedulesfor4II
+    [Migration("20260228171916_Initial database created and data seeded.")]
+    partial class Initialdatabasecreatedanddataseeded
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,21 @@ namespace ClassroomManagement.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ClassScheduleTeacher", b =>
+                {
+                    b.Property<int>("ClassesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClassesId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("ClassScheduleTeacher");
+                });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.ClassSchedule", b =>
                 {
@@ -54,9 +69,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassroomId");
@@ -67,161 +79,7 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.HasIndex("SessionalId");
 
-                    b.HasIndex("TeacherId");
-
                     b.ToTable("ClassSchedules");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Day = 0,
-                            EndTime = new TimeOnly(8, 50, 0),
-                            LabroomId = 307,
-                            SessionalId = 31,
-                            StartTime = new TimeOnly(8, 0, 0),
-                            TeacherId = 31
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ClassroomId = 407,
-                            CourseId = 33,
-                            Day = 1,
-                            EndTime = new TimeOnly(10, 50, 0),
-                            StartTime = new TimeOnly(10, 0, 0),
-                            TeacherId = 39
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClassroomId = 407,
-                            CourseId = 39,
-                            Day = 1,
-                            EndTime = new TimeOnly(12, 20, 0),
-                            StartTime = new TimeOnly(11, 30, 0),
-                            TeacherId = 31
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ClassroomId = 310,
-                            CourseId = 41,
-                            Day = 1,
-                            EndTime = new TimeOnly(13, 20, 0),
-                            StartTime = new TimeOnly(12, 30, 0),
-                            TeacherId = 38
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ClassroomId = 407,
-                            CourseId = 41,
-                            Day = 2,
-                            EndTime = new TimeOnly(8, 50, 0),
-                            StartTime = new TimeOnly(8, 0, 0),
-                            TeacherId = 38
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ClassroomId = 407,
-                            CourseId = 39,
-                            Day = 2,
-                            EndTime = new TimeOnly(9, 50, 0),
-                            StartTime = new TimeOnly(9, 0, 0),
-                            TeacherId = 31
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ClassroomId = 407,
-                            CourseId = 40,
-                            Day = 2,
-                            EndTime = new TimeOnly(10, 50, 0),
-                            StartTime = new TimeOnly(10, 0, 0),
-                            TeacherId = 33
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ClassroomId = 407,
-                            CourseId = 33,
-                            Day = 2,
-                            EndTime = new TimeOnly(12, 20, 0),
-                            StartTime = new TimeOnly(11, 30, 0),
-                            TeacherId = 39
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ClassroomId = 407,
-                            CourseId = 42,
-                            Day = 3,
-                            EndTime = new TimeOnly(12, 20, 0),
-                            StartTime = new TimeOnly(11, 30, 0),
-                            TeacherId = 40
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ClassroomId = 407,
-                            CourseId = 40,
-                            Day = 3,
-                            EndTime = new TimeOnly(13, 20, 0),
-                            StartTime = new TimeOnly(12, 30, 0),
-                            TeacherId = 33
-                        },
-                        new
-                        {
-                            Id = 11,
-                            ClassroomId = 407,
-                            CourseId = 33,
-                            Day = 3,
-                            EndTime = new TimeOnly(14, 20, 0),
-                            StartTime = new TimeOnly(13, 30, 0),
-                            TeacherId = 39
-                        },
-                        new
-                        {
-                            Id = 12,
-                            ClassroomId = 407,
-                            CourseId = 40,
-                            Day = 4,
-                            EndTime = new TimeOnly(8, 50, 0),
-                            StartTime = new TimeOnly(8, 0, 0),
-                            TeacherId = 33
-                        },
-                        new
-                        {
-                            Id = 13,
-                            ClassroomId = 407,
-                            CourseId = 39,
-                            Day = 4,
-                            EndTime = new TimeOnly(9, 50, 0),
-                            StartTime = new TimeOnly(9, 0, 0),
-                            TeacherId = 31
-                        },
-                        new
-                        {
-                            Id = 14,
-                            ClassroomId = 407,
-                            CourseId = 42,
-                            Day = 4,
-                            EndTime = new TimeOnly(10, 50, 0),
-                            StartTime = new TimeOnly(10, 0, 0),
-                            TeacherId = 40
-                        },
-                        new
-                        {
-                            Id = 15,
-                            ClassroomId = 305,
-                            CourseId = 43,
-                            Day = 4,
-                            EndTime = new TimeOnly(12, 20, 0),
-                            StartTime = new TimeOnly(11, 30, 0),
-                            TeacherId = 41
-                        });
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
@@ -280,6 +138,22 @@ namespace ClassroomManagement.Api.Migrations
                         new
                         {
                             Id = 408
+                        },
+                        new
+                        {
+                            Id = 502
+                        },
+                        new
+                        {
+                            Id = 506
+                        },
+                        new
+                        {
+                            Id = 507
+                        },
+                        new
+                        {
+                            Id = 510
                         },
                         new
                         {
@@ -367,7 +241,8 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "MATH 1141",
                             Credit = 3f,
                             Level = 1,
-                            Name = "Differential Calculus, Integral Calculus, and Coordinate Geometry",
+                            Name = "MATH 1141",
+                            TeacherId = 49,
                             Term = 1
                         },
                         new
@@ -396,7 +271,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "MATH 1243",
                             Credit = 3f,
                             Level = 1,
-                            Name = "Ordinary Differential Equations and Partial Differential Equations",
+                            Name = "MATH 1243",
                             TeacherId = 11,
                             Term = 2
                         },
@@ -446,7 +321,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "MATH 2145",
                             Credit = 3f,
                             Level = 2,
-                            Name = "Vector Calculus, Linear Algebra and Complex Variable",
+                            Name = "MATH 2145",
                             TeacherId = 18,
                             Term = 1
                         },
@@ -466,7 +341,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "CSE 2105",
                             Credit = 3f,
                             Level = 2,
-                            Name = "Applied Statistics for Computer Science",
+                            Name = "Applied Statistics",
                             TeacherId = 20,
                             Term = 1
                         },
@@ -486,7 +361,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "MATH 2247",
                             Credit = 3f,
                             Level = 2,
-                            Name = "Laplace Transformation and Fourier Analysis",
+                            Name = "MATH 2247",
                             TeacherId = 22,
                             Term = 2
                         },
@@ -506,7 +381,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "EEE 2269",
                             Credit = 3f,
                             Level = 2,
-                            Name = "Electrical Drives and Instrumentation",
+                            Name = "Electrical Drives",
                             TeacherId = 26,
                             Term = 2
                         },
@@ -526,7 +401,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "HUM 2221",
                             Credit = 2f,
                             Level = 2,
-                            Name = "History of the Emergence of Bangladesh",
+                            Name = "History of Bangladesh",
                             TeacherId = 46,
                             Term = 2
                         },
@@ -546,7 +421,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "CSE 3103",
                             Credit = 3f,
                             Level = 3,
-                            Name = "Microprocessors, Microcontrollers and Embedded Systems",
+                            Name = "Microprocessors",
                             TeacherId = 29,
                             Term = 1
                         },
@@ -576,7 +451,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "ME 3181",
                             Credit = 3f,
                             Level = 3,
-                            Name = "Basic Mechanical Engineering",
+                            Name = "Mechanical Engineering",
                             TeacherId = 47,
                             Term = 1
                         },
@@ -616,7 +491,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "CSE 3207",
                             Credit = 3f,
                             Level = 3,
-                            Name = "Mathematical Analysis for Computer Science",
+                            Name = "Math Analysis",
                             TeacherId = 25,
                             Term = 2
                         },
@@ -643,16 +518,6 @@ namespace ClassroomManagement.Api.Migrations
                         new
                         {
                             Id = 33,
-                            CourseCode = "IPE 4217",
-                            Credit = 2f,
-                            Level = 3,
-                            Name = "Industrial Management",
-                            TeacherId = 39,
-                            Term = 2
-                        },
-                        new
-                        {
-                            Id = 34,
                             CourseCode = "CSE 4139",
                             Credit = 3f,
                             Level = 4,
@@ -662,7 +527,7 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
-                            Id = 35,
+                            Id = 34,
                             CourseCode = "CSE 4103",
                             Credit = 3f,
                             Level = 4,
@@ -672,7 +537,7 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
-                            Id = 36,
+                            Id = 35,
                             CourseCode = "HUM 4123",
                             Credit = 3f,
                             Level = 4,
@@ -682,17 +547,17 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
-                            Id = 37,
+                            Id = 36,
                             CourseCode = "CSE 4141",
                             Credit = 3f,
                             Level = 4,
-                            Name = "Object Oriented Software Engineering",
+                            Name = "Object Oriented Software Eng",
                             TeacherId = 8,
                             Term = 1
                         },
                         new
                         {
-                            Id = 38,
+                            Id = 37,
                             CourseCode = "CSE 4101",
                             Credit = 3f,
                             Level = 4,
@@ -702,11 +567,21 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
+                            Id = 38,
+                            CourseCode = "IPE 4217",
+                            Credit = 2f,
+                            Level = 4,
+                            Name = "Industrial Management",
+                            TeacherId = 39,
+                            Term = 2
+                        },
+                        new
+                        {
                             Id = 39,
                             CourseCode = "CSE 4251",
                             Credit = 2f,
                             Level = 4,
-                            Name = "Data Warehousing and Data Mining",
+                            Name = "Data Warehousing",
                             TeacherId = 31,
                             Term = 2
                         },
@@ -716,7 +591,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "CSE 4245",
                             Credit = 2f,
                             Level = 4,
-                            Name = "Digital Image Processing",
+                            Name = "Image Processing",
                             TeacherId = 33,
                             Term = 2
                         },
@@ -726,7 +601,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "CSE 4215",
                             Credit = 2f,
                             Level = 4,
-                            Name = "Professional Issues and Ethics in Computer Science",
+                            Name = "Professional Ethics",
                             TeacherId = 38,
                             Term = 2
                         },
@@ -736,7 +611,7 @@ namespace ClassroomManagement.Api.Migrations
                             CourseCode = "HUM 4273",
                             Credit = 2f,
                             Level = 4,
-                            Name = "Financial, Cost and Managerial Accounting",
+                            Name = "Accounting",
                             TeacherId = 40,
                             Term = 2
                         },
@@ -771,38 +646,68 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasData(
                         new
                         {
+                            Id = 14,
+                            Name = "Room 014"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            Name = "Room 024"
+                        },
+                        new
+                        {
+                            Id = 107,
+                            Name = "Room 107"
+                        },
+                        new
+                        {
+                            Id = 108,
+                            Name = "Room 108"
+                        },
+                        new
+                        {
+                            Id = 110,
+                            Name = "Room 110"
+                        },
+                        new
+                        {
                             Id = 202,
-                            Name = "EEE"
+                            Name = "EEE Lab"
+                        },
+                        new
+                        {
+                            Id = 206,
+                            Name = "Room 206"
                         },
                         new
                         {
                             Id = 210,
-                            Name = "CSE"
+                            Name = "CSE Lab 210"
                         },
                         new
                         {
                             Id = 302,
-                            Name = "CSE"
+                            Name = "CSE Lab 302"
                         },
                         new
                         {
                             Id = 307,
-                            Name = "CSE"
+                            Name = "CSE Lab 307"
                         },
                         new
                         {
                             Id = 311,
-                            Name = "CSE"
+                            Name = "CSE Lab 311"
                         },
                         new
                         {
                             Id = 402,
-                            Name = "CSE, CAD"
+                            Name = "CSE/CAD Lab 402"
                         },
                         new
                         {
                             Id = 411,
-                            Name = "CSE"
+                            Name = "CSE Lab 411"
                         },
                         new
                         {
@@ -936,15 +841,10 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeacherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Sessionals");
 
@@ -954,9 +854,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 1,
                             Credit = 1.5f,
                             Level = 1,
-                            Name = "Introduction to Computer System Sessional",
+                            Name = "Intro to Computer System Sessional",
                             SessionalCode = "CSE 1100",
-                            TeacherId = 9,
                             Term = 1
                         },
                         new
@@ -966,7 +865,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 1,
                             Name = "Structured Programming Language Sessional",
                             SessionalCode = "CSE 1102",
-                            TeacherId = 2,
                             Term = 1
                         },
                         new
@@ -974,9 +872,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 3,
                             Credit = 1.5f,
                             Level = 1,
-                            Name = "Introduction to Electrical Engineering Sessional",
+                            Name = "Intro to Electrical Engineering Sessional",
                             SessionalCode = "EEE 1164",
-                            TeacherId = 7,
                             Term = 1
                         },
                         new
@@ -986,7 +883,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 1,
                             Name = "Physics Sessional",
                             SessionalCode = "PHY 1132",
-                            TeacherId = 3,
                             Term = 1
                         },
                         new
@@ -994,9 +890,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 5,
                             Credit = 1.5f,
                             Level = 1,
-                            Name = "Object Oriented Programming Language I Sessional",
+                            Name = "OOP I Sessional",
                             SessionalCode = "CSE 1204",
-                            TeacherId = 8,
                             Term = 2
                         },
                         new
@@ -1006,7 +901,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 1,
                             Name = "Numerical Methods Sessional",
                             SessionalCode = "CSE 1208",
-                            TeacherId = 12,
                             Term = 2
                         },
                         new
@@ -1016,7 +910,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 1,
                             Name = "Electronic Circuits Sessional",
                             SessionalCode = "EEE 1270",
-                            TeacherId = 26,
                             Term = 2
                         },
                         new
@@ -1024,9 +917,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 8,
                             Credit = 0.75f,
                             Level = 1,
-                            Name = "Engineering Drawing and CAD Sessional",
+                            Name = "Engineering Drawing Sessional",
                             SessionalCode = "CE 1250",
-                            TeacherId = 43,
                             Term = 2
                         },
                         new
@@ -1034,9 +926,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 9,
                             Credit = 0.75f,
                             Level = 1,
-                            Name = "Developing English Skill Sessional",
+                            Name = "English Skill Sessional",
                             SessionalCode = "ENG 1228",
-                            TeacherId = 44,
                             Term = 2
                         },
                         new
@@ -1046,7 +937,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 2,
                             Name = "Digital Logic Design Sessional",
                             SessionalCode = "CSE 2102",
-                            TeacherId = 37,
                             Term = 1
                         },
                         new
@@ -1054,9 +944,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 11,
                             Credit = 1.5f,
                             Level = 2,
-                            Name = "Data Structures and Algorithm I Sessional",
+                            Name = "Data Structures I Sessional",
                             SessionalCode = "CSE 2104",
-                            TeacherId = 19,
                             Term = 1
                         },
                         new
@@ -1064,9 +953,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 12,
                             Credit = 1.5f,
                             Level = 2,
-                            Name = "Object Oriented Programming Language II Sessional",
+                            Name = "OOP II Sessional",
                             SessionalCode = "CSE 2108",
-                            TeacherId = 34,
                             Term = 1
                         },
                         new
@@ -1076,7 +964,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 2,
                             Name = "Software Development Project I",
                             SessionalCode = "CSE 2100",
-                            TeacherId = 4,
                             Term = 1
                         },
                         new
@@ -1084,9 +971,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 14,
                             Credit = 1.5f,
                             Level = 2,
-                            Name = "Data Structures and Algorithm II Sessional",
+                            Name = "Data Structures II Sessional",
                             SessionalCode = "CSE 2202",
-                            TeacherId = 20,
                             Term = 2
                         },
                         new
@@ -1094,9 +980,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 15,
                             Credit = 1.5f,
                             Level = 2,
-                            Name = "Database Management Systems Sessional",
+                            Name = "Database Sessional",
                             SessionalCode = "CSE 2206",
-                            TeacherId = 24,
                             Term = 2
                         },
                         new
@@ -1104,9 +989,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 16,
                             Credit = 0.75f,
                             Level = 2,
-                            Name = "Electrical Drives and Instrumentation Sessional",
+                            Name = "Electrical Drives Sessional",
                             SessionalCode = "EEE 2270",
-                            TeacherId = 27,
                             Term = 2
                         },
                         new
@@ -1116,7 +1000,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 3,
                             Name = "Software Engineering Sessional",
                             SessionalCode = "CSE 3102",
-                            TeacherId = 12,
                             Term = 1
                         },
                         new
@@ -1124,9 +1007,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 18,
                             Credit = 0.75f,
                             Level = 3,
-                            Name = "Microprocessors, Microcontrollers and Embedded Systems Sessional",
+                            Name = "Microprocessors Sessional",
                             SessionalCode = "CSE 3104",
-                            TeacherId = 29,
                             Term = 1
                         },
                         new
@@ -1136,7 +1018,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 3,
                             Name = "Compiler Sessional",
                             SessionalCode = "CSE 3110",
-                            TeacherId = 28,
                             Term = 1
                         },
                         new
@@ -1146,7 +1027,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 3,
                             Name = "Software Development Project II",
                             SessionalCode = "CSE 3100",
-                            TeacherId = 4,
                             Term = 1
                         },
                         new
@@ -1154,9 +1034,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 21,
                             Credit = 0.75f,
                             Level = 3,
-                            Name = "Artificial Intelligence Sessional",
+                            Name = "AI Sessional",
                             SessionalCode = "CSE 3202",
-                            TeacherId = 32,
                             Term = 2
                         },
                         new
@@ -1164,9 +1043,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 22,
                             Credit = 1.5f,
                             Level = 3,
-                            Name = "Operating System Sessional",
+                            Name = "OS Sessional",
                             SessionalCode = "CSE 3204",
-                            TeacherId = 37,
                             Term = 2
                         },
                         new
@@ -1174,9 +1052,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 23,
                             Credit = 1.5f,
                             Level = 3,
-                            Name = "Computer Networks Sessional",
+                            Name = "Networks Sessional",
                             SessionalCode = "CSE 3206",
-                            TeacherId = 28,
                             Term = 2
                         },
                         new
@@ -1184,9 +1061,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 24,
                             Credit = 0.75f,
                             Level = 3,
-                            Name = "Information System Design Sessional",
+                            Name = "Info System Design Sessional",
                             SessionalCode = "CSE 3210",
-                            TeacherId = 32,
                             Term = 2
                         },
                         new
@@ -1196,7 +1072,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 3,
                             Name = "Web Engineering Project",
                             SessionalCode = "CSE 3200",
-                            TeacherId = 23,
                             Term = 2
                         },
                         new
@@ -1206,7 +1081,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 4,
                             Name = "Computer Security Sessional",
                             SessionalCode = "CSE 4102",
-                            TeacherId = 35,
                             Term = 1
                         },
                         new
@@ -1216,7 +1090,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 4,
                             Name = "Computer Graphics Sessional",
                             SessionalCode = "CSE 4104",
-                            TeacherId = 29,
                             Term = 1
                         },
                         new
@@ -1226,7 +1099,6 @@ namespace ClassroomManagement.Api.Migrations
                             Level = 4,
                             Name = "Machine Learning Sessional",
                             SessionalCode = "CSE 4140",
-                            TeacherId = 16,
                             Term = 1
                         },
                         new
@@ -1234,9 +1106,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 29,
                             Credit = 0.75f,
                             Level = 4,
-                            Name = "Object Oriented Software Engineering Sessional",
+                            Name = "OOSE Sessional",
                             SessionalCode = "CSE 4142",
-                            TeacherId = 8,
                             Term = 1
                         },
                         new
@@ -1244,9 +1115,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 30,
                             Credit = 0.75f,
                             Level = 4,
-                            Name = "Digital Image Processing Sessional",
+                            Name = "Image Processing Sessional",
                             SessionalCode = "CSE 4246",
-                            TeacherId = 33,
                             Term = 2
                         },
                         new
@@ -1254,9 +1124,8 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 31,
                             Credit = 0.75f,
                             Level = 4,
-                            Name = "Data Warehousing and Data Mining Sessional",
+                            Name = "Data Mining Sessional",
                             SessionalCode = "CSE 4252",
-                            TeacherId = 31,
                             Term = 2
                         });
                 });
@@ -1620,6 +1489,13 @@ namespace ClassroomManagement.Api.Migrations
                             Code = "NHS",
                             Designation = "Lecturer",
                             Name = "NHS"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            Code = "MATH1",
+                            Designation = "Professor",
+                            Name = "MATH1"
                         });
                 });
 
@@ -1636,6 +1512,36 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasIndex("LabroomsId");
 
                     b.ToTable("LabroomSessional");
+                });
+
+            modelBuilder.Entity("SessionalTeacher", b =>
+                {
+                    b.Property<int>("AssignedSessionalsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignedSessionalsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("SessionalTeacher");
+                });
+
+            modelBuilder.Entity("ClassScheduleTeacher", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.ClassSchedule", null)
+                        .WithMany()
+                        .HasForeignKey("ClassesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.ClassSchedule", b =>
@@ -1656,12 +1562,6 @@ namespace ClassroomManagement.Api.Migrations
                         .WithMany()
                         .HasForeignKey("SessionalId");
 
-                    b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
-                        .WithMany("Classes")
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Classroom");
 
                     b.Navigation("Course");
@@ -1669,8 +1569,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Labroom");
 
                     b.Navigation("Sessional");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
@@ -1693,15 +1591,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Classroom");
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Teacher", "Teacher")
-                        .WithMany("AssignedSessionals")
-                        .HasForeignKey("TeacherId");
-
-                    b.Navigation("Teacher");
-                });
-
             modelBuilder.Entity("LabroomSessional", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
@@ -1713,6 +1602,21 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", null)
                         .WithMany()
                         .HasForeignKey("LabroomsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SessionalTeacher", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedSessionalsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1732,10 +1636,6 @@ namespace ClassroomManagement.Api.Migrations
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
                 {
                     b.Navigation("AssignedCourses");
-
-                    b.Navigation("AssignedSessionals");
-
-                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

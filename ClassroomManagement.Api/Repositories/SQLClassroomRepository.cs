@@ -33,19 +33,34 @@ namespace ClassroomManagement.Api.Repositories
 
         public async Task<List<Classroom>> GetAllClassroomsAsync()
         {
-            var classroomDomains = await _dbContext.Classrooms.Include(x => x.ClassSchedules).ThenInclude(x => x.Course).Include(x => x.ClassSchedules).ThenInclude(x => x.Teacher).ToListAsync();
+            var classroomDomains = await _dbContext.Classrooms
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Course)
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Teachers)
+                .ToListAsync();
             return classroomDomains;
         }
 
         public async Task<Classroom?> GetClassroomByIdAsync(int id)
         {
-            var classroomDomain = await _dbContext.Classrooms.Include(x => x.ClassSchedules).ThenInclude(x => x.Course).Include(x => x.ClassSchedules).ThenInclude(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var classroomDomain = await _dbContext.Classrooms
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Course)
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Id == id);
             return classroomDomain;
         }
 
         public async Task<Classroom?> UpdateClassroomByIdAsync(int id, Classroom classroom)
         {
-            var existingClassroom = await _dbContext.Classrooms.Include(x => x.ClassSchedules).ThenInclude(x => x.Course).Include(x => x.ClassSchedules).ThenInclude(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var existingClassroom = await _dbContext.Classrooms
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Course)
+                .Include(x => x.ClassSchedules)
+                .ThenInclude(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (existingClassroom is null)
             {
                 return null;

@@ -16,13 +16,12 @@ namespace ClassroomManagement.Api.Models
         public int? LabroomId { get; set; }
         public int? CourseId { get; set; }
         public int? SessionalId { get; set; }
-        public int TeacherId { get; set; }
 
         //Navigation Properties
         public Classroom? Classroom { get; set; }
         public Labroom? Labroom { get; set; }
-        public Course Course { get; set; }
-        public Sessional Sessional { get; set; }
-        public Teacher Teacher { get; set; }
+        public Course? Course { get; set; }
+        public Sessional? Sessional { get; set; }
+        public List<Teacher> Teachers { get; set; }
     }
 }

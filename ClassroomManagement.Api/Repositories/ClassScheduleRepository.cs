@@ -34,7 +34,7 @@ namespace ClassScheduleManagement.Api.Repositories
                 .Include(x => x.Labroom)
                 .Include(x => x.Course)
                 .Include(x => x.Sessional)
-                .Include(x => x.Teacher)
+                .Include(x => x.Teachers)
                 .ToListAsync();
             return classScheduleDomains;
         }
@@ -46,43 +46,35 @@ namespace ClassScheduleManagement.Api.Repositories
                 .Include(x => x.Labroom)
                 .Include(x => x.Course)
                 .Include(x => x.Sessional)
-                .Include(x => x.Teacher)
+                .Include(x => x.Teachers)
                 .AsQueryable();
 
             if (level is not null && term is not null)
             {
                 classSchedules = classSchedules.Where(x => (x.Course != null && x.Course.Level == level && x.Course.Term == term) || (x.Sessional != null && x.Sessional.Level == level && x.Sessional.Term == term));
             }
-            // {
-            //     if (filterOn.Equals("Name", StringComparison.OrdinalIgnoreCase))
-            //     {
-            //         classSchedules = classSchedules.Where(x => x.Name.Contains(filterQuery));
-            //     }
-            // }
-
-            // if (string.IsNullOrEmpty(sortBy) is false)
-            // {
-            //     if (sortBy.Equals("Name", StringComparison.OrdinalIgnoreCase))
-            //     {
-            //         classSchedules = isAscending ? classSchedules.OrderBy(x => x.Name) : classSchedules.OrderByDescending(x => x.Name);
-            //     }
-            //     else if (sortBy.Equals("Length", StringComparison.OrdinalIgnoreCase))
-            //     {
-            //         classSchedules = isAscending ? classSchedules.OrderBy(x => x.LengthInKm) : classSchedules.OrderByDescending(x => x.LengthInKm);
-            //     }
-            // }
             return await classSchedules.ToListAsync();
         }
 
         public async Task<ClassSchedule?> GetClassScheduleByIdAsync(int id)
         {
-            var ClassScheduleDomain = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Labroom).Include(x => x.Course).Include(x => x.Sessional).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var ClassScheduleDomain = await _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Labroom)
+                .Include(x => x.Course)
+                .Include(x => x.Sessional)
+                .Include(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Id == id);
             return ClassScheduleDomain;
         }
 
         public async Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule updatedClassSchedule)
         {
-            var existingClassSchedule = await _dbContext.ClassSchedules.Include(x => x.Classroom).Include(x => x.Course).Include(x => x.Teacher).FirstOrDefaultAsync(x => x.Id == id);
+            var existingClassSchedule = await _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Course)
+                .Include(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (existingClassSchedule is null)
             {
                 return null;
@@ -92,7 +84,6 @@ namespace ClassScheduleManagement.Api.Repositories
             existingClassSchedule.EndTime = updatedClassSchedule.EndTime;
             existingClassSchedule.ClassroomId = updatedClassSchedule.ClassroomId;
             existingClassSchedule.CourseId = updatedClassSchedule.CourseId;
-            existingClassSchedule.TeacherId = updatedClassSchedule.TeacherId;
             await _dbContext.SaveChangesAsync();
             return existingClassSchedule;
         }

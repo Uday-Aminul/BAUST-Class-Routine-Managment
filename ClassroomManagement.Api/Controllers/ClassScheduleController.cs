@@ -91,5 +91,24 @@ namespace ClassroomManagement.Api.Controllers
             }
             return Ok("Class schedule generation not triggered.");
         }
+
+        [HttpPost]
+        [Route("GenerateClassSchedulesForAll")]
+        public async Task<IActionResult> GenerateClassSchedulesForAll([FromQuery] bool act)
+        {
+            if (act is true)
+            {
+                await _scheduleGenerator.GenerateScheduleAsync(1, 1);
+                await _scheduleGenerator.GenerateScheduleAsync(1, 2);
+                await _scheduleGenerator.GenerateScheduleAsync(2, 1);
+                await _scheduleGenerator.GenerateScheduleAsync(2, 2);
+                await _scheduleGenerator.GenerateScheduleAsync(3, 1);
+                await _scheduleGenerator.GenerateScheduleAsync(3, 2);
+                await _scheduleGenerator.GenerateScheduleAsync(4, 1);
+                await _scheduleGenerator.GenerateScheduleAsync(4, 2);
+                return Ok("Class schedule generation for all levels and terms triggered.");
+            }
+            return Ok("Class schedule generation not triggered.");
+        }
     }
 }

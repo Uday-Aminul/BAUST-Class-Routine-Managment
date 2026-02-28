@@ -12,8 +12,8 @@ namespace ClassroomManagement.Api.Models.DTOs.ClassSchedules
         //Navigation Properties
         public ClassroomForClassScheduleDto? Classroom { get; set; }
         public LabroomForLabroomDto? Labroom { get; set; }
-        public CourseForClassScheduleDto Course { get; set; }
-        public SessionalForClassScheduleDto Sessional { get; set; }
-        public TeacherForClassScheduleDto Teacher { get; set; }
+        public CourseForClassScheduleDto? Course { get; set; }
+        public SessionalForClassScheduleDto? Sessional { get; set; }
+        public List<TeacherForClassScheduleDto> Teachers { get; set; }
     }
 }

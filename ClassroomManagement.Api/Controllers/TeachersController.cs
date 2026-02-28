@@ -20,7 +20,7 @@ namespace teachersManagement.Api.Controllers
         private readonly IMapper _mapper;
         public TeachersController(ITeacherRepository teachersRepository, IMapper mapper)
         {
-            _mapper=mapper;
+            _mapper = mapper;
             _teachersRepository = teachersRepository;
         }
 
@@ -71,14 +71,22 @@ namespace teachersManagement.Api.Controllers
             var teacherDto = _mapper.Map<TeacherDto>(teacherDomain);
             return Ok(teacherDto);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AddTeacherRequestDto newteachers)
         {
             var teacherDomain = _mapper.Map<Teacher>(newteachers);
             teacherDomain = await _teachersRepository.CreateTeacherAsync(teacherDomain);
             var teacherDto = _mapper.Map<TeacherDto>(teacherDomain);
-            return CreatedAtAction(nameof(GetById), new{id=teacherDto.Id}, teacherDto);
+            return CreatedAtAction(nameof(GetById), new { id = teacherDto.Id }, teacherDto);
+        }
+
+        [HttpPost]
+        [Route("AssignSessionals")]
+        public async Task<IActionResult> AssignCourse()
+        {
+            await _teachersRepository.SeedSessionalsForTeachersAsync();
+            return Ok("Sessionals assigned to teachers successfully.");
         }
     }
 }
