@@ -4,15 +4,13 @@ Features Required:
 3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
 
 Suggestion:
-when starting scheduling for a day first check for the lab if it can be given after break if not check all the labs in the list then if 
-none can be given then try to put before break if even that doesnt work then put all courses.
-
-If 0.75 credit course exists then will have to plan for even and odd week
+1. If 2 or more 0.75 credit sessional exists then will have to plan for even and odd week. And put 2 sessioals in a single slot. so the routine 
+    can be completed.
+2. Should schedule the 0.75 sessionals in the same slot first if there are 2 or more, then start scheduling normally from 1-I.
+3. one sec should be assigned more than one classrooms.
 
 
 Problems:
-1. LevelTerm navigation property on Classroom table
-2. Sessional<-->Labroom many to many relation so cant add navigation properties with HasData()...need UI like SwaggerGen.
 3. need to convert Term in LevelTerm table from int to string.
 4. Need to add batch advisor to all sections.
 5. The Controller ClassroomManagementAuthController should be renamed to ClassRoutineManagementAuthController.
@@ -20,6 +18,4 @@ Problems:
 7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
 8. Need to fix Teacher table Update and Add operation.
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.
-10. Single Sessional is assigned to two teachers not one.
-11. Need to add credit hours for Courses and Sessionals
 12. Need to add GetAll method with a bit Pagination for Course and Sessional table.

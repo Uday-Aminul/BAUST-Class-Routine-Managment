@@ -96,19 +96,19 @@ namespace ClassroomManagement.Api.Controllers
         [Route("GenerateClassSchedulesForAll")]
         public async Task<IActionResult> GenerateClassSchedulesForAll([FromQuery] bool act)
         {
+            var result = new List<string>();
             if (act is true)
             {
-                await _scheduleGenerator.GenerateScheduleAsync(1, 1);
-                await _scheduleGenerator.GenerateScheduleAsync(1, 2);
-                await _scheduleGenerator.GenerateScheduleAsync(2, 1);
-                await _scheduleGenerator.GenerateScheduleAsync(2, 2);
-                await _scheduleGenerator.GenerateScheduleAsync(3, 1);
-                await _scheduleGenerator.GenerateScheduleAsync(3, 2);
-                await _scheduleGenerator.GenerateScheduleAsync(4, 1);
-                await _scheduleGenerator.GenerateScheduleAsync(4, 2);
-                return Ok("Class schedule generation for all levels and terms triggered.");
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(1, 1));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(1, 2));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(2, 1));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(2, 2));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(3, 1));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(3, 2));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(4, 1));
+                result.Add(await _scheduleGenerator.GenerateScheduleAsync(4, 2));
             }
-            return Ok("Class schedule generation not triggered.");
+            return Ok(result);
         }
     }
 }
