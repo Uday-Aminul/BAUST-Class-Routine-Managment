@@ -80,17 +80,17 @@ namespace ClassroomManagement.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = classScheduleDto.Id }, classScheduleDto);
         }
 
-        [HttpPost]
-        [Route("GenerateClassSchedules")]
-        public async Task<IActionResult> GenerateClassSchedules([FromQuery] bool act, [FromQuery] int level, [FromQuery] int term)
-        {
-            if (act is true)
-            {
-                var result = await _scheduleGenerator.GenerateScheduleAsync(level, term);
-                return Ok(result);
-            }
-            return Ok("Class schedule generation not triggered.");
-        }
+        // [HttpPost]
+        // [Route("GenerateClassSchedules")]
+        // public async Task<IActionResult> GenerateClassSchedules([FromQuery] bool act, [FromQuery] int level, [FromQuery] int term)
+        // {
+        //     if (act is true)
+        //     {
+        //         var result = await _scheduleGenerator.GenerateScheduleAsync(level, term);
+        //         return Ok(result);
+        //     }
+        //     return Ok("Class schedule generation not triggered.");
+        // }
 
         [HttpPost]
         [Route("GenerateClassSchedulesForAll")]
@@ -99,14 +99,7 @@ namespace ClassroomManagement.Api.Controllers
             var result = new List<string>();
             if (act is true)
             {
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(1, 1));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(1, 2));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(2, 1));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(2, 2));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(3, 1));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(3, 2));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(4, 1));
-                result.Add(await _scheduleGenerator.GenerateScheduleAsync(4, 2));
+                result = await _scheduleGenerator.GenerateAllSchedulesAsync();
             }
             return Ok(result);
         }
