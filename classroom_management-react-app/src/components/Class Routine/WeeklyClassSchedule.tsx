@@ -40,7 +40,7 @@ interface Schedule {
   sessional: Sessional;
   classroom: Classroom;
   labroom: Labroom;
-  teacher: Teacher;
+  teachers: Teacher[];
 }
 
 // Time slots in order
@@ -99,6 +99,7 @@ function WeeklyClassSchedule({ level, term }: Props) {
   // Helper function to format schedule cell content
   const formatScheduleCell = (schedule: Schedule | undefined) => {
     if (!schedule) return "";
+    const teacherCodes = schedule.teachers?.map((t) => t.code).join(", ") || "";
 
     if (schedule.course) {
       return (
@@ -106,10 +107,7 @@ function WeeklyClassSchedule({ level, term }: Props) {
           <span className="schedule-course-code">
             {schedule.course.courseCode}
           </span>
-          <span className="schedule-teacher">
-            {" "}
-            ({schedule.teacher?.code || ""})
-          </span>
+          <span className="schedule-teacher"> ({teacherCodes})</span>
           <span className="schedule-room">
             {" "}
             [{schedule.classroom?.id || ""}]
@@ -122,10 +120,7 @@ function WeeklyClassSchedule({ level, term }: Props) {
           <span className="schedule-sessional-code">
             {schedule.sessional.sessionalCode}
           </span>
-          <span className="schedule-teacher">
-            {" "}
-            ({schedule.teacher?.code || ""})
-          </span>
+          <span className="schedule-teacher"> ({teacherCodes})</span>
           <span className="schedule-labroom">
             {" "}
             [{schedule.labroom?.id || ""}]
