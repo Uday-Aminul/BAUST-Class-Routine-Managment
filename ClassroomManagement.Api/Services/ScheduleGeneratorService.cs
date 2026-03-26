@@ -36,7 +36,7 @@ namespace ClassroomManagement.Api.Services
 
             foreach (var levelTerm in levelTerms)
             {
-                var sessionals = await _dbContext.Sessionals.Where(s => s.Level == levelTerm.Level && s.Term == levelTerm.Term && s.Credit == 0.75).ToListAsync();
+                var sessionals = await _dbContext.Sessionals.Include(s => s.Teachers).Include(s => s.Labrooms).Where(s => s.Level == levelTerm.Level && s.Term == levelTerm.Term && s.Credit == 0.75).ToListAsync();
                 if (sessionals.Count >= 2)
                 {
                     var schedulesToAdd = new List<ClassSchedule>();
@@ -244,6 +244,7 @@ namespace ClassroomManagement.Api.Services
                 }
             }
 
+            totalCourseCredit = schedulingState.Courses.Sum(c => c.Credit);
             foreach (var course in courses)
             {
                 await _dbContext.Entry(course).ReloadAsync();  // Discard changes, get DB values
@@ -251,7 +252,7 @@ namespace ClassroomManagement.Api.Services
             await _dbContext.ClassSchedules.AddRangeAsync(schedulingState.SchedulesToAdd);
             await _dbContext.SaveChangesAsync();
 
-            totalCourseCredit = schedulingState.Courses.Sum(c => c.Credit);
+
             if (totalCourseCredit is 0 && schedulingState.Sessionals.Count is 0)
             {
                 return $"Schedule generation succesfull for Level-{level} Term-{term}";
