@@ -18,9 +18,7 @@ Problems:
 
 
 
-
-7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work. and update the algorithm.
-13. Need to add even odd field to the schedule table. Weektype
+13. Need to add even odd field to the schedule table. Weektype . and modify frontend for EvenOdd.
 14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
 
 17. Should be able to add sections to all the levelterms so must have a section field

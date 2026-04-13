@@ -82,6 +82,7 @@ namespace ClassroomManagement.Api.Services
         private async Task<bool> PlaceTwoSessionalsInSingleSlotAsync(List<ClassSchedule> schedulesToAdd, List<Sessional> sessionals, DayOfWeek day, TimeOnly startTime, TimeOnly endTime)
         {
             var sessionalPlaced = 0;
+            var EvenPlaced = false;
             var sessionalsToRemove = new List<Sessional>();
             var sessionalsCopy = sessionals.ToList(); // To avoid modifying the original list while iterating
             foreach (var sessional in sessionalsCopy)
@@ -91,6 +92,7 @@ namespace ClassroomManagement.Api.Services
                 var labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
                 if (allTeachersAvailable is true && labroom is not null)
                 {
+                    var weekType = EvenPlaced ? "ODD" : "EVEN";
                     var schedule = new ClassSchedule
                     {
                         Day = day,
@@ -99,10 +101,12 @@ namespace ClassroomManagement.Api.Services
                         LabroomId = labroom.Id,
                         SessionalId = sessional.Id,
                         Teachers = sessional.Teachers,
+                        WeekType = weekType
                     };
                     schedulesToAdd.Add(schedule);
                     sessionalsToRemove.Add(sessional);
                     sessionalPlaced++;
+                    EvenPlaced = !EvenPlaced;
                 }
                 if (sessionalPlaced == 2)
                 {

@@ -8,6 +8,7 @@ namespace ClassroomManagement.Api.Models.DTOs.ClassSchedules
         public DayOfWeek Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
+        public string? WeekType { get; set; }
 
         //Navigation Properties
         public ClassroomForClassScheduleDto? Classroom { get; set; }
