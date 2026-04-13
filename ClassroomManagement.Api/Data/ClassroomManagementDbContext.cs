@@ -32,46 +32,46 @@ namespace ClassroomManagement.Api.Data
             // Classrooms (for theory classes)
             var ClassRooms = new List<Classroom>
             {
-                new Classroom { Id = 204 }, // 3/II - A
-                new Classroom { Id = 205 }, // 3/II - B
-                new Classroom { Id = 304 }, // 3/I - A
-                new Classroom { Id = 305 }, // 4/II - A
-                new Classroom { Id = 306 }, // 4/I - A
-                new Classroom { Id = 308 }, // 1/I - B
-                new Classroom { Id = 309 }, // 2/II - A
-                new Classroom { Id = 310 }, // 2/I - B
-                new Classroom { Id = 311 }, // General
-                new Classroom { Id = 407 }, // 4/II - A
-                new Classroom { Id = 408 }, // 1/I - A
-                new Classroom { Id = 502 }, // English
-                new Classroom { Id = 506 }, // English
-                new Classroom { Id = 507 }, // BBA
-                new Classroom { Id = 510 }, // English
-                new Classroom { Id = 1001 }, // Seminar Hall
+                new Classroom { Id = 1, RoomNumber = 204 }, // 3/II - A
+                new Classroom { Id = 2, RoomNumber = 205 }, // 3/II - B
+                new Classroom { Id = 3, RoomNumber = 304 }, // 3/I - A
+                new Classroom { Id = 4, RoomNumber = 305 }, // 4/II - A
+                new Classroom { Id = 5, RoomNumber = 306 }, // 4/I - A
+                new Classroom { Id = 6, RoomNumber = 308 }, // 1/I - B
+                new Classroom { Id = 7, RoomNumber = 309 }, // 2/II - A
+                new Classroom { Id = 8, RoomNumber = 310 }, // 2/I - B
+                new Classroom { Id = 9, RoomNumber = 311 }, // General
+                new Classroom { Id = 10, RoomNumber = 407 }, // 4/II - A
+                new Classroom { Id = 11, RoomNumber = 408 }, // 1/I - A
+                new Classroom { Id = 12, RoomNumber = 502 }, // English
+                new Classroom { Id = 13, RoomNumber = 506 }, // English
+                new Classroom { Id = 14, RoomNumber = 507 }, // BBA
+                new Classroom { Id = 15, RoomNumber = 510 }, // English
+                new Classroom { Id = 16, RoomNumber = 1001 }, // Seminar Hall
             };
             modelBuilder.Entity<Classroom>().HasData(ClassRooms);
 
             // Labrooms (for practical sessions)
             var Labrooms = new List<Labroom>
             {
-                new Labroom { Id = 14, Name = "Room 014" },      // For CE: 2/I
-                new Labroom { Id = 24, Name = "Room 024" },      // For IPE: 1/II
-                new Labroom { Id = 107, Name = "Room 107" },     // For IPE: 1/II
-                new Labroom { Id = 108, Name = "Room 108" },     // For ME: 1/II
-                new Labroom { Id = 110, Name = "Room 110" },     // For ME, IPE labs
-                new Labroom { Id = 202, Name = "EEE Lab" },      // EEE Lab
-                new Labroom { Id = 206, Name = "Room 206" },     // For EEE: 2/I
-                new Labroom { Id = 210, Name = "CSE Lab 210" },  // CSE Lab
-                new Labroom { Id = 302, Name = "CSE Lab 302" },  // CSE Lab
-                new Labroom { Id = 307, Name = "CSE Lab 307" },  // CSE Lab
-                new Labroom { Id = 311, Name = "CSE Lab 311" },  // CSE Lab
-                new Labroom { Id = 402, Name = "CSE/CAD Lab 402" }, // CAD Lab
-                new Labroom { Id = 411, Name = "CSE Lab 411" },  // CSE Lab
-                new Labroom { Id = 1001, Name = "AC Circuit Lab" },
-                new Labroom { Id = 1002, Name = "DC Circuit Lab" },
-                new Labroom { Id = 1003, Name = "AC Circuit Lab" },
-                new Labroom { Id = 1004, Name = "Electronics Lab" },
-                new Labroom { Id = 1005, Name = "Physics Lab" },
+                new Labroom { Id = 1, RoomNumber = 14, Name = "Room 014" },      // For CE: 2/I
+                new Labroom { Id = 2, RoomNumber = 24, Name = "Room 024" },      // For IPE: 1/II
+                new Labroom { Id = 3, RoomNumber = 107, Name = "Room 107" },     // For IPE: 1/II
+                new Labroom { Id = 4, RoomNumber = 108, Name = "Room 108" },     // For ME: 1/II
+                new Labroom { Id = 5, RoomNumber = 110, Name = "Room 110" },     // For ME, IPE labs
+                new Labroom { Id = 6, RoomNumber = 202, Name = "EEE Lab" },      // EEE Lab
+                new Labroom { Id = 7, RoomNumber = 206, Name = "Room 206" },     // For EEE: 2/I
+                new Labroom { Id = 8, RoomNumber = 210, Name = "CSE Lab 210" },  // CSE Lab
+                new Labroom { Id = 9, RoomNumber = 302, Name = "CSE Lab 302" },  // CSE Lab
+                new Labroom { Id = 10, RoomNumber = 307, Name = "CSE Lab 307" }, // CSE Lab
+                new Labroom { Id = 11, RoomNumber = 311, Name = "CSE Lab 311" }, // CSE Lab
+                new Labroom { Id = 12, RoomNumber = 402, Name = "CSE/CAD Lab 402" }, // CAD Lab
+                new Labroom { Id = 13, RoomNumber = 411, Name = "CSE Lab 411" }, // CSE Lab
+                new Labroom { Id = 14, RoomNumber = 1001, Name = "AC Circuit Lab" },
+                new Labroom { Id = 15, RoomNumber = 1002, Name = "DC Circuit Lab" },
+                new Labroom { Id = 16, RoomNumber = 1003, Name = "AC Circuit Lab" },
+                new Labroom { Id = 17, RoomNumber = 1004, Name = "Electronics Lab" },
+                new Labroom { Id = 18, RoomNumber = 1005, Name = "Physics Lab" },
             };
             modelBuilder.Entity<Labroom>().HasData(Labrooms);
 
@@ -231,122 +231,17 @@ namespace ClassroomManagement.Api.Data
             };
             modelBuilder.Entity<Sessional>().HasData(sessionals);
 
-            // // Sessional-Teacher Many-to-Many
-            // modelBuilder.Entity("SessionalTeacher").HasData(
-            //     new { SessionalsId = 1, TeachersId = 9 },  // CSE 1100 - MH
-            //     new { SessionalsId = 1, TeachersId = 14 }, // CSE 1100 - AHS
-            //     new { SessionalsId = 2, TeachersId = 2 },  // CSE 1102 - NHC
-            //     new { SessionalsId = 2, TeachersId = 4 },  // CSE 1102 - MAM
-            //     new { SessionalsId = 3, TeachersId = 7 },  // EEE 1164 - MA
-            //     new { SessionalsId = 4, TeachersId = 3 },  // PHY 1132 - PHY
-            //     new { SessionalsId = 5, TeachersId = 8 },  // CSE 1204 - AH
-            //     new { SessionalsId = 5, TeachersId = 9 },  // CSE 1204 - MH
-            //     new { SessionalsId = 5, TeachersId = 15 }, // CSE 1204 - ASM
-            //     new { SessionalsId = 5, TeachersId = 12 }, // CSE 1204 - SG
-            //     new { SessionalsId = 6, TeachersId = 12 }, // CSE 1208 - SG
-            //     new { SessionalsId = 6, TeachersId = 13 }, // CSE 1208 - MSZ
-            //     new { SessionalsId = 7, TeachersId = 26 }, // EEE 1270 - EAS
-            //     new { SessionalsId = 8, TeachersId = 43 }, // CE 1250 - PR
-            //     new { SessionalsId = 9, TeachersId = 44 }, // ENG 1228 - ENG2
-            //     new { SessionalsId = 10, TeachersId = 37 }, // CSE 2102 - SA
-            //     new { SessionalsId = 11, TeachersId = 19 }, // CSE 2104 - MZH
-            //     new { SessionalsId = 11, TeachersId = 34 }, // CSE 2104 - AA
-            //     new { SessionalsId = 12, TeachersId = 34 }, // CSE 2108 - AA
-            //     new { SessionalsId = 13, TeachersId = 4 },  // CSE 2100 - MAM
-            //     new { SessionalsId = 13, TeachersId = 30 }, // CSE 2100 - NAO
-            //     new { SessionalsId = 14, TeachersId = 20 }, // CSE 2202 - MO
-            //     new { SessionalsId = 14, TeachersId = 21 }, // CSE 2202 - RR
-            //     new { SessionalsId = 15, TeachersId = 24 }, // CSE 2206 - AKZ
-            //     new { SessionalsId = 15, TeachersId = 25 }, // CSE 2206 - GR
-            //     new { SessionalsId = 16, TeachersId = 27 }, // EEE 2270 - EEE2
-            //     new { SessionalsId = 16, TeachersId = 26 }, // EEE 2270 - EAS
-            //     new { SessionalsId = 17, TeachersId = 12 }, // CSE 3102 - SG
-            //     new { SessionalsId = 18, TeachersId = 29 }, // CSE 3104 - TMM
-            //     new { SessionalsId = 18, TeachersId = 31 }, // CSE 3104 - NR
-            //     new { SessionalsId = 18, TeachersId = 32 }, // CSE 3104 - AS
-            //     new { SessionalsId = 19, TeachersId = 28 }, // CSE 3110 - MI
-            //     new { SessionalsId = 19, TeachersId = 34 }, // CSE 3110 - AA
-            //     new { SessionalsId = 20, TeachersId = 4 },  // CSE 3100 - MAM
-            //     new { SessionalsId = 21, TeachersId = 32 }, // CSE 3202 - AS
-            //     new { SessionalsId = 21, TeachersId = 28 }, // CSE 3202 - MI
-            //     new { SessionalsId = 22, TeachersId = 37 }, // CSE 3204 - SA
-            //     new { SessionalsId = 22, TeachersId = 30 }, // CSE 3204 - NAO
-            //     new { SessionalsId = 23, TeachersId = 28 }, // CSE 3206 - MI
-            //     new { SessionalsId = 23, TeachersId = 31 }, // CSE 3206 - NR
-            //     new { SessionalsId = 24, TeachersId = 32 }, // CSE 3210 - AS
-            //     new { SessionalsId = 24, TeachersId = 13 }, // CSE 3210 - MSZ
-            //     new { SessionalsId = 25, TeachersId = 23 }, // CSE 3200 - ST
-            //     new { SessionalsId = 25, TeachersId = 15 }, // CSE 3200 - ASM
-            //     new { SessionalsId = 26, TeachersId = 35 }, // CSE 4102 - AZ
-            //     new { SessionalsId = 26, TeachersId = 30 }, // CSE 4102 - NAO
-            //     new { SessionalsId = 26, TeachersId = 38 }, // CSE 4102 - NF1
-            //     new { SessionalsId = 27, TeachersId = 29 }, // CSE 4104 - TMM
-            //     new { SessionalsId = 27, TeachersId = 34 }, // CSE 4104 - AA
-            //     new { SessionalsId = 28, TeachersId = 16 }, // CSE 4140 - MSA
-            //     new { SessionalsId = 28, TeachersId = 35 }, // CSE 4140 - AZ
-            //     new { SessionalsId = 29, TeachersId = 8 },  // CSE 4142 - AH
-            //     new { SessionalsId = 29, TeachersId = 25 }, // CSE 4142 - GR
-            //     new { SessionalsId = 30, TeachersId = 33 }, // CSE 4246 - JA
-            //     new { SessionalsId = 30, TeachersId = 37 }, // CSE 4246 - SA
-            //     new { SessionalsId = 31, TeachersId = 31 }, // CSE 4252 - NR
-            //     new { SessionalsId = 31, TeachersId = 37 }  // CSE 4252 - SA
-            // );
-
-            // // Sessional-Labroom Many-to-Many
-            // modelBuilder.Entity("SessionalLabroom").HasData(
-            //     new { SessionalsId = 1, LabroomsId = 411 },
-            //     new { SessionalsId = 2, LabroomsId = 411 },
-            //     new { SessionalsId = 3, LabroomsId = 1003 },
-            //     new { SessionalsId = 3, LabroomsId = 1002 },
-            //     new { SessionalsId = 4, LabroomsId = 1005 },
-            //     new { SessionalsId = 5, LabroomsId = 411 },
-            //     new { SessionalsId = 5, LabroomsId = 311 },
-            //     new { SessionalsId = 6, LabroomsId = 302 },
-            //     new { SessionalsId = 6, LabroomsId = 311 },
-            //     new { SessionalsId = 7, LabroomsId = 1004 },
-            //     new { SessionalsId = 8, LabroomsId = 402 },
-            //     new { SessionalsId = 9, LabroomsId = 402 },
-            //     new { SessionalsId = 10, LabroomsId = 307 },
-            //     new { SessionalsId = 11, LabroomsId = 302 },
-            //     new { SessionalsId = 12, LabroomsId = 302 },
-            //     new { SessionalsId = 12, LabroomsId = 311 },
-            //     new { SessionalsId = 13, LabroomsId = 402 },
-            //     new { SessionalsId = 14, LabroomsId = 302 },
-            //     new { SessionalsId = 15, LabroomsId = 411 },
-            //     new { SessionalsId = 15, LabroomsId = 311 },
-            //     new { SessionalsId = 16, LabroomsId = 202 },
-            //     new { SessionalsId = 17, LabroomsId = 302 },
-            //     new { SessionalsId = 17, LabroomsId = 411 },
-            //     new { SessionalsId = 18, LabroomsId = 402 },
-            //     new { SessionalsId = 19, LabroomsId = 302 },
-            //     new { SessionalsId = 20, LabroomsId = 302 },
-            //     new { SessionalsId = 20, LabroomsId = 411 },
-            //     new { SessionalsId = 21, LabroomsId = 411 },
-            //     new { SessionalsId = 22, LabroomsId = 311 },
-            //     new { SessionalsId = 23, LabroomsId = 311 },
-            //     new { SessionalsId = 24, LabroomsId = 411 },
-            //     new { SessionalsId = 25, LabroomsId = 302 },
-            //     new { SessionalsId = 25, LabroomsId = 210 },
-            //     new { SessionalsId = 26, LabroomsId = 311 },
-            //     new { SessionalsId = 26, LabroomsId = 302 },
-            //     new { SessionalsId = 27, LabroomsId = 311 },
-            //     new { SessionalsId = 28, LabroomsId = 311 },
-            //     new { SessionalsId = 29, LabroomsId = 311 },
-            //     new { SessionalsId = 30, LabroomsId = 411 },
-            //     new { SessionalsId = 31, LabroomsId = 307 }
-            // );
-
             // LevelTerms
             var levelTerms = new List<LevelTerm>
             {
-                new LevelTerm { Id = 1, Level = 1, Term = 1, ClassroomId = 408 },
-                new LevelTerm { Id = 2, Level = 1, Term = 2, ClassroomId = 308 },
-                new LevelTerm { Id = 3, Level = 2, Term = 1, ClassroomId = 305 },
-                new LevelTerm { Id = 4, Level = 2, Term = 2, ClassroomId = 309 },
-                new LevelTerm { Id = 5, Level = 3, Term = 1, ClassroomId = 304 },
-                new LevelTerm { Id = 6, Level = 3, Term = 2, ClassroomId = 204 },
-                new LevelTerm { Id = 7, Level = 4, Term = 1, ClassroomId = 306 },
-                new LevelTerm { Id = 8, Level = 4, Term = 2, ClassroomId = 407 }
+                new LevelTerm { Id = 1, Level = 1, Term = 1, ClassroomId = 11 }, // 1/I - A (Room 408) -> Classroom Id 11
+                new LevelTerm { Id = 2, Level = 1, Term = 2, ClassroomId = 6 },  // 1/II - A (Room 308) -> Classroom Id 6
+                new LevelTerm { Id = 3, Level = 2, Term = 1, ClassroomId = 4 },  // 2/I - A (Room 305) -> Classroom Id 4
+                new LevelTerm { Id = 4, Level = 2, Term = 2, ClassroomId = 7 },  // 2/II - A (Room 309) -> Classroom Id 7
+                new LevelTerm { Id = 5, Level = 3, Term = 1, ClassroomId = 3 },  // 3/I - A (Room 304) -> Classroom Id 3
+                new LevelTerm { Id = 6, Level = 3, Term = 2, ClassroomId = 1 },  // 3/II - A (Room 204) -> Classroom Id 1
+                new LevelTerm { Id = 7, Level = 4, Term = 1, ClassroomId = 5 },  // 4/I - A (Room 306) -> Classroom Id 5
+                new LevelTerm { Id = 8, Level = 4, Term = 2, ClassroomId = 10 }, // 4/II - A (Room 407) -> Classroom Id 10
             };
             modelBuilder.Entity<LevelTerm>().HasData(levelTerms);
         }

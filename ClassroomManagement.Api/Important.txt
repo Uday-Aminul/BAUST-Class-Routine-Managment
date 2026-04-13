@@ -4,6 +4,9 @@ Features Required:
 3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
 
 Suggestion:
+1. Teachers and Labrooms Controller has manual seeds for many to many relationships. 
+
+
 
 
 Problems:
@@ -16,8 +19,8 @@ Problems:
 
 
 
-7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
-13. Need to add even odd field to the schedule table.
+7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work. and update the algorithm.
+13. Need to add even odd field to the schedule table. Weektype
 14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
 
 17. Should be able to add sections to all the levelterms so must have a section field

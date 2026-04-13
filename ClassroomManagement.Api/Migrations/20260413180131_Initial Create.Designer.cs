@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20260228171916_Initial database created and data seeded.")]
-    partial class Initialdatabasecreatedanddataseeded
+    [Migration("20260413180131_Initial Create")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,6 +90,9 @@ namespace ClassroomManagement.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Classrooms");
@@ -97,67 +100,83 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 204
+                            Id = 1,
+                            RoomNumber = 204
                         },
                         new
                         {
-                            Id = 205
+                            Id = 2,
+                            RoomNumber = 205
                         },
                         new
                         {
-                            Id = 304
+                            Id = 3,
+                            RoomNumber = 304
                         },
                         new
                         {
-                            Id = 305
+                            Id = 4,
+                            RoomNumber = 305
                         },
                         new
                         {
-                            Id = 306
+                            Id = 5,
+                            RoomNumber = 306
                         },
                         new
                         {
-                            Id = 308
+                            Id = 6,
+                            RoomNumber = 308
                         },
                         new
                         {
-                            Id = 309
+                            Id = 7,
+                            RoomNumber = 309
                         },
                         new
                         {
-                            Id = 310
+                            Id = 8,
+                            RoomNumber = 310
                         },
                         new
                         {
-                            Id = 311
+                            Id = 9,
+                            RoomNumber = 311
                         },
                         new
                         {
-                            Id = 407
+                            Id = 10,
+                            RoomNumber = 407
                         },
                         new
                         {
-                            Id = 408
+                            Id = 11,
+                            RoomNumber = 408
                         },
                         new
                         {
-                            Id = 502
+                            Id = 12,
+                            RoomNumber = 502
                         },
                         new
                         {
-                            Id = 506
+                            Id = 13,
+                            RoomNumber = 506
                         },
                         new
                         {
-                            Id = 507
+                            Id = 14,
+                            RoomNumber = 507
                         },
                         new
                         {
-                            Id = 510
+                            Id = 15,
+                            RoomNumber = 510
                         },
                         new
                         {
-                            Id = 1001
+                            Id = 16,
+                            RoomNumber = 1001
                         });
                 });
 
@@ -639,6 +658,9 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("RoomNumber")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Labrooms");
@@ -646,93 +668,111 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasData(
                         new
                         {
+                            Id = 1,
+                            Name = "Room 014",
+                            RoomNumber = 14
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Room 024",
+                            RoomNumber = 24
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Room 107",
+                            RoomNumber = 107
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Room 108",
+                            RoomNumber = 108
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Room 110",
+                            RoomNumber = 110
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "EEE Lab",
+                            RoomNumber = 202
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Room 206",
+                            RoomNumber = 206
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "CSE Lab 210",
+                            RoomNumber = 210
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "CSE Lab 302",
+                            RoomNumber = 302
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Name = "CSE Lab 307",
+                            RoomNumber = 307
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Name = "CSE Lab 311",
+                            RoomNumber = 311
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "CSE/CAD Lab 402",
+                            RoomNumber = 402
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "CSE Lab 411",
+                            RoomNumber = 411
+                        },
+                        new
+                        {
                             Id = 14,
-                            Name = "Room 014"
+                            Name = "AC Circuit Lab",
+                            RoomNumber = 1001
                         },
                         new
                         {
-                            Id = 24,
-                            Name = "Room 024"
+                            Id = 15,
+                            Name = "DC Circuit Lab",
+                            RoomNumber = 1002
                         },
                         new
                         {
-                            Id = 107,
-                            Name = "Room 107"
+                            Id = 16,
+                            Name = "AC Circuit Lab",
+                            RoomNumber = 1003
                         },
                         new
                         {
-                            Id = 108,
-                            Name = "Room 108"
+                            Id = 17,
+                            Name = "Electronics Lab",
+                            RoomNumber = 1004
                         },
                         new
                         {
-                            Id = 110,
-                            Name = "Room 110"
-                        },
-                        new
-                        {
-                            Id = 202,
-                            Name = "EEE Lab"
-                        },
-                        new
-                        {
-                            Id = 206,
-                            Name = "Room 206"
-                        },
-                        new
-                        {
-                            Id = 210,
-                            Name = "CSE Lab 210"
-                        },
-                        new
-                        {
-                            Id = 302,
-                            Name = "CSE Lab 302"
-                        },
-                        new
-                        {
-                            Id = 307,
-                            Name = "CSE Lab 307"
-                        },
-                        new
-                        {
-                            Id = 311,
-                            Name = "CSE Lab 311"
-                        },
-                        new
-                        {
-                            Id = 402,
-                            Name = "CSE/CAD Lab 402"
-                        },
-                        new
-                        {
-                            Id = 411,
-                            Name = "CSE Lab 411"
-                        },
-                        new
-                        {
-                            Id = 1001,
-                            Name = "AC Circuit Lab"
-                        },
-                        new
-                        {
-                            Id = 1002,
-                            Name = "DC Circuit Lab"
-                        },
-                        new
-                        {
-                            Id = 1003,
-                            Name = "AC Circuit Lab"
-                        },
-                        new
-                        {
-                            Id = 1004,
-                            Name = "Electronics Lab"
-                        },
-                        new
-                        {
-                            Id = 1005,
-                            Name = "Physics Lab"
+                            Id = 18,
+                            Name = "Physics Lab",
+                            RoomNumber = 1005
                         });
                 });
 
@@ -764,56 +804,56 @@ namespace ClassroomManagement.Api.Migrations
                         new
                         {
                             Id = 1,
-                            ClassroomId = 408,
+                            ClassroomId = 11,
                             Level = 1,
                             Term = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClassroomId = 308,
+                            ClassroomId = 6,
                             Level = 1,
                             Term = 2
                         },
                         new
                         {
                             Id = 3,
-                            ClassroomId = 305,
+                            ClassroomId = 4,
                             Level = 2,
                             Term = 1
                         },
                         new
                         {
                             Id = 4,
-                            ClassroomId = 309,
+                            ClassroomId = 7,
                             Level = 2,
                             Term = 2
                         },
                         new
                         {
                             Id = 5,
-                            ClassroomId = 304,
+                            ClassroomId = 3,
                             Level = 3,
                             Term = 1
                         },
                         new
                         {
                             Id = 6,
-                            ClassroomId = 204,
+                            ClassroomId = 1,
                             Level = 3,
                             Term = 2
                         },
                         new
                         {
                             Id = 7,
-                            ClassroomId = 306,
+                            ClassroomId = 5,
                             Level = 4,
                             Term = 1
                         },
                         new
                         {
                             Id = 8,
-                            ClassroomId = 407,
+                            ClassroomId = 10,
                             Level = 4,
                             Term = 2
                         });

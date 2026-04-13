@@ -83,7 +83,7 @@ namespace teachersManagement.Api.Controllers
 
         [HttpPost]
         [Route("AssignSessionals")]
-        public async Task<IActionResult> AssignCourse()
+        public async Task<IActionResult> AssignSessionals()
         {
             await _teachersRepository.SeedSessionalsForTeachersAsync();
             return Ok("Sessionals assigned to teachers successfully.");

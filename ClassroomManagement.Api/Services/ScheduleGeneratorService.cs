@@ -120,12 +120,12 @@ namespace ClassroomManagement.Api.Services
         private async Task<string> GenerateScheduleAsync(int level, int term)
         {
             //getting classroom
-            var levelTerm = await _dbContext.LevelTerms.FirstOrDefaultAsync(lt => lt.Level == level && lt.Term == term);
+            var levelTerm = await _dbContext.LevelTerms.Include(lt => lt.Classroom).FirstOrDefaultAsync(lt => lt.Level == level && lt.Term == term);
             if (levelTerm is null)
             {
                 return $"Error: No level-term combination found for Level-{level} Term-{term}.";
             }
-            var classroom = levelTerm.ClassroomId;
+            var classroomId = levelTerm.ClassroomId;
 
             //getting courses
             var courses = await _dbContext.Courses
@@ -177,7 +177,7 @@ namespace ClassroomManagement.Api.Services
                 LabPlacedToday = 0,
                 SchedulesToAdd = new List<ClassSchedule>(),
                 DualLabPlacement = true,
-                Classroom = classroom
+                Classroom = classroomId
             };
 
             //Actual Logic

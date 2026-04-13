@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClassroomManagement.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Initialdatabasecreatedanddataseeded : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,8 @@ namespace ClassroomManagement.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,6 +32,7 @@ namespace ClassroomManagement.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RoomNumber = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -227,50 +229,50 @@ namespace ClassroomManagement.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Classrooms",
-                column: "Id",
-                values: new object[]
+                columns: new[] { "Id", "RoomNumber" },
+                values: new object[,]
                 {
-                    204,
-                    205,
-                    304,
-                    305,
-                    306,
-                    308,
-                    309,
-                    310,
-                    311,
-                    407,
-                    408,
-                    502,
-                    506,
-                    507,
-                    510,
-                    1001
+                    { 1, 204 },
+                    { 2, 205 },
+                    { 3, 304 },
+                    { 4, 305 },
+                    { 5, 306 },
+                    { 6, 308 },
+                    { 7, 309 },
+                    { 8, 310 },
+                    { 9, 311 },
+                    { 10, 407 },
+                    { 11, 408 },
+                    { 12, 502 },
+                    { 13, 506 },
+                    { 14, 507 },
+                    { 15, 510 },
+                    { 16, 1001 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Labrooms",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Name", "RoomNumber" },
                 values: new object[,]
                 {
-                    { 14, "Room 014" },
-                    { 24, "Room 024" },
-                    { 107, "Room 107" },
-                    { 108, "Room 108" },
-                    { 110, "Room 110" },
-                    { 202, "EEE Lab" },
-                    { 206, "Room 206" },
-                    { 210, "CSE Lab 210" },
-                    { 302, "CSE Lab 302" },
-                    { 307, "CSE Lab 307" },
-                    { 311, "CSE Lab 311" },
-                    { 402, "CSE/CAD Lab 402" },
-                    { 411, "CSE Lab 411" },
-                    { 1001, "AC Circuit Lab" },
-                    { 1002, "DC Circuit Lab" },
-                    { 1003, "AC Circuit Lab" },
-                    { 1004, "Electronics Lab" },
-                    { 1005, "Physics Lab" }
+                    { 1, "Room 014", 14 },
+                    { 2, "Room 024", 24 },
+                    { 3, "Room 107", 107 },
+                    { 4, "Room 108", 108 },
+                    { 5, "Room 110", 110 },
+                    { 6, "EEE Lab", 202 },
+                    { 7, "Room 206", 206 },
+                    { 8, "CSE Lab 210", 210 },
+                    { 9, "CSE Lab 302", 302 },
+                    { 10, "CSE Lab 307", 307 },
+                    { 11, "CSE Lab 311", 311 },
+                    { 12, "CSE/CAD Lab 402", 402 },
+                    { 13, "CSE Lab 411", 411 },
+                    { 14, "AC Circuit Lab", 1001 },
+                    { 15, "DC Circuit Lab", 1002 },
+                    { 16, "AC Circuit Lab", 1003 },
+                    { 17, "Electronics Lab", 1004 },
+                    { 18, "Physics Lab", 1005 }
                 });
 
             migrationBuilder.InsertData(
@@ -422,14 +424,14 @@ namespace ClassroomManagement.Api.Migrations
                 columns: new[] { "Id", "ClassroomId", "Level", "Term" },
                 values: new object[,]
                 {
-                    { 1, 408, 1, 1 },
-                    { 2, 308, 1, 2 },
-                    { 3, 305, 2, 1 },
-                    { 4, 309, 2, 2 },
-                    { 5, 304, 3, 1 },
-                    { 6, 204, 3, 2 },
-                    { 7, 306, 4, 1 },
-                    { 8, 407, 4, 2 }
+                    { 1, 11, 1, 1 },
+                    { 2, 6, 1, 2 },
+                    { 3, 4, 2, 1 },
+                    { 4, 7, 2, 2 },
+                    { 5, 3, 3, 1 },
+                    { 6, 1, 3, 2 },
+                    { 7, 5, 4, 1 },
+                    { 8, 10, 4, 2 }
                 });
 
             migrationBuilder.CreateIndex(

@@ -3,6 +3,7 @@ namespace ClassroomManagement.Api.Models.Domains
     public class Labroom
     {
         public int Id { get; set; }
+        public int RoomNumber { get; set; }
         public string Name { get; set; }
 
         //Navigation Property
