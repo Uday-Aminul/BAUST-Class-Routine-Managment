@@ -4,10 +4,6 @@ Features Required:
 3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
 
 Suggestion:
-1. If 2 or more 0.75 credit sessional exists then will have to plan for even and odd week. And put 2 sessioals in a single slot. so the routine 
-    can be completed.
-2. Should schedule the 0.75 sessionals in the same slot first if there are 2 or more, then start scheduling normally from 1-I.
-3. one sec should be assigned more than one classrooms.
 
 
 Problems:
@@ -15,7 +11,19 @@ Problems:
 4. Need to add batch advisor to all sections.
 5. The Controller ClassroomManagementAuthController should be renamed to ClassRoutineManagementAuthController.
 6. Assigned Credit isn't working.
-7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
 8. Need to fix Teacher table Update and Add operation.
+
+
+
+
+7. The classroom model needs to have a RoomNumber entity otherwise Update or Delete operation won't work.
+13. Need to add even odd field to the schedule table.
+14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
+
+17. Should be able to add sections to all the levelterms so must have a section field
+18. need to modify algorithm so it first finishes one levelterm
+
+19. Need to add a new table called CourseTeacher linked to all the level terms section wise. 
+16. 14. Should check even odd availability while scheduling a 0.75cr sessional. for room
+15. when checking teachers availability, if its for 0.75cr lab then check if he's busy for a 0.75cr by making a seperate method.
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.
-12. Need to add GetAll method with a bit Pagination for Course and Sessional table.

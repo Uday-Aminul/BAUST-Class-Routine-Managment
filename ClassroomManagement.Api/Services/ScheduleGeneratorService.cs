@@ -279,13 +279,16 @@ namespace ClassroomManagement.Api.Services
             {
                 courseToConsider = courseToConsider
                     .Where(c => !coursesPlacedBeforeBreak.Any(pc => pc.Id == c.Id))
+                    .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
                     .ToList();
             }
             var placedCourses = new List<Course>();
 
             foreach (var slot in slots)
             {
-                var coursesCopy = courseToConsider.ToList(); // Refreshing the copy for each slot
+                var coursesCopy = courseToConsider
+                    .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
+                    .ToList(); // Refreshing the copy for each slot
                 foreach (var course in coursesCopy)
                 {
                     var teacher = course.Teacher;
