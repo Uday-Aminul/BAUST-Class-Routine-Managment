@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./WeeklyClassSchedule.css"; // Import custom CSS
+import React from "react";
 
 interface Classroom {
   id: number;
@@ -36,6 +37,7 @@ interface Schedule {
   day: number;
   startTime: string;
   endTime: string;
+  weekType: string;
   course: Course;
   sessional: Sessional;
   classroom: Classroom;
@@ -97,12 +99,65 @@ function WeeklyClassSchedule({ level, term }: Props) {
   }, [level, term]);
 
   // Helper function to format schedule cell content
-  const formatScheduleCell = (schedule: Schedule | undefined) => {
-    if (!schedule) return "";
-    const teacherCodes = schedule.teachers?.map((t) => t.code).join(", ") || "";
+  // const formatScheduleCell = (schedules: Schedule[]) => {
+  //   if (!schedules || schedules.length === 0) return "";
 
-    if (schedule.course) {
-      return (
+  //   return schedules.map((schedule) => {
+  //     if (!schedule) return "";
+
+  //     const teacherCodes =
+  //       schedule.teachers?.map((t) => t.code).join(", ") || "";
+
+  //     if (schedule.course) {
+  //       return (
+  //         <>
+  //           <span className="schedule-course-code">
+  //             {schedule.course.courseCode}
+  //           </span>
+  //           <span className="schedule-teacher"> ({teacherCodes})</span>
+  //           <span className="schedule-room">
+  //             {" "}
+  //             [{schedule.classroom?.id || ""}]
+  //           </span>
+  //         </>
+  //       );
+  //     } else if (schedule.sessional) {
+  //       return (
+  //         <>
+  //           <span className="schedule-sessional-code">
+  //             {schedule.sessional.sessionalCode}
+  //           </span>
+  //           <span className="schedule-teacher"> ({teacherCodes})</span>
+  //           <span className="schedule-labroom">
+  //             {" "}
+  //             [{schedule.labroom?.id || ""}]
+  //           </span>
+  //         </>
+  //       );
+  //     }
+  //     return "";
+  //   });
+  // };
+  const formatScheduleCell = (schedules: Schedule[]) => {
+    if (!schedules || schedules.length === 0) return "";
+
+    return schedules.map((schedule, index) => {
+      if (!schedule) return "";
+
+      const teacherCodes =
+        schedule.teachers?.map((t) => t.code).join(", ") || "";
+
+      // Add Even/Odd badge for sessionals
+      const weekTypeBadge =
+        schedule.sessional && schedule.weekType ? (
+          <span
+            className={`week-type-badge ${schedule.weekType === "EVEN" ? "badge-even" : "badge-odd"}`}
+          >
+            #{schedule.weekType}#
+          </span>
+        ) : null;
+
+      const formatted = schedule.course ? (
         <>
           <span className="schedule-course-code">
             {schedule.course.courseCode}
@@ -113,9 +168,7 @@ function WeeklyClassSchedule({ level, term }: Props) {
             [{schedule.classroom?.id || ""}]
           </span>
         </>
-      );
-    } else if (schedule.sessional) {
-      return (
+      ) : schedule.sessional ? (
         <>
           <span className="schedule-sessional-code">
             {schedule.sessional.sessionalCode}
@@ -125,21 +178,33 @@ function WeeklyClassSchedule({ level, term }: Props) {
             {" "}
             [{schedule.labroom?.id || ""}]
           </span>
+          {weekTypeBadge}
         </>
+      ) : null;
+
+      if (!formatted) return "";
+
+      return (
+        <React.Fragment key={index}>
+          {formatted}
+          {index < schedules.length - 1 && <br />}
+        </React.Fragment>
       );
-    }
-    return "";
+    });
   };
 
   // Get schedule for a specific day and time
   const getScheduleForTimeSlot = (day: number, timeSlot: string) => {
-    return schedules.find((s) => s.day === day && s.startTime === timeSlot);
+    return schedules.filter((s) => s.day === day && s.startTime === timeSlot);
   };
 
   //get the info if its a course or sessional
-  const isSessional = (schedule: Schedule | undefined) => {
-    return schedule?.sessional ? true : false;
+  const isSessional = (schedules: Schedule[] | undefined) => {
+    return schedules?.some((schedule) => schedule?.sessional) ?? false;
   };
+  // const isSessional = (schedule: Schedule | undefined) => {
+  //   return schedule?.sessional ? true : false;
+  // };
 
   // Get day name
   const getDayName = (dayIndex: number) => {
