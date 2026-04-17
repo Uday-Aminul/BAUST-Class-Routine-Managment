@@ -53,6 +53,7 @@ builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
 builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>();
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>();
+builder.Services.AddScoped<ILevelTermSectionRepository, LevelTermSectionRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

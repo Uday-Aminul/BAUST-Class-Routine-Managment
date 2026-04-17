@@ -33,7 +33,7 @@ namespace ClassroomManagement.Api.Mappings
             CreateMap<ClassSchedule, ClassScheduleForClassroomDto>();
             CreateMap<ClassSchedule, ClassScheduleForLabroomDto>();
 
-            CreateMap<LevelTerm, LevelTermForClassroomDto>();
+            CreateMap<LevelTermSection, LevelTermForClassroomDto>();
 
             CreateMap<Course, CourseForClassroomDto>();
             CreateMap<Course, CourseForClassScheduleDto>();

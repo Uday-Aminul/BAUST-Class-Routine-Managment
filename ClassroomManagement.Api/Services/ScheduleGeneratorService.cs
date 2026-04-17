@@ -26,24 +26,25 @@ namespace ClassroomManagement.Api.Services
         public async Task<List<string>> GenerateAllSchedulesAsync()
         {
             var response = new List<string>();
-            var levelTerms = await _dbContext.LevelTerms.ToListAsync();
+            var levelTermSections = await _dbContext.LevelTermSections.ToListAsync();
 
             //Clearing existing schedules for the level and term before generating new ones.
-            foreach (var levelTerm in levelTerms)
-            {
-                await ClearExistingSchedules(levelTerm.Level, levelTerm.Term);
-            }
+            // foreach (var levelTerm in levelTermSections)
+            // {
+            //     await ClearExistingSchedules(levelTerm.Level, levelTerm.Term);
+            // }
+            await _dbContext.ClassSchedules.ExecuteDeleteAsync();
 
-            foreach (var levelTerm in levelTerms)
+            foreach (var levelTermSection in levelTermSections)
             {
-                var sessionals = await _dbContext.Sessionals.Include(s => s.Teachers).Include(s => s.Labrooms).Where(s => s.Level == levelTerm.Level && s.Term == levelTerm.Term && s.Credit == 0.75).ToListAsync();
+                var sessionals = await _dbContext.Sessionals.Include(s => s.Teachers).Include(s => s.Labrooms).Where(s => s.Level == levelTermSection.Level && s.Term == levelTermSection.Term && s.Credit == 0.75).ToListAsync();
                 if (sessionals.Count >= 2)
                 {
                     var schedulesToAdd = new List<ClassSchedule>();
                     foreach (var day in Days)
                     {
                         //Before Tiffin Break
-                        var twoSessionalsPlacedFirstSlot = await PlaceTwoSessionalsInSingleSlotAsync(schedulesToAdd, sessionals, day, new TimeOnly(8, 0), new TimeOnly(10, 50));
+                        var twoSessionalsPlacedFirstSlot = await PlaceTwoSessionalsInSingleSlotAsync(levelTermSection, schedulesToAdd, sessionals, day, new TimeOnly(8, 0), new TimeOnly(10, 50));
                         if (twoSessionalsPlacedFirstSlot)
                         {
                             await _dbContext.ClassSchedules.AddRangeAsync(schedulesToAdd);
@@ -56,7 +57,7 @@ namespace ClassroomManagement.Api.Services
                         }
 
                         //After Tiffin Break
-                        var twoSessionalsPlacedSecondSlot = await PlaceTwoSessionalsInSingleSlotAsync(schedulesToAdd, sessionals, day, new TimeOnly(11, 30), new TimeOnly(14, 20));
+                        var twoSessionalsPlacedSecondSlot = await PlaceTwoSessionalsInSingleSlotAsync(levelTermSection, schedulesToAdd, sessionals, day, new TimeOnly(11, 30), new TimeOnly(14, 20));
                         if (twoSessionalsPlacedSecondSlot)
                         {
                             await _dbContext.ClassSchedules.AddRangeAsync(schedulesToAdd);
@@ -71,15 +72,15 @@ namespace ClassroomManagement.Api.Services
                 }
             }
 
-            foreach (var levelTerm in levelTerms)
+            foreach (var levelTermSection in levelTermSections)
             {
-                var message = await GenerateScheduleAsync(levelTerm.Level, levelTerm.Term);
+                var message = await GenerateScheduleAsync(levelTermSection.Level, levelTermSection.Term, levelTermSection.Section);
                 response.Add(message);
             }
             return response;
         }
 
-        private async Task<bool> PlaceTwoSessionalsInSingleSlotAsync(List<ClassSchedule> schedulesToAdd, List<Sessional> sessionals, DayOfWeek day, TimeOnly startTime, TimeOnly endTime)
+        private async Task<bool> PlaceTwoSessionalsInSingleSlotAsync(LevelTermSection levelTermSection, List<ClassSchedule> schedulesToAdd, List<Sessional> sessionals, DayOfWeek day, TimeOnly startTime, TimeOnly endTime)
         {
             var sessionalPlaced = 0;
             var EvenPlaced = false;
@@ -96,6 +97,9 @@ namespace ClassroomManagement.Api.Services
                     var schedule = new ClassSchedule
                     {
                         Day = day,
+                        Level = levelTermSection.Level,
+                        Term = levelTermSection.Term,
+                        Section = levelTermSection.Section,
                         StartTime = startTime,
                         EndTime = endTime,
                         LabroomId = labroom.Id,
@@ -121,15 +125,15 @@ namespace ClassroomManagement.Api.Services
             return false;
         }
 
-        private async Task<string> GenerateScheduleAsync(int level, int term)
+        private async Task<string> GenerateScheduleAsync(int level, int term, string section)
         {
             //getting classroom
-            var levelTerm = await _dbContext.LevelTerms.Include(lt => lt.Classroom).FirstOrDefaultAsync(lt => lt.Level == level && lt.Term == term);
+            var levelTerm = await _dbContext.LevelTermSections.Include(lt => lt.Classrooms).FirstOrDefaultAsync(lt => lt.Level == level && lt.Term == term && lt.Section == section);
             if (levelTerm is null)
             {
                 return $"Error: No level-term combination found for Level-{level} Term-{term}.";
             }
-            var classroomId = levelTerm.ClassroomId;
+            var classrooms = levelTerm.Classrooms.ToList();
 
             //getting courses
             var courses = await _dbContext.Courses
@@ -165,7 +169,11 @@ namespace ClassroomManagement.Api.Services
             {
                 if (sessional.Credit == 0.75)
                 {
-                    var sessionalScheduled = await _dbContext.ClassSchedules.AnyAsync(cs => cs.SessionalId == sessional.Id);
+                    var sessionalScheduled = await _dbContext.ClassSchedules
+                        .AnyAsync(cs => cs.Level == level &&
+                        cs.Term == term &&
+                        cs.Section == section &&
+                        cs.SessionalId == sessional.Id);
                     if (sessionalScheduled is true)
                     {
                         sessionals.Remove(sessional);
@@ -178,10 +186,13 @@ namespace ClassroomManagement.Api.Services
             {
                 Sessionals = sessionals.ToList(),
                 Courses = courses.ToList(),
+                Level = level,
+                Term = term,
+                Section = section,
                 LabPlacedToday = 0,
                 SchedulesToAdd = new List<ClassSchedule>(),
                 DualLabPlacement = true,
-                Classroom = classroomId
+                Classrooms = classrooms
             };
 
             //Actual Logic
@@ -195,8 +206,9 @@ namespace ClassroomManagement.Api.Services
                     .AnyAsync(cs =>
                     cs.Day == day &&
                     cs.StartTime == new TimeOnly(8, 0) &&
-                    ((cs.CourseId != null && cs.Course.Level == level && cs.Course.Term == term) ||
-                    (cs.SessionalId != null && cs.Sessional.Level == level && cs.Sessional.Term == term)));
+                    // ((cs.CourseId != null && cs.Course.Level == level && cs.Course.Term == term) ||
+                    // (cs.SessionalId != null && cs.Sessional.Level == level && cs.Sessional.Term == term)));
+                    cs.Level == level && cs.Term == term && cs.Section == section);
                 if (isBusyBeforeBreak is true)
                 {
                     schedulingState.LabPlacedToday++;
@@ -217,8 +229,9 @@ namespace ClassroomManagement.Api.Services
                     .AnyAsync(cs =>
                     cs.Day == day &&
                     cs.StartTime == new TimeOnly(11, 30) &&
-                    ((cs.CourseId != null && cs.Course.Level == level && cs.Course.Term == term) ||
-                    (cs.SessionalId != null && cs.Sessional.Level == level && cs.Sessional.Term == term)));
+                    // ((cs.CourseId != null && cs.Course.Level == level && cs.Course.Term == term) ||
+                    // (cs.SessionalId != null && cs.Sessional.Level == level && cs.Sessional.Term == term)));
+                    cs.Level == level && cs.Term == term && cs.Section == section);
                 if (isBusyAfterBreak is true)
                 {
                     schedulingState.LabPlacedToday++;
@@ -259,9 +272,9 @@ namespace ClassroomManagement.Api.Services
 
             if (totalCourseCredit is 0 && schedulingState.Sessionals.Count is 0)
             {
-                return $"Schedule generation succesfull for Level-{level} Term-{term}";
+                return $"Schedule generation succesfull for Level-{level} Term-{term} Section-{section}.";
             }
-            return $"Some error occurred during generating schedules for Level-{level} Term-{term}";
+            return $"Some error occurred during generating schedules for Level-{level} Term-{term} Section-{section}.";
         }
 
         //Placing a theory
@@ -297,14 +310,18 @@ namespace ClassroomManagement.Api.Services
                 {
                     var teacher = course.Teacher;
                     var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
-                    if (teacherAvailable is true)
+                    var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+                    if (teacherAvailable is true && availableClassroom is not null)
                     {
                         var schedule = new ClassSchedule
                         {
                             Day = day,
                             StartTime = slot.Start,
                             EndTime = slot.End,
-                            ClassroomId = schedulingState.Classroom,
+                            Level = schedulingState.Level,
+                            Term = schedulingState.Term,
+                            Section = schedulingState.Section,
+                            ClassroomId = availableClassroom.Id,
                             CourseId = course.Id,
                             Teachers = new List<Teacher> { teacher }
                         };
@@ -339,6 +356,9 @@ namespace ClassroomManagement.Api.Services
                         Day = day,
                         StartTime = startTime,
                         EndTime = endTime,
+                        Level = schedulingState.Level,
+                        Term = schedulingState.Term,
+                        Section = schedulingState.Section,
                         LabroomId = labroom.Id,
                         SessionalId = sessional.Id,
                         Teachers = sessional.Teachers,
@@ -364,6 +384,20 @@ namespace ClassroomManagement.Api.Services
                 }
             }
             return true; // All teachers are available
+        }
+
+        //Find if any of the classroom is available
+        private async Task<Classroom?> FindAvailableClassroom(List<Classroom> classrooms, TimeOnly startTime, DayOfWeek day)
+        {
+            foreach (var classroom in classrooms)
+            {
+                var classroomAvailability = await IsClassroomAvailable(classroom.Id, startTime, day);
+                if (classroomAvailability is true)
+                {
+                    return classroom; // Found an available labroom
+                }
+            }
+            return null; // No labrooms are available
         }
 
         //Find if any of the labrooms is available
@@ -398,6 +432,21 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Checks if the labroom is available for the given time slot and day.
+        private async Task<bool> IsClassroomAvailable(int classroomId, TimeOnly startTime, DayOfWeek day)
+        {
+            var isBooked = await _dbContext.ClassSchedules
+                .AnyAsync(cs =>
+                cs.ClassroomId == classroomId
+                && cs.Day == day
+                && cs.StartTime == startTime);
+            if (isBooked)
+            {
+                return false; // Labroom is not available
+            }
+            return true; // Labroom is available
+        }
+
+        //Checks if the labroom is available for the given time slot and day.
         private async Task<bool> IsLabroomAvailable(int labroomId, TimeOnly startTime, DayOfWeek day)
         {
             var isBooked = await _dbContext.ClassSchedules
@@ -413,26 +462,26 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Clears Existing Schedules for the given level and term.
-        private async Task ClearExistingSchedules(int level, int term)
-        {
-            var courseIds = await _dbContext.Courses
-            .Where(c => c.Level == level && c.Term == term)
-            .Select(c => c.Id)
-            .ToListAsync();
-            var sessionalIds = await _dbContext.Sessionals
-            .Where(s => s.Level == level && s.Term == term)
-            .Select(s => s.Id)
-            .ToListAsync();
+        // private async Task ClearExistingSchedules(int level, int term)
+        // {
+        //     var courseIds = await _dbContext.Courses
+        //     .Where(c => c.Level == level && c.Term == term)
+        //     .Select(c => c.Id)
+        //     .ToListAsync();
+        //     var sessionalIds = await _dbContext.Sessionals
+        //     .Where(s => s.Level == level && s.Term == term)
+        //     .Select(s => s.Id)
+        //     .ToListAsync();
 
-            var existingSchedules = await _dbContext.ClassSchedules.Where(cs => (cs.CourseId != null && courseIds.Contains(cs.CourseId.Value))
-                || (cs.SessionalId != null && sessionalIds.Contains(cs.SessionalId.Value)))
-                .ToListAsync();
+        //     var existingSchedules = await _dbContext.ClassSchedules.Where(cs => (cs.CourseId != null && courseIds.Contains(cs.CourseId.Value))
+        //         || (cs.SessionalId != null && sessionalIds.Contains(cs.SessionalId.Value)))
+        //         .ToListAsync();
 
-            if (existingSchedules.Any())
-            {
-                _dbContext.ClassSchedules.RemoveRange(existingSchedules);
-                await _dbContext.SaveChangesAsync();
-            }
-        }
+        //     if (existingSchedules.Any())
+        //     {
+        //         _dbContext.ClassSchedules.RemoveRange(existingSchedules);
+        //         await _dbContext.SaveChangesAsync();
+        //     }
+        // }
     }
 }

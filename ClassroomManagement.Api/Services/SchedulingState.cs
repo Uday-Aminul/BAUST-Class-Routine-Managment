@@ -12,8 +12,11 @@ namespace ClassroomManagement.Api.Services
         public List<Sessional> Sessionals { get; set; }
         public List<Course> Courses { get; set; }
         public List<ClassSchedule> SchedulesToAdd { get; set; }
+        public int Level { get; set; }
+        public int Term { get; set; }
+        public string Section { get; set; }
         public int LabPlacedToday { get; set; }
         public bool DualLabPlacement { get; set; }
-        public int Classroom { get; set; }
+        public List<Classroom> Classrooms { get; set; }
     }
 }

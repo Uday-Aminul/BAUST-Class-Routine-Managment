@@ -37,6 +37,21 @@ namespace ClassroomManagement.Api.Migrations
                     b.ToTable("ClassScheduleTeacher");
                 });
 
+            modelBuilder.Entity("ClassroomLevelTermSection", b =>
+                {
+                    b.Property<int>("ClassroomsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LevelTermSectionsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ClassroomsId", "LevelTermSectionsId");
+
+                    b.HasIndex("LevelTermSectionsId");
+
+                    b.ToTable("ClassroomLevelTermSection");
+                });
+
             modelBuilder.Entity("ClassroomManagement.Api.Models.ClassSchedule", b =>
                 {
                     b.Property<int>("Id")
@@ -60,11 +75,21 @@ namespace ClassroomManagement.Api.Migrations
                     b.Property<int?>("LabroomId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Section")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("SessionalId")
                         .HasColumnType("int");
 
                     b.Property<TimeOnly>("StartTime")
                         .HasColumnType("time");
+
+                    b.Property<int>("Term")
+                        .HasColumnType("int");
 
                     b.Property<string>("WeekType")
                         .HasColumnType("nvarchar(max)");
@@ -156,26 +181,31 @@ namespace ClassroomManagement.Api.Migrations
                         new
                         {
                             Id = 12,
-                            RoomNumber = 502
+                            RoomNumber = 402
                         },
                         new
                         {
                             Id = 13,
-                            RoomNumber = 506
+                            RoomNumber = 502
                         },
                         new
                         {
                             Id = 14,
-                            RoomNumber = 507
+                            RoomNumber = 506
                         },
                         new
                         {
                             Id = 15,
-                            RoomNumber = 510
+                            RoomNumber = 507
                         },
                         new
                         {
                             Id = 16,
+                            RoomNumber = 510
+                        },
+                        new
+                        {
+                            Id = 17,
                             RoomNumber = 1001
                         });
                 });
@@ -776,7 +806,7 @@ namespace ClassroomManagement.Api.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTerm", b =>
+            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTermSection", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -784,77 +814,130 @@ namespace ClassroomManagement.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ClassroomId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Level")
                         .HasColumnType("int");
+
+                    b.Property<string>("Section")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassroomId")
-                        .IsUnique();
-
-                    b.ToTable("LevelTerms");
+                    b.ToTable("LevelTermSections");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
-                            ClassroomId = 11,
                             Level = 1,
+                            Section = "A",
                             Term = 1
                         },
                         new
                         {
                             Id = 2,
-                            ClassroomId = 6,
                             Level = 1,
-                            Term = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ClassroomId = 4,
-                            Level = 2,
+                            Section = "B",
                             Term = 1
                         },
                         new
                         {
+                            Id = 3,
+                            Level = 1,
+                            Section = "A",
+                            Term = 2
+                        },
+                        new
+                        {
                             Id = 4,
-                            ClassroomId = 7,
-                            Level = 2,
+                            Level = 1,
+                            Section = "B",
                             Term = 2
                         },
                         new
                         {
                             Id = 5,
-                            ClassroomId = 3,
-                            Level = 3,
+                            Level = 2,
+                            Section = "A",
                             Term = 1
                         },
                         new
                         {
                             Id = 6,
-                            ClassroomId = 1,
-                            Level = 3,
-                            Term = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ClassroomId = 5,
-                            Level = 4,
+                            Level = 2,
+                            Section = "B",
                             Term = 1
                         },
                         new
                         {
+                            Id = 7,
+                            Level = 2,
+                            Section = "A",
+                            Term = 2
+                        },
+                        new
+                        {
                             Id = 8,
-                            ClassroomId = 10,
+                            Level = 2,
+                            Section = "B",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Level = 2,
+                            Section = "C",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Level = 3,
+                            Section = "A",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Level = 3,
+                            Section = "B",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Level = 3,
+                            Section = "A",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Level = 3,
+                            Section = "B",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 14,
                             Level = 4,
+                            Section = "A",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Level = 4,
+                            Section = "B",
+                            Term = 1
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Level = 4,
+                            Section = "A",
                             Term = 2
                         });
                 });
@@ -1584,6 +1667,21 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ClassroomLevelTermSection", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.Classroom", null)
+                        .WithMany()
+                        .HasForeignKey("ClassroomsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.LevelTermSection", null)
+                        .WithMany()
+                        .HasForeignKey("LevelTermSectionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ClassroomManagement.Api.Models.ClassSchedule", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Classroom", "Classroom")
@@ -1620,17 +1718,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTerm", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Classroom", "Classroom")
-                        .WithOne("LevelTerm")
-                        .HasForeignKey("ClassroomManagement.Api.Models.Domains.LevelTerm", "ClassroomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Classroom");
-                });
-
             modelBuilder.Entity("LabroomSessional", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
@@ -1664,8 +1751,6 @@ namespace ClassroomManagement.Api.Migrations
             modelBuilder.Entity("ClassroomManagement.Api.Models.Classroom", b =>
                 {
                     b.Navigation("ClassSchedules");
-
-                    b.Navigation("LevelTerm");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Labroom", b =>

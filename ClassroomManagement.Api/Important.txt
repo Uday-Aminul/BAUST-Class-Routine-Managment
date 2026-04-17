@@ -4,9 +4,7 @@ Features Required:
 3. when given Level-Term and Sec all schedules of him/her in the entire week will be shown.
 
 Suggestion:
-1. Teachers and Labrooms Controller has manual seeds for many to many relationships. 
-
-
+1. Teachers and Labrooms and LevelTermSections Controller has manual seeds for many to many relationships. 
 
 
 Problems:
@@ -18,13 +16,12 @@ Problems:
 
 
 
-13. Need to add even odd field to the schedule table. Weektype . and modify frontend for EvenOdd.
-14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
-
 17. Should be able to add sections to all the levelterms so must have a section field
 18. need to modify algorithm so it first finishes one levelterm
+19. Need to add a new table called CourseTeacher linked to all the level terms section wise
 
-19. Need to add a new table called CourseTeacher linked to all the level terms section wise. 
+
+14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
 16. 14. Should check even odd availability while scheduling a 0.75cr sessional. for room
 15. when checking teachers availability, if its for 0.75cr lab then check if he's busy for a 0.75cr by making a seperate method.
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

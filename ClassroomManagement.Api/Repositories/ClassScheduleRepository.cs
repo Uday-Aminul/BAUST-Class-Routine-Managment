@@ -39,7 +39,7 @@ namespace ClassScheduleManagement.Api.Repositories
             return classScheduleDomains;
         }
 
-        public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term)
+        public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term, string? section)
         {
             var classSchedules = _dbContext.ClassSchedules
                 .Include(x => x.Classroom)
@@ -51,7 +51,8 @@ namespace ClassScheduleManagement.Api.Repositories
 
             if (level is not null && term is not null)
             {
-                classSchedules = classSchedules.Where(x => (x.Course != null && x.Course.Level == level && x.Course.Term == term) || (x.Sessional != null && x.Sessional.Level == level && x.Sessional.Term == term));
+                //classSchedules = classSchedules.Where(x => (x.Course != null && x.Course.Level == level && x.Course.Term == term && x.Section == section) || (x.Sessional != null && x.Sessional.Level == level && x.Sessional.Term == term));
+                classSchedules = classSchedules.Where(x => (x.Level == level && x.Term == term && x.Section == section));
             }
             return await classSchedules.ToListAsync();
         }

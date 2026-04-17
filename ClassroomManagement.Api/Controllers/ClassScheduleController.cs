@@ -24,9 +24,9 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int? level, [FromQuery] int? term)
+        public async Task<IActionResult> GetAll([FromQuery] int? level, [FromQuery] int? term, [FromQuery] string? section)
         {
-            var classScheduleDomains = await _classSchedulesRepository.GetAllClassSchedulesAsync(level, term);
+            var classScheduleDomains = await _classSchedulesRepository.GetAllClassSchedulesAsync(level, term, section);
             var classScheduleDtos = _mapper.Map<List<ClassScheduleDto>>(classScheduleDomains);
             return Ok(classScheduleDtos);
         }

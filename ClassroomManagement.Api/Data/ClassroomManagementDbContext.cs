@@ -18,7 +18,7 @@ namespace ClassroomManagement.Api.Data
         public DbSet<Labroom> Labrooms { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Sessional> Sessionals { get; set; }
-        public DbSet<LevelTerm> LevelTerms { get; set; }
+        public DbSet<LevelTermSection> LevelTermSections { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ClassSchedule> ClassSchedules { get; set; }
 
@@ -43,11 +43,12 @@ namespace ClassroomManagement.Api.Data
                 new Classroom { Id = 9, RoomNumber = 311 }, // General
                 new Classroom { Id = 10, RoomNumber = 407 }, // 4/II - A
                 new Classroom { Id = 11, RoomNumber = 408 }, // 1/I - A
-                new Classroom { Id = 12, RoomNumber = 502 }, // English
-                new Classroom { Id = 13, RoomNumber = 506 }, // English
-                new Classroom { Id = 14, RoomNumber = 507 }, // BBA
-                new Classroom { Id = 15, RoomNumber = 510 }, // English
-                new Classroom { Id = 16, RoomNumber = 1001 }, // Seminar Hall
+                new Classroom { Id = 12, RoomNumber = 402 }, // 4/I - A (ADD THIS)
+                new Classroom { Id = 13, RoomNumber = 502 }, // English
+                new Classroom { Id = 14, RoomNumber = 506 }, // English
+                new Classroom { Id = 15, RoomNumber = 507 }, // BBA
+                new Classroom { Id = 16, RoomNumber = 510 }, // English
+                new Classroom { Id = 17, RoomNumber = 1001 }, // Seminar Hall
             };
             modelBuilder.Entity<Classroom>().HasData(ClassRooms);
 
@@ -231,19 +232,42 @@ namespace ClassroomManagement.Api.Data
             };
             modelBuilder.Entity<Sessional>().HasData(sessionals);
 
-            // LevelTerms
-            var levelTerms = new List<LevelTerm>
+            // LevelTermSections
+            var levelTermSections = new List<LevelTermSection>
             {
-                new LevelTerm { Id = 1, Level = 1, Term = 1, ClassroomId = 11 }, // 1/I - A (Room 408) -> Classroom Id 11
-                new LevelTerm { Id = 2, Level = 1, Term = 2, ClassroomId = 6 },  // 1/II - A (Room 308) -> Classroom Id 6
-                new LevelTerm { Id = 3, Level = 2, Term = 1, ClassroomId = 4 },  // 2/I - A (Room 305) -> Classroom Id 4
-                new LevelTerm { Id = 4, Level = 2, Term = 2, ClassroomId = 7 },  // 2/II - A (Room 309) -> Classroom Id 7
-                new LevelTerm { Id = 5, Level = 3, Term = 1, ClassroomId = 3 },  // 3/I - A (Room 304) -> Classroom Id 3
-                new LevelTerm { Id = 6, Level = 3, Term = 2, ClassroomId = 1 },  // 3/II - A (Room 204) -> Classroom Id 1
-                new LevelTerm { Id = 7, Level = 4, Term = 1, ClassroomId = 5 },  // 4/I - A (Room 306) -> Classroom Id 5
-                new LevelTerm { Id = 8, Level = 4, Term = 2, ClassroomId = 10 }, // 4/II - A (Room 407) -> Classroom Id 10
+                // Level 1, Term 1 - Sections A, B
+                new LevelTermSection { Id = 1, Level = 1, Term = 1, Section = "A" },
+                new LevelTermSection { Id = 2, Level = 1, Term = 1, Section = "B" },
+                
+                // Level 1, Term 2 - Sections A, B
+                new LevelTermSection { Id = 3, Level = 1, Term = 2, Section = "A" },
+                new LevelTermSection { Id = 4, Level = 1, Term = 2, Section = "B" },
+                
+                // Level 2, Term 1 - Sections A, B
+                new LevelTermSection { Id = 5, Level = 2, Term = 1, Section = "A" },
+                new LevelTermSection { Id = 6, Level = 2, Term = 1, Section = "B" },
+                
+                // Level 2, Term 2 - Sections A, B, C
+                new LevelTermSection { Id = 7, Level = 2, Term = 2, Section = "A" },
+                new LevelTermSection { Id = 8, Level = 2, Term = 2, Section = "B" },
+                new LevelTermSection { Id = 9, Level = 2, Term = 2, Section = "C" },
+                
+                // Level 3, Term 1 - Sections A, B
+                new LevelTermSection { Id = 10, Level = 3, Term = 1, Section = "A" },
+                new LevelTermSection { Id = 11, Level = 3, Term = 1, Section = "B" },
+                
+                // Level 3, Term 2 - Sections A, B
+                new LevelTermSection { Id = 12, Level = 3, Term = 2, Section = "A" },
+                new LevelTermSection { Id = 13, Level = 3, Term = 2, Section = "B" },
+                
+                // Level 4, Term 1 - Sections A, B
+                new LevelTermSection { Id = 14, Level = 4, Term = 1, Section = "A" },
+                new LevelTermSection { Id = 15, Level = 4, Term = 1, Section = "B" },
+                
+                // Level 4, Term 2 - Section A only
+                new LevelTermSection { Id = 16, Level = 4, Term = 2, Section = "A" },
             };
-            modelBuilder.Entity<LevelTerm>().HasData(levelTerms);
+            modelBuilder.Entity<LevelTermSection>().HasData(levelTermSections);
         }
     }
 }

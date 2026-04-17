@@ -41,6 +41,21 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LevelTermSections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Term = table.Column<int>(type: "int", nullable: false),
+                    Section = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LevelTermSections", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sessionals",
                 columns: table => new
                 {
@@ -73,22 +88,25 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LevelTerms",
+                name: "ClassroomLevelTermSection",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Term = table.Column<int>(type: "int", nullable: false),
-                    ClassroomId = table.Column<int>(type: "int", nullable: false)
+                    ClassroomsId = table.Column<int>(type: "int", nullable: false),
+                    LevelTermSectionsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LevelTerms", x => x.Id);
+                    table.PrimaryKey("PK_ClassroomLevelTermSection", x => new { x.ClassroomsId, x.LevelTermSectionsId });
                     table.ForeignKey(
-                        name: "FK_LevelTerms_Classrooms_ClassroomId",
-                        column: x => x.ClassroomId,
+                        name: "FK_ClassroomLevelTermSection_Classrooms_ClassroomsId",
+                        column: x => x.ClassroomsId,
                         principalTable: "Classrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClassroomLevelTermSection_LevelTermSections_LevelTermSectionsId",
+                        column: x => x.LevelTermSectionsId,
+                        principalTable: "LevelTermSections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -173,6 +191,10 @@ namespace ClassroomManagement.Api.Migrations
                     Day = table.Column<int>(type: "int", nullable: false),
                     StartTime = table.Column<TimeOnly>(type: "time", nullable: false),
                     EndTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Term = table.Column<int>(type: "int", nullable: false),
+                    Section = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WeekType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassroomId = table.Column<int>(type: "int", nullable: true),
                     LabroomId = table.Column<int>(type: "int", nullable: true),
                     CourseId = table.Column<int>(type: "int", nullable: true),
@@ -243,11 +265,12 @@ namespace ClassroomManagement.Api.Migrations
                     { 9, 311 },
                     { 10, 407 },
                     { 11, 408 },
-                    { 12, 502 },
-                    { 13, 506 },
-                    { 14, 507 },
-                    { 15, 510 },
-                    { 16, 1001 }
+                    { 12, 402 },
+                    { 13, 502 },
+                    { 14, 506 },
+                    { 15, 507 },
+                    { 16, 510 },
+                    { 17, 1001 }
                 });
 
             migrationBuilder.InsertData(
@@ -273,6 +296,29 @@ namespace ClassroomManagement.Api.Migrations
                     { 16, "AC Circuit Lab", 1003 },
                     { 17, "Electronics Lab", 1004 },
                     { 18, "Physics Lab", 1005 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LevelTermSections",
+                columns: new[] { "Id", "Level", "Section", "Term" },
+                values: new object[,]
+                {
+                    { 1, 1, "A", 1 },
+                    { 2, 1, "B", 1 },
+                    { 3, 1, "A", 2 },
+                    { 4, 1, "B", 2 },
+                    { 5, 2, "A", 1 },
+                    { 6, 2, "B", 1 },
+                    { 7, 2, "A", 2 },
+                    { 8, 2, "B", 2 },
+                    { 9, 2, "C", 2 },
+                    { 10, 3, "A", 1 },
+                    { 11, 3, "B", 1 },
+                    { 12, 3, "A", 2 },
+                    { 13, 3, "B", 2 },
+                    { 14, 4, "A", 1 },
+                    { 15, 4, "B", 1 },
+                    { 16, 4, "A", 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -419,20 +465,10 @@ namespace ClassroomManagement.Api.Migrations
                     { 43, "CSE 4249", 2f, 4, "VLSI Design", 41, 2 }
                 });
 
-            migrationBuilder.InsertData(
-                table: "LevelTerms",
-                columns: new[] { "Id", "ClassroomId", "Level", "Term" },
-                values: new object[,]
-                {
-                    { 1, 11, 1, 1 },
-                    { 2, 6, 1, 2 },
-                    { 3, 4, 2, 1 },
-                    { 4, 7, 2, 2 },
-                    { 5, 3, 3, 1 },
-                    { 6, 1, 3, 2 },
-                    { 7, 5, 4, 1 },
-                    { 8, 10, 4, 2 }
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassroomLevelTermSection_LevelTermSectionsId",
+                table: "ClassroomLevelTermSection",
+                column: "LevelTermSectionsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassSchedules_ClassroomId",
@@ -470,12 +506,6 @@ namespace ClassroomManagement.Api.Migrations
                 column: "LabroomsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LevelTerms_ClassroomId",
-                table: "LevelTerms",
-                column: "ClassroomId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_SessionalTeacher_TeachersId",
                 table: "SessionalTeacher",
                 column: "TeachersId");
@@ -485,16 +515,19 @@ namespace ClassroomManagement.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ClassroomLevelTermSection");
+
+            migrationBuilder.DropTable(
                 name: "ClassScheduleTeacher");
 
             migrationBuilder.DropTable(
                 name: "LabroomSessional");
 
             migrationBuilder.DropTable(
-                name: "LevelTerms");
+                name: "SessionalTeacher");
 
             migrationBuilder.DropTable(
-                name: "SessionalTeacher");
+                name: "LevelTermSections");
 
             migrationBuilder.DropTable(
                 name: "ClassSchedules");

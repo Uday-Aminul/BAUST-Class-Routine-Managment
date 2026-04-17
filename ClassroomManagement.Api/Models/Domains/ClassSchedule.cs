@@ -8,7 +8,10 @@ namespace ClassroomManagement.Api.Models
         public DayOfWeek Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
-        //Class Section should be mentioned here as well.
+        public int Level { get; set; }
+        public int Term { get; set; }
+        public string Section { get; set; }
+
         public string? WeekType { get; set; }
 
         //Foreign Keys
