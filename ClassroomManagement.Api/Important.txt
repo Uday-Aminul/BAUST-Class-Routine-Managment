@@ -15,13 +15,13 @@ Problems:
 8. Need to fix Teacher table Update and Add operation.
 
 
-
-17. Should be able to add sections to all the levelterms so must have a section field
-18. need to modify algorithm so it first finishes one levelterm
 19. Need to add a new table called CourseTeacher linked to all the level terms section wise
 
 
-14. Should check even odd availability while scheduling a 0.75cr sessional. for a levelterm
-16. 14. Should check even odd availability while scheduling a 0.75cr sessional. for room
-15. when checking teachers availability, if its for 0.75cr lab then check if he's busy for a 0.75cr by making a seperate method.
+20. Need to fix the frontend of Classroom Schedule...so room schedules can be viewed.
+21. error messeges should be more meaningfull...so i can understand what r the courses or labs that are missing.
+22. Backtracking for a single day.
+23. updating the allowed sessionals on a room.  
+
+
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

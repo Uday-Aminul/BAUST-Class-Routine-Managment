@@ -8,5 +8,6 @@ namespace ClassroomManagement.Api.Models.DTOs
     public class ClassroomForClassScheduleDto
     {
         public int Id { get; set; }
+        public int RoomNumber { get; set; }
     }
 }

@@ -45,11 +45,11 @@ namespace TeacherManagement.Api.Repositories
             return TeacherDomains;
         }
 
-        // public async Task<Teacher?> GetTeacherByIdAsync(int id)
-        // {
-        //     var TeacherDomain = await _dbContext.Teachers.Include(x => x.Courses).Include(x => x.Classes).FirstOrDefaultAsync(x => x.Id == id);
-        //     return TeacherDomain;
-        // }
+        public async Task<Teacher?> GetTeacherByIdAsync(int id)
+        {
+            var TeacherDomain = await _dbContext.Teachers.Include(x => x.AssignedCourses).Include(x => x.Classes).FirstOrDefaultAsync(x => x.Id == id);
+            return TeacherDomain;
+        }
 
         // public async Task<Teacher?> UpdateTeacherByIdAsync(int id, Teacher teacher)
         // {
@@ -69,11 +69,6 @@ namespace TeacherManagement.Api.Repositories
         }
 
         public Task<List<Teacher>?> DeleteTeacherByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Teacher?> GetTeacherByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
@@ -113,8 +108,6 @@ namespace TeacherManagement.Api.Repositories
             var cse1204 = sessionals.First(s => s.Id == 5);
             cse1204.Teachers.Add(teachers.First(t => t.Id == 8));  // AH
             cse1204.Teachers.Add(teachers.First(t => t.Id == 9));  // MH
-            cse1204.Teachers.Add(teachers.First(t => t.Id == 15)); // ASM
-            cse1204.Teachers.Add(teachers.First(t => t.Id == 12)); // SG
 
             // CSE 1208 - Numerical Methods Sessional (Id=6)
             var cse1208 = sessionals.First(s => s.Id == 6);
@@ -177,7 +170,6 @@ namespace TeacherManagement.Api.Repositories
             var cse3104 = sessionals.First(s => s.Id == 18);
             cse3104.Teachers.Add(teachers.First(t => t.Id == 29)); // TMM
             cse3104.Teachers.Add(teachers.First(t => t.Id == 31)); // NR
-            cse3104.Teachers.Add(teachers.First(t => t.Id == 32)); // AS
 
             // CSE 3110 - Compiler Sessional (Id=19)
             var cse3110 = sessionals.First(s => s.Id == 19);
@@ -219,7 +211,6 @@ namespace TeacherManagement.Api.Repositories
             var cse4102 = sessionals.First(s => s.Id == 26);
             cse4102.Teachers.Add(teachers.First(t => t.Id == 35)); // AZ
             cse4102.Teachers.Add(teachers.First(t => t.Id == 30)); // NAO
-            cse4102.Teachers.Add(teachers.First(t => t.Id == 38)); // NF1
 
             // CSE 4104 - Computer Graphics Sessional (Id=27)
             var cse4104 = sessionals.First(s => s.Id == 27);

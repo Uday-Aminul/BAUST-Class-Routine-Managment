@@ -27,10 +27,10 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
-        [Route("{id:int}")]
-        public async Task<IActionResult> GetById([FromRoute] int id)
+        [Route("{roomNumber:int}")]
+        public async Task<IActionResult> GetByRoomNumber([FromRoute] int roomNumber)
         {
-            var classroomDomain = await _classroomsRepository.GetClassroomByIdAsync(id);
+            var classroomDomain = await _classroomsRepository.GetClassroomByRoomNumberAsync(roomNumber);
             if (classroomDomain is null)
             {
                 return NotFound();
@@ -72,7 +72,7 @@ namespace ClassroomManagement.Api.Controllers
             var classroomDomain = _mapper.Map<Classroom>(newClassroom);
             classroomDomain = await _classroomsRepository.CreateClassroomAsync(classroomDomain);
             var ClassroomDto = _mapper.Map<ClassroomDto>(classroomDomain);
-            return CreatedAtAction(nameof(GetById), new { id = classroomDomain.Id }, ClassroomDto);
+            return CreatedAtAction(nameof(GetByRoomNumber), new { id = classroomDomain.Id }, ClassroomDto);
         }
     }
 }

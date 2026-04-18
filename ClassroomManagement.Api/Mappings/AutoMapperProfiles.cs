@@ -5,6 +5,7 @@ using ClassroomManagement.Api.Models.DTOs;
 using ClassroomManagement.Api.Models.DTOs.Classroom;
 using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
 using ClassroomManagement.Api.Models.DTOs.Labroom;
+using ClassroomManagement.Api.Models.DTOs.Teacher;
 
 namespace ClassroomManagement.Api.Mappings
 {
@@ -18,6 +19,7 @@ namespace ClassroomManagement.Api.Mappings
             CreateMap<Teacher, TeacherForClassroomDto>();
             CreateMap<Teacher, TeacherForClassScheduleDto>();
             CreateMap<Teacher, TeacherForLabroomDto>();
+            CreateMap<ClassSchedule, ClassScheduleDtoForTeacher>();
 
             CreateMap<Classroom, ClassroomDto>();
             //CreateMap<UpdateClassroomRequestDto, Classroom>();
@@ -25,7 +27,7 @@ namespace ClassroomManagement.Api.Mappings
             CreateMap<Classroom, ClassroomForClassScheduleDto>();
 
             CreateMap<Labroom, LabroomDto>();
-            CreateMap<Labroom, LabroomForLabroomDto>();
+            CreateMap<Labroom, LabroomForClassScheduleDto>();
 
             CreateMap<ClassSchedule, ClassScheduleDto>();
             CreateMap<UpdateClassScheduleRequestDto, Classroom>();

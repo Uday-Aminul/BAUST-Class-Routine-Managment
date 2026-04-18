@@ -348,25 +348,78 @@ namespace ClassroomManagement.Api.Services
             {
                 var teachers = sessional.Teachers.ToList();
                 var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day);
-                var labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
-                if (allTeachersAvailable is true && labroom is not null)
+                Labroom labroom = null;
+                //Verifying for 0.75credit labs
+                if (sessional.Credit == 0.75)
                 {
-                    var schedule = new ClassSchedule
+                    labroom = await FindAvailableLabroomFor075CreditLab(sessional.Labrooms, startTime, day);
+                    if (allTeachersAvailable is true && labroom is not null)
                     {
-                        Day = day,
-                        StartTime = startTime,
-                        EndTime = endTime,
-                        Level = schedulingState.Level,
-                        Term = schedulingState.Term,
-                        Section = schedulingState.Section,
-                        LabroomId = labroom.Id,
-                        SessionalId = sessional.Id,
-                        Teachers = sessional.Teachers,
-                    };
-                    schedulingState.SchedulesToAdd.Add(schedule);
-                    schedulingState.Sessionals.Remove(sessional);
-                    schedulingState.LabPlacedToday++;
-                    return true; // Lab placed successfully
+                        var schedule = new ClassSchedule
+                        {
+                            Day = day,
+                            StartTime = startTime,
+                            EndTime = endTime,
+                            Level = schedulingState.Level,
+                            Term = schedulingState.Term,
+                            Section = schedulingState.Section,
+                            WeekType = "ODD",
+                            LabroomId = labroom.Id,
+                            SessionalId = sessional.Id,
+                            Teachers = sessional.Teachers,
+                        };
+                        schedulingState.SchedulesToAdd.Add(schedule);
+                        schedulingState.Sessionals.Remove(sessional);
+                        schedulingState.LabPlacedToday++;
+                        return true; // Lab placed successfully
+                    }
+                    else if (allTeachersAvailable is true && labroom is null)
+                    {
+                        labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
+                        if (labroom is not null)
+                        {
+                            var schedule = new ClassSchedule
+                            {
+                                Day = day,
+                                StartTime = startTime,
+                                EndTime = endTime,
+                                Level = schedulingState.Level,
+                                Term = schedulingState.Term,
+                                Section = schedulingState.Section,
+                                WeekType = "EVEN",
+                                LabroomId = labroom.Id,
+                                SessionalId = sessional.Id,
+                                Teachers = sessional.Teachers,
+                            };
+                            schedulingState.SchedulesToAdd.Add(schedule);
+                            schedulingState.Sessionals.Remove(sessional);
+                            schedulingState.LabPlacedToday++;
+                            return true; // Lab placed successfully
+                        }
+                    }
+                }
+                if (sessional.Credit == 1.5)
+                {
+                    labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
+                    if (allTeachersAvailable is true && labroom is not null)
+                    {
+                        var schedule = new ClassSchedule
+                        {
+                            Day = day,
+                            StartTime = startTime,
+                            EndTime = endTime,
+                            Level = schedulingState.Level,
+                            Term = schedulingState.Term,
+                            Section = schedulingState.Section,
+                            LabroomId = labroom.Id,
+                            SessionalId = sessional.Id,
+                            Teachers = sessional.Teachers,
+                        };
+                        schedulingState.SchedulesToAdd.Add(schedule);
+                        schedulingState.Sessionals.Remove(sessional);
+                        schedulingState.LabPlacedToday++;
+                        return true; // Lab placed successfully
+                    }
                 }
             }
             return false; // No suitable sessional found for this time slot
@@ -406,6 +459,20 @@ namespace ClassroomManagement.Api.Services
             foreach (var labroom in labrooms)
             {
                 var labroomAvailability = await IsLabroomAvailable(labroom.Id, startTime, day);
+                if (labroomAvailability is true)
+                {
+                    return labroom; // Found an available labroom
+                }
+            }
+            return null; // No labrooms are available
+        }
+
+        //Find if any of the labrooms is available for 0.75 credit lab
+        private async Task<Labroom?> FindAvailableLabroomFor075CreditLab(List<Labroom> labrooms, TimeOnly startTime, DayOfWeek day)
+        {
+            foreach (var labroom in labrooms)
+            {
+                var labroomAvailability = await IsLabroomAvailableFor075CreditLab(labroom.Id, startTime, day);
                 if (labroomAvailability is true)
                 {
                     return labroom; // Found an available labroom
@@ -455,6 +522,22 @@ namespace ClassroomManagement.Api.Services
                 && cs.Day == day
                 && cs.StartTime == startTime);
             if (isBooked)
+            {
+                return false; // Labroom is not available
+            }
+            return true; // Labroom is available
+        }
+
+        //Checks if the labroom is available for the given time slot and day for 0.75 credit lab.
+        private async Task<bool> IsLabroomAvailableFor075CreditLab(int labroomId, TimeOnly startTime, DayOfWeek day)
+        {
+            var bookedCount = await _dbContext.ClassSchedules
+                .Where(cs =>
+                cs.LabroomId == labroomId
+                && cs.Day == day
+                && cs.StartTime == startTime
+                && cs.Sessional.Credit == 0.75).CountAsync();
+            if (bookedCount >= 2)
             {
                 return false; // Labroom is not available
             }

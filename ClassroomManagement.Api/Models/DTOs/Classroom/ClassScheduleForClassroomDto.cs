@@ -8,9 +8,10 @@ namespace ClassroomManagement.Api.Models.DTOs
         public DayOfWeek Day { get; set; }
         public TimeOnly StartTime { get; set; }
         public TimeOnly EndTime { get; set; }
+        public string? WeekType { get; set; }
 
         public CourseForClassroomDto? Course { get; set; }
         public SessionalForClassroomDto? Sessional { get; set; }
-        public TeacherForClassroomDto Teacher { get; set; }
+        public List<TeacherForClassroomDto> Teacher { get; set; }
     }
 }

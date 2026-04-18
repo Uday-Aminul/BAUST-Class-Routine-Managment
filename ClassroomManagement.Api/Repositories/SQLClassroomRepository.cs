@@ -42,14 +42,14 @@ namespace ClassroomManagement.Api.Repositories
             return classroomDomains;
         }
 
-        public async Task<Classroom?> GetClassroomByIdAsync(int id)
+        public async Task<Classroom?> GetClassroomByRoomNumberAsync(int roomNumber)
         {
             var classroomDomain = await _dbContext.Classrooms
                 .Include(x => x.ClassSchedules)
                 .ThenInclude(x => x.Course)
                 .Include(x => x.ClassSchedules)
                 .ThenInclude(x => x.Teachers)
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.RoomNumber == roomNumber);
             return classroomDomain;
         }
 

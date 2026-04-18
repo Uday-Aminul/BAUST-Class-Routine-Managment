@@ -8,7 +8,7 @@ namespace ClassroomManagement.Api.Models.DTOs
     public class ClassroomDto
     {
         public int Id { get; set; }
-
+        public int RoomNumber { get; set; }
         //Navigation Property
         public LevelTermForClassroomDto? LevelTerm { get; set; }
         public List<ClassScheduleForClassroomDto>? ClassSchedules { get; set; }

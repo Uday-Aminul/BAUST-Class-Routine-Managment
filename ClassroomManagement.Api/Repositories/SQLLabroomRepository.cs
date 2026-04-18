@@ -32,40 +32,41 @@ namespace ClassroomManagement.Api.Repositories
             // ===== LAB 202 =====
             var lab202 = labrooms.First(l => l.RoomNumber == 202);
             lab202.AllowedSessionals.Add(sessionals.First(s => s.Id == 16)); // EEE 2270
+            lab202.AllowedSessionals.Add(sessionals.First(s => s.Id == 29)); // CSE 4142
 
             // ===== LAB 210 =====
             var lab210 = labrooms.First(l => l.RoomNumber == 210);
             lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 25)); // CSE 3200
+            lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 2));  // CSE 1102
 
             // ===== LAB 302 =====
             var lab302 = labrooms.First(l => l.RoomNumber == 302);
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 6));  // CSE 1208
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 11)); // CSE 2104
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 12)); // CSE 2108
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 14)); // CSE 2202
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 17)); // CSE 3102
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 19)); // CSE 3110
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 20)); // CSE 3100
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 25)); // CSE 3200
-            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 26)); // CSE 4102
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 6));   // CSE 1208
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 11));  // CSE 2104
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 25));  // CSE 3200
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 12));  // CSE 2108
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 14));  // CSE 2202
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 26));  // CSE 4102
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 19));  // CSE 3110
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 20));  // CSE 3100
+            lab302.AllowedSessionals.Add(sessionals.First(s => s.Id == 17));  // CSE 3102
 
             // ===== LAB 307 =====
             var lab307 = labrooms.First(l => l.RoomNumber == 307);
             lab307.AllowedSessionals.Add(sessionals.First(s => s.Id == 10)); // CSE 2102
-            lab307.AllowedSessionals.Add(sessionals.First(s => s.Id == 31)); // CSE 4252
+            //lab307.AllowedSessionals.Add(sessionals.First(s => s.Id == 31)); // CSE 4252
 
             // ===== LAB 311 =====
             var lab311 = labrooms.First(l => l.RoomNumber == 311);
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 5));  // CSE 1204
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 6));  // CSE 1208
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 12)); // CSE 2108
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 15)); // CSE 2206
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 22)); // CSE 3204
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 23)); // CSE 3206
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 26)); // CSE 4102
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 27)); // CSE 4104
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 28)); // CSE 4140
-            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 29)); // CSE 4142
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 15));  // CSE 2206
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 26));  // CSE 4102
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 27));  // CSE 4104
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 5));   // CSE 1204
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 23));  // CSE 3206
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 29));  // CSE 4142
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 28));  // CSE 4140
+            lab311.AllowedSessionals.Add(sessionals.First(s => s.Id == 12));  // CSE 2108
 
             // ===== LAB 402 =====
             var lab402 = labrooms.First(l => l.RoomNumber == 402);
@@ -76,15 +77,19 @@ namespace ClassroomManagement.Api.Repositories
 
             // ===== LAB 411 =====
             var lab411 = labrooms.First(l => l.RoomNumber == 411);
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 1));  // CSE 1100
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 2));  // CSE 1102
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 5));  // CSE 1204
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 15)); // CSE 2206
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 17)); // CSE 3102
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 20)); // CSE 3100
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 21)); // CSE 3202
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 24)); // CSE 3210
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 30)); // CSE 4246
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 5));   // CSE 1204
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 2));   // CSE 1102
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 30));  // CSE 4246
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 31));  // CSE 4252
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 1));   // CSE 1100
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 15));  // CSE 2206
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 24));  // CSE 3210
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 28));  // CSE 4140
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 6));   // CSE 1208
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 21));  // CSE 3202
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 14));  // CSE 2202
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 20));  // CSE 3100
+            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 17));  // CSE 3102
 
             // ===== DC Circuit Lab (1002) =====
             var dcCircuitLab = labrooms.First(l => l.RoomNumber == 1002);

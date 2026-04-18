@@ -9,7 +9,7 @@ namespace ClassroomManagement.Api.Repositories
     public interface IClassroomRepository
     {
         Task<List<Classroom>> GetAllClassroomsAsync();
-        Task<Classroom?> GetClassroomByIdAsync(int id);
+        Task<Classroom?> GetClassroomByRoomNumberAsync(int roomNumber);
         Task<Classroom> CreateClassroomAsync(Classroom classroom);
         Task<Classroom?> UpdateClassroomByIdAsync(int id, Classroom classroom);
         Task<List<Classroom>?> DeleteClassroomByIdAsync(int id);

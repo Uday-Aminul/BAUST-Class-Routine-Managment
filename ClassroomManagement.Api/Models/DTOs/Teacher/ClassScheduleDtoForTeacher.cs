@@ -1,8 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
 
-namespace ClassroomManagement.Api.Models.DTOs.ClassSchedules
+namespace ClassroomManagement.Api.Models.DTOs.Teacher
 {
-    public class ClassScheduleDto
+    public class ClassScheduleDtoForTeacher
     {
         public int Id { get; set; }
         public DayOfWeek Day { get; set; }
@@ -15,6 +19,5 @@ namespace ClassroomManagement.Api.Models.DTOs.ClassSchedules
         public LabroomForClassScheduleDto? Labroom { get; set; }
         public CourseForClassScheduleDto? Course { get; set; }
         public SessionalForClassScheduleDto? Sessional { get; set; }
-        public List<TeacherForClassScheduleDto> Teachers { get; set; }
     }
 }
