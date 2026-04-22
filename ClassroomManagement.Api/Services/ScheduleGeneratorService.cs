@@ -274,7 +274,19 @@ namespace ClassroomManagement.Api.Services
             {
                 return $"Schedule generation succesfull for Level-{level} Term-{term} Section-{section}.";
             }
-            return $"Some error occurred during generating schedules for Level-{level} Term-{term} Section-{section}.";
+            else if (totalCourseCredit is not 0 && schedulingState.Sessionals.Count is 0)
+            {
+                return $"Schedule generation partially succesfull for Level-{level} Term-{term} Section-{section}. Course credits left {totalCourseCredit}.";
+            }
+            else if (totalCourseCredit is 0 && schedulingState.Sessionals.Count is not 0)
+            {
+                return $"Schedule generation partially succesfull for Level-{level} Term-{term} Section-{section}. Sessionals left {schedulingState.Sessionals.Count}.";
+            }
+            else
+            {
+                return $"Schedule generation partially succesfull for Level-{level} Term-{term} Section-{section}. Course credits left {totalCourseCredit}. Sessionals left {schedulingState.Sessionals.Count}.";
+            }
+            //return $"Some error occurred during generating schedules for Level-{level} Term-{term} Section-{section}.";
         }
 
         //Placing a theory
@@ -537,11 +549,11 @@ namespace ClassroomManagement.Api.Services
                 && cs.Day == day
                 && cs.StartTime == startTime
                 && cs.Sessional.Credit == 0.75).CountAsync();
-            if (bookedCount >= 2)
+            if (bookedCount == 1)
             {
-                return false; // Labroom is not available
+                return true; // Labroom is not available
             }
-            return true; // Labroom is available
+            return false; // Labroom is available
         }
 
         //Clears Existing Schedules for the given level and term.

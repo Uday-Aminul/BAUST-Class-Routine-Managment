@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20260417144020_Updated lab teachers")]
-    partial class Updatedlabteachers
+    [Migration("20260419144448_Initial Create.")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -806,6 +806,12 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 18,
                             Name = "Physics Lab",
                             RoomNumber = 1005
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "IPE Computer Lab",
+                            RoomNumber = 109
                         });
                 });
 

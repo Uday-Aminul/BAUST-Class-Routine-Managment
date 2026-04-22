@@ -17,7 +17,7 @@ Problems:
 
 19. Need to add a new table called CourseTeacher linked to all the level terms section wise
 
-
+24. does the even odd for later 0.75cr labs work.
 20. Need to fix the frontend of Classroom Schedule...so room schedules can be viewed.
 21. error messeges should be more meaningfull...so i can understand what r the courses or labs that are missing.
 22. Backtracking for a single day.

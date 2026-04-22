@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClassroomManagement.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class Updatedlabteachers : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -295,7 +295,8 @@ namespace ClassroomManagement.Api.Migrations
                     { 15, "DC Circuit Lab", 1002 },
                     { 16, "AC Circuit Lab", 1003 },
                     { 17, "Electronics Lab", 1004 },
-                    { 18, "Physics Lab", 1005 }
+                    { 18, "Physics Lab", 1005 },
+                    { 19, "IPE Computer Lab", 109 }
                 });
 
             migrationBuilder.InsertData(

@@ -73,6 +73,7 @@ namespace ClassroomManagement.Api.Data
                 new Labroom { Id = 16, RoomNumber = 1003, Name = "AC Circuit Lab" },
                 new Labroom { Id = 17, RoomNumber = 1004, Name = "Electronics Lab" },
                 new Labroom { Id = 18, RoomNumber = 1005, Name = "Physics Lab" },
+                new Labroom { Id = 19, RoomNumber = 109, Name = "IPE Computer Lab" },
             };
             modelBuilder.Entity<Labroom>().HasData(Labrooms);
 

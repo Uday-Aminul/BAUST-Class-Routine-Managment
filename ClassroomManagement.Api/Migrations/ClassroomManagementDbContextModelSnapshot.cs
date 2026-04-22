@@ -803,6 +803,12 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 18,
                             Name = "Physics Lab",
                             RoomNumber = 1005
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "IPE Computer Lab",
+                            RoomNumber = 109
                         });
                 });
 

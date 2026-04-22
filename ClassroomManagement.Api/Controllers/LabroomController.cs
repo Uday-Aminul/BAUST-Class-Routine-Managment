@@ -30,6 +30,15 @@ namespace ClassroomManagement.Api.Controllers
             return Ok(labroomDtos);
         }
 
+        [HttpGet]
+        [Route("{roomNumber:int}")]
+        public async Task<IActionResult> GetByRoomNumber(int roomNumber)
+        {
+            var labroomDomain = await _labroomRepository.GetLabroomByRoomNumberAsync(roomNumber);
+            var labroomDto = _mapper.Map<LabroomDto>(labroomDomain);
+            return Ok(labroomDto);
+        }
+
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateLabroom([FromRoute] int id, [FromBody] LabroomUpdateRequestDto labroomUpdateRequestDto)

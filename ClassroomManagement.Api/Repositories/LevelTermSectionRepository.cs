@@ -103,9 +103,9 @@ namespace ClassroomManagement.Api.Repositories
 
             // ===== 4/II - A (Room 407 only) =====
             var level4_II_A = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 2 && lts.Section == "A");
-            level4_I_B.Classrooms.Add(room407);
-            level4_I_B.Classrooms.Add(room408);
-            level4_I_B.Classrooms.Add(room510);
+            level4_II_A.Classrooms.Add(room407);
+            level4_II_A.Classrooms.Add(room408);
+            level4_II_A.Classrooms.Add(room510);
 
             await _dbContext.SaveChangesAsync();
         }

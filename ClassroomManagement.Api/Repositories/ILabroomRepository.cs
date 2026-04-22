@@ -10,6 +10,7 @@ namespace ClassroomManagement.Api.Repositories
     public interface ILabroomRepository
     {
         Task<List<Labroom>> GetAllLabroomsAsync();
+        Task<Labroom?> GetLabroomByRoomNumberAsync(int roomNumber);
         Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom);
         Task SeedSessionalsForLabroomsAsync();
     }
