@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20260419144448_Initial Create.")]
+    [Migration("20260422190708_Initial Create.")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -895,13 +895,6 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
-                            Id = 9,
-                            Level = 2,
-                            Section = "C",
-                            Term = 2
-                        },
-                        new
-                        {
                             Id = 10,
                             Level = 3,
                             Section = "A",
@@ -947,6 +940,13 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 16,
                             Level = 4,
                             Section = "A",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Level = 4,
+                            Section = "B",
                             Term = 2
                         });
                 });

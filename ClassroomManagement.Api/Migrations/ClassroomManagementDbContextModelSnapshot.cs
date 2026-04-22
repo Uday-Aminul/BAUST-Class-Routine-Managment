@@ -892,13 +892,6 @@ namespace ClassroomManagement.Api.Migrations
                         },
                         new
                         {
-                            Id = 9,
-                            Level = 2,
-                            Section = "C",
-                            Term = 2
-                        },
-                        new
-                        {
                             Id = 10,
                             Level = 3,
                             Section = "A",
@@ -944,6 +937,13 @@ namespace ClassroomManagement.Api.Migrations
                             Id = 16,
                             Level = 4,
                             Section = "A",
+                            Term = 2
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Level = 4,
+                            Section = "B",
                             Term = 2
                         });
                 });

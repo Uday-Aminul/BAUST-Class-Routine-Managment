@@ -15,13 +15,16 @@ Problems:
 8. Need to fix Teacher table Update and Add operation.
 
 
+25. Using the new 0.75cr labroom finding method when trying to schedule 2 0.75cr labs at the same slot in the beginning.
+24. Fixing the alone ODD sessionals and applying checking for even odd sessional teachers.
 19. Need to add a new table called CourseTeacher linked to all the level terms section wise
 
 24. does the even odd for later 0.75cr labs work.
 20. Need to fix the frontend of Classroom Schedule...so room schedules can be viewed.
 21. error messeges should be more meaningfull...so i can understand what r the courses or labs that are missing.
 22. Backtracking for a single day.
-23. updating the allowed sessionals on a room.  
+23. updating the allowed sessionals on a room.
+  
 
 
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

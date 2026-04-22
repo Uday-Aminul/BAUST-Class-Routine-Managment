@@ -251,7 +251,7 @@ namespace ClassroomManagement.Api.Data
                 // Level 2, Term 2 - Sections A, B, C
                 new LevelTermSection { Id = 7, Level = 2, Term = 2, Section = "A" },
                 new LevelTermSection { Id = 8, Level = 2, Term = 2, Section = "B" },
-                new LevelTermSection { Id = 9, Level = 2, Term = 2, Section = "C" },
+                //new LevelTermSection { Id = 9, Level = 2, Term = 2, Section = "C" },
                 
                 // Level 3, Term 1 - Sections A, B
                 new LevelTermSection { Id = 10, Level = 3, Term = 1, Section = "A" },
@@ -267,6 +267,7 @@ namespace ClassroomManagement.Api.Data
                 
                 // Level 4, Term 2 - Section A only
                 new LevelTermSection { Id = 16, Level = 4, Term = 2, Section = "A" },
+                new LevelTermSection { Id = 17, Level = 4, Term = 2, Section = "B" },
             };
             modelBuilder.Entity<LevelTermSection>().HasData(levelTermSections);
         }

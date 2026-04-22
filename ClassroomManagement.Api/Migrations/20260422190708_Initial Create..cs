@@ -312,14 +312,14 @@ namespace ClassroomManagement.Api.Migrations
                     { 6, 2, "B", 1 },
                     { 7, 2, "A", 2 },
                     { 8, 2, "B", 2 },
-                    { 9, 2, "C", 2 },
                     { 10, 3, "A", 1 },
                     { 11, 3, "B", 1 },
                     { 12, 3, "A", 2 },
                     { 13, 3, "B", 2 },
                     { 14, 4, "A", 1 },
                     { 15, 4, "B", 1 },
-                    { 16, 4, "A", 2 }
+                    { 16, 4, "A", 2 },
+                    { 17, 4, "B", 2 }
                 });
 
             migrationBuilder.InsertData(

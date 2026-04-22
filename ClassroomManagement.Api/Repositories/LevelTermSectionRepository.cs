@@ -49,63 +49,103 @@ namespace ClassroomManagement.Api.Repositories
 
             // ===== 1/II - B (Room 308 only) =====
             var level1_II_B = levelTermSections.First(lts => lts.Level == 1 && lts.Term == 2 && lts.Section == "B");
-            level1_II_B.Classrooms.Add(room204);
-            level1_II_B.Classrooms.Add(room205);
-            level1_II_B.Classrooms.Add(room304);
+            level1_II_B.Classrooms.Add(room305);
 
             // ===== 2/I - A (Room 305) =====
             var level2_I_A = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 1 && lts.Section == "A");
-            level2_I_A.Classrooms.Add(room305);
+            level2_I_A.Classrooms.Add(room306);
 
             // ===== 2/I - B (Room 310) =====
             var level2_I_B = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 1 && lts.Section == "B");
-            level2_I_B.Classrooms.Add(room306);
+            level2_I_B.Classrooms.Add(room308);
 
             // ===== 2/II - A (Room 309 only) =====
             var level2_II_A = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "A");
-            level2_II_A.Classrooms.Add(room308);
+            level2_II_A.Classrooms.Add(room309);
 
             // ===== 2/II - B (Room 309 + Room 310) =====
             var level2_II_B = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "B");
-            level2_II_B.Classrooms.Add(room305);
-            level2_II_B.Classrooms.Add(room306);
-            level2_II_B.Classrooms.Add(room308);
+            level2_II_B.Classrooms.Add(room310);
 
             // ===== 2/II - C (Room 407 only) =====
-            var level2_II_C = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "C");
-            level2_II_C.Classrooms.Add(room309);
+            // var level2_II_C = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "C");
+            // level2_II_C.Classrooms.Add(room309);
 
             // ===== 3/I - A (Room 304) =====
             var level3_I_A = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 1 && lts.Section == "A");
-            level3_I_A.Classrooms.Add(room310);
+            level3_I_A.Classrooms.Add(room402);
 
             // ===== 3/I - B (Room 306) =====
             var level3_I_B = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 1 && lts.Section == "B");
-            level3_I_B.Classrooms.Add(room402);
+            level3_I_B.Classrooms.Add(room407);
 
             // ===== 3/II - A (Room 204) =====
             var level3_II_A = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 2 && lts.Section == "A");
-            level3_II_A.Classrooms.Add(room309);
-            level3_II_A.Classrooms.Add(room310);
-            level3_II_A.Classrooms.Add(room402);
+            level3_II_A.Classrooms.Add(room408);
 
             // ===== 3/II - B (Room 205) =====
             var level3_II_B = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 2 && lts.Section == "B");
-            level3_II_B.Classrooms.Add(room407);
+            level3_II_B.Classrooms.Add(room510);
 
             // ===== 4/I - A (Room 402 + Room 306 + Room 308) =====
             var level4_I_A = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 1 && lts.Section == "A");
+            level4_I_A.Classrooms.Add(room510);
             level4_I_A.Classrooms.Add(room408);
+            level4_I_A.Classrooms.Add(room407);
+            level4_I_A.Classrooms.Add(room402);
+            level4_I_A.Classrooms.Add(room310);
+            level4_I_A.Classrooms.Add(room309);
+            level4_I_A.Classrooms.Add(room308);
+            level4_I_A.Classrooms.Add(room306);
+            level4_I_A.Classrooms.Add(room305);
+            level4_I_A.Classrooms.Add(room304);
+            level4_I_A.Classrooms.Add(room205);
+            level4_I_A.Classrooms.Add(room204);
 
             // ===== 4/I - B (Room 407 + Room 304 + Room 310) =====
             var level4_I_B = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 1 && lts.Section == "B");
             level4_I_B.Classrooms.Add(room510);
+            level4_I_B.Classrooms.Add(room408);
+            level4_I_B.Classrooms.Add(room407);
+            level4_I_B.Classrooms.Add(room402);
+            level4_I_B.Classrooms.Add(room310);
+            level4_I_B.Classrooms.Add(room309);
+            level4_I_B.Classrooms.Add(room308);
+            level4_I_B.Classrooms.Add(room306);
+            level4_I_B.Classrooms.Add(room305);
+            level4_I_B.Classrooms.Add(room304);
+            level4_I_B.Classrooms.Add(room205);
+            level4_I_B.Classrooms.Add(room204);
 
             // ===== 4/II - A (Room 407 only) =====
             var level4_II_A = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 2 && lts.Section == "A");
-            level4_II_A.Classrooms.Add(room407);
-            level4_II_A.Classrooms.Add(room408);
             level4_II_A.Classrooms.Add(room510);
+            level4_II_A.Classrooms.Add(room408);
+            level4_II_A.Classrooms.Add(room407);
+            level4_II_A.Classrooms.Add(room402);
+            level4_II_A.Classrooms.Add(room310);
+            level4_II_A.Classrooms.Add(room309);
+            level4_II_A.Classrooms.Add(room308);
+            level4_II_A.Classrooms.Add(room306);
+            level4_II_A.Classrooms.Add(room305);
+            level4_II_A.Classrooms.Add(room304);
+            level4_II_A.Classrooms.Add(room205);
+            level4_II_A.Classrooms.Add(room204);
+
+            // ===== 4/II - B (Room 407 + Room 304 + Room 310) =====
+            var level4_II_B = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 2 && lts.Section == "B");
+            level4_II_B.Classrooms.Add(room510);
+            level4_II_B.Classrooms.Add(room408);
+            level4_II_B.Classrooms.Add(room407);
+            level4_II_B.Classrooms.Add(room402);
+            level4_II_B.Classrooms.Add(room310);
+            level4_II_B.Classrooms.Add(room309);
+            level4_II_B.Classrooms.Add(room308);
+            level4_II_B.Classrooms.Add(room306);
+            level4_II_B.Classrooms.Add(room305);
+            level4_II_B.Classrooms.Add(room304);
+            level4_II_B.Classrooms.Add(room205);
+            level4_II_B.Classrooms.Add(room204);
 
             await _dbContext.SaveChangesAsync();
         }
