@@ -49,11 +49,24 @@ namespace ClassScheduleManagement.Api.Repositories
                 .Include(x => x.Teachers)
                 .AsQueryable();
 
-            if (level is not null && term is not null)
+            if (level is not null && term is not null && section is not null)
             {
-                //classSchedules = classSchedules.Where(x => (x.Course != null && x.Course.Level == level && x.Course.Term == term && x.Section == section) || (x.Sessional != null && x.Sessional.Level == level && x.Sessional.Term == term));
                 classSchedules = classSchedules.Where(x => (x.Level == level && x.Term == term && x.Section == section));
             }
+            return await classSchedules.ToListAsync();
+        }
+
+        public async Task<List<ClassSchedule>> GetAllClassSchedulesByDayAsync(int level, int term, string section, DayOfWeek day)
+        {
+            var classSchedules = _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Labroom)
+                .Include(x => x.Course)
+                .Include(x => x.Sessional)
+                .Include(x => x.Teachers)
+                .AsQueryable();
+
+            classSchedules = classSchedules.Where(s => s.Level == level && s.Term == term && s.Section == section && s.Day == day);
             return await classSchedules.ToListAsync();
         }
 

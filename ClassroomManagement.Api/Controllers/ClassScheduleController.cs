@@ -32,6 +32,15 @@ namespace ClassroomManagement.Api.Controllers
         }
 
         [HttpGet]
+        [Route("ByDay")]
+        public async Task<IActionResult> GetAllByDay([FromQuery] int level, [FromQuery] int term, [FromQuery] string section, [FromQuery] DayOfWeek day)
+        {
+            var classScheduleDomains = await _classSchedulesRepository.GetAllClassSchedulesByDayAsync(level, term, section, day);
+            var classScheduleDtos = _mapper.Map<List<ClassScheduleDto>>(classScheduleDomains);
+            return Ok(classScheduleDtos);
+        }
+
+        [HttpGet]
         [Route("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {

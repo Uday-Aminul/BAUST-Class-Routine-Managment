@@ -22,7 +22,7 @@ namespace ClassroomManagement.Api.Mappings
             CreateMap<ClassSchedule, ClassScheduleDtoForTeacher>();
 
             CreateMap<Classroom, ClassroomDto>();
-            //CreateMap<UpdateClassroomRequestDto, Classroom>();
+            CreateMap<UpdateClassroomRequestDto, Classroom>();
             CreateMap<AddClassroomRequestDto, Classroom>();
             CreateMap<Classroom, ClassroomForClassScheduleDto>();
 
