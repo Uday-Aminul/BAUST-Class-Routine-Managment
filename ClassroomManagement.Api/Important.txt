@@ -5,7 +5,7 @@ Features Required:
 
 Suggestion:
 1. Teachers and Labrooms and LevelTermSections Controller has manual seeds for many to many relationships. 
-
+2. In PlaceSessionalAsync sessionals were sorted in ascending order. Who knows which is beneficial.
 
 Problems:
 3. need to convert Term in LevelTerm table from int to string.
@@ -24,7 +24,8 @@ Problems:
 21. error messeges should be more meaningfull...so i can understand what r the courses or labs that are missing.
 22. Backtracking for a single day.
 23. updating the allowed sessionals on a room.
-  
+25. Improving teacher availability for 0.75cr sessional.
+26. Classrooms should be able to exist without any sections assigned to them. So, List of LevelTermSections in Classroom model should be nullable.
 
 
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

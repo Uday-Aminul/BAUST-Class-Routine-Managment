@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassroomManagement.Api.Models.DTOs
+namespace ClassroomManagement.Api.Models.DTOs.Classroom
 {
-    public class AddClassroomRequestDto
+    public class UpdateClassroomRequestDto
     {
         public int RoomNumber { get; set; }
     }

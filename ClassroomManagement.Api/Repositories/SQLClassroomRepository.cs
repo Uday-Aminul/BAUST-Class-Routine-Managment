@@ -65,6 +65,7 @@ namespace ClassroomManagement.Api.Repositories
             {
                 return null;
             }
+            existingClassroom.RoomNumber = classroom.RoomNumber;
             await _dbContext.SaveChangesAsync();
             return existingClassroom;
         }
