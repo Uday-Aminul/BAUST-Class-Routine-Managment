@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.Domains;
@@ -342,6 +343,62 @@ namespace ClassroomManagement.Api.Services
                         placedCourses.Add(course);
                         schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
                         break; // Done assigning a course to this slot.
+                    }
+                    else
+                    {
+                        var swapPerformed = false;
+                        var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null);
+                        //var courseSchedulesCopy = courseSchedules.ToList();
+                        foreach (var courseSchedule in courseSchedules)
+                        {
+                            teacherAvailable = await IsTeacherAvailable(teacher.Id, courseSchedule.StartTime, courseSchedule.EndTime, day);
+                            availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule.StartTime, day);
+                            if (teacherAvailable is true && availableClassroom is not null)
+                            {
+                                var teacherAvailableToExchange = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, slot.Start, slot.End, day);
+                                var classroomAvailableToExchange = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+                                if (teacherAvailableToExchange is true && classroomAvailableToExchange is not null)
+                                {
+                                    //Exchange
+                                    var schedule = new ClassSchedule
+                                    {
+                                        Day = day,
+                                        StartTime = slot.Start,
+                                        EndTime = slot.End,
+                                        Level = schedulingState.Level,
+                                        Term = schedulingState.Term,
+                                        Section = schedulingState.Section,
+                                        ClassroomId = classroomAvailableToExchange.Id,
+                                        CourseId = courseSchedule.CourseId,
+                                        Teachers = courseSchedule.Teachers
+                                    };
+                                    schedulingState.SchedulesToAdd.Add(schedule);
+                                    //courseToConsider.Remove(course);
+                                    //placedCourses.Add(course);
+                                    //schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+
+                                    //courseSchedule.Day = day;
+                                    // courseSchedule.StartTime = slot.Start;
+                                    // courseSchedule.EndTime = slot.End;
+                                    // courseSchedule.Level = schedulingState.Level;
+                                    // courseSchedule.Term = schedulingState.Term;
+                                    // courseSchedule.Section = schedulingState.Section;
+                                    courseSchedule.ClassroomId = availableClassroom.Id;
+                                    courseSchedule.CourseId = course.Id;
+                                    courseSchedule.Teachers = new List<Teacher> { teacher };
+
+                                    courseToConsider.Remove(course);
+                                    placedCourses.Add(course);
+                                    schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+                                    swapPerformed = true;
+                                    break; // Done assigning a course to this slot.
+                                }
+                            }
+                        }
+                        if (swapPerformed is true)
+                        {
+                            break; // Move to the next slot after a successful swap and placement
+                        }
                     }
                 }
             }
