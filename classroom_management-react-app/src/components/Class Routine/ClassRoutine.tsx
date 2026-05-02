@@ -47,7 +47,11 @@ function ClassRoutine({ level, term, section }: Props) {
         ></SectionInformation>
 
         {/* Weekly Class Schedule */}
-        <WeeklyClassSchedule level={level} term={term}></WeeklyClassSchedule>
+        <WeeklyClassSchedule
+          level={level}
+          term={term}
+          section={section}
+        ></WeeklyClassSchedule>
 
         {/* Course Summary */}
         <CourseSummery></CourseSummery>

@@ -2,14 +2,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "./WeeklyClassSchedule.css"; // Import custom CSS
 import React from "react";
+import "./RoutineForClassroom.css";
 
-interface Classroom {
-  roomNumber: number;
-}
-interface Labroom {
-  roomNumber: number;
-  name: string;
-}
+// interface Classroom {
+//   roomNumber: number;
+// }
+// interface Labroom {
+//   roomNumber: number;
+//   name: string;
+// }
 interface Course {
   id: number;
   name: string;
@@ -40,9 +41,14 @@ interface Schedule {
   weekType: string;
   course: Course;
   sessional: Sessional;
-  classroom: Classroom;
-  labroom: Labroom;
+  //   classroom: Classroom;
+  //   labroom: Labroom;
   teachers: Teacher[];
+}
+interface Classroom {
+  id: number;
+  roomNumber: number;
+  classSchedules: Schedule[];
 }
 
 // Time slots in order
@@ -75,72 +81,33 @@ const TIME_SLOT_LABELS = [
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU"];
 
 interface Props {
-  level: number;
-  term: number;
-  section: string;
+  roomNumber: number;
 }
 
-function WeeklyClassSchedule({ level, term, section }: Props) {
+function RoutineForClassroom({ roomNumber }: Props) {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(
-        `http://localhost:5299/ClassSchedule?level=${level}&term=${term}&section=${section}`,
-      )
-      .then((response) => {
-        setSchedules(response.data);
+    const fetchSchedules = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get(
+          `http://localhost:5299/api/Classroom/${roomNumber}`,
+        );
+        // Classroom object has classSchedules property
+        setSchedules(response.data.classSchedules || []);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  }, [level, term]);
+      }
+    };
 
-  // Helper function to format schedule cell content
-  // const formatScheduleCell = (schedules: Schedule[]) => {
-  //   if (!schedules || schedules.length === 0) return "";
+    fetchSchedules();
+  }, [roomNumber]);
 
-  //   return schedules.map((schedule) => {
-  //     if (!schedule) return "";
-
-  //     const teacherCodes =
-  //       schedule.teachers?.map((t) => t.code).join(", ") || "";
-
-  //     if (schedule.course) {
-  //       return (
-  //         <>
-  //           <span className="schedule-course-code">
-  //             {schedule.course.courseCode}
-  //           </span>
-  //           <span className="schedule-teacher"> ({teacherCodes})</span>
-  //           <span className="schedule-room">
-  //             {" "}
-  //             [{schedule.classroom?.id || ""}]
-  //           </span>
-  //         </>
-  //       );
-  //     } else if (schedule.sessional) {
-  //       return (
-  //         <>
-  //           <span className="schedule-sessional-code">
-  //             {schedule.sessional.sessionalCode}
-  //           </span>
-  //           <span className="schedule-teacher"> ({teacherCodes})</span>
-  //           <span className="schedule-labroom">
-  //             {" "}
-  //             [{schedule.labroom?.id || ""}]
-  //           </span>
-  //         </>
-  //       );
-  //     }
-  //     return "";
-  //   });
-  // };
   const formatScheduleCell = (schedules: Schedule[]) => {
     if (!schedules || schedules.length === 0) return "";
 
@@ -166,10 +133,10 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
             {schedule.course.courseCode}
           </span>
           <span className="schedule-teacher"> ({teacherCodes})</span>
-          <span className="schedule-room">
+          {/* <span className="schedule-room">
             {" "}
             [{schedule.classroom?.roomNumber || ""}]
-          </span>
+          </span> */}
         </>
       ) : schedule.sessional ? (
         <>
@@ -177,10 +144,10 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
             {schedule.sessional.sessionalCode}
           </span>
           <span className="schedule-teacher"> ({teacherCodes})</span>
-          <span className="schedule-labroom">
+          {/* <span className="schedule-labroom">
             {" "}
             [{schedule.labroom?.roomNumber || ""}]
-          </span>
+          </span> */}
           {weekTypeBadge}
         </>
       ) : null;
@@ -218,9 +185,7 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
     <div className="weekly-schedule-container mb-4">
       {/* Header */}
       <div className="schedule-header mb-3">
-        <h5 className="schedule-title">
-          Weekly Class Schedule - Level {level}, Term {term === 1 ? "I" : "II"}
-        </h5>
+        <h5 className="schedule-title">Room Number {roomNumber}</h5>
       </div>
 
       {/* Error Display */}
@@ -382,11 +347,11 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
       {!loading && !error && schedules.length === 0 && (
         <div className="alert alert-info text-center" role="alert">
           <i className="bi bi-info-circle-fill me-2"></i>
-          No schedules found for Level {level}, Term {term === 1 ? "I" : "II"}
+          No schedules found for Room : {roomNumber}
         </div>
       )}
     </div>
   );
 }
 
-export default WeeklyClassSchedule;
+export default RoutineForClassroom;

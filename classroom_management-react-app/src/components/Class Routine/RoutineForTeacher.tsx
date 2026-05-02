@@ -1,15 +1,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import "./WeeklyClassSchedule.css"; // Import custom CSS
+import "./WeeklyClassSchedule.css";
 import React from "react";
 
 interface Classroom {
   roomNumber: number;
 }
+
 interface Labroom {
   roomNumber: number;
   name: string;
 }
+
 interface Course {
   id: number;
   name: string;
@@ -18,6 +20,7 @@ interface Course {
   term: number;
   credit: number;
 }
+
 interface Sessional {
   id: number;
   name: string;
@@ -26,12 +29,7 @@ interface Sessional {
   term: number;
   credit: number;
 }
-interface Teacher {
-  id: number;
-  name: string;
-  code: string;
-  designation: string;
-}
+
 interface Schedule {
   id: number;
   day: number;
@@ -42,10 +40,16 @@ interface Schedule {
   sessional: Sessional;
   classroom: Classroom;
   labroom: Labroom;
-  teachers: Teacher[];
 }
 
-// Time slots in order
+interface Teacher {
+  id: number;
+  name: string;
+  code: string;
+  designation: string;
+  classes: Schedule[];
+}
+
 const TIME_SLOTS = [
   "08:00:00",
   "09:00:00",
@@ -75,82 +79,40 @@ const TIME_SLOT_LABELS = [
 const DAYS = ["SUN", "MON", "TUE", "WED", "THU"];
 
 interface Props {
-  level: number;
-  term: number;
-  section: string;
+  teacherId: number;
 }
 
-function WeeklyClassSchedule({ level, term, section }: Props) {
+function RoutineForTeacher({ teacherId }: Props) {
   const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [teacherName, setTeacherName] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(
-        `http://localhost:5299/ClassSchedule?level=${level}&term=${term}&section=${section}`,
-      )
-      .then((response) => {
-        setSchedules(response.data);
+    const fetchSchedules = async () => {
+      setLoading(true);
+      try {
+        const response = await axios.get<Teacher>(
+          `http://localhost:5299/api/Teachers/${teacherId}`,
+        );
+        setSchedules(response.data.classes || []);
+        setTeacherName(response.data.name || `Teacher ${teacherId}`);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
-  }, [level, term]);
+      }
+    };
 
-  // Helper function to format schedule cell content
-  // const formatScheduleCell = (schedules: Schedule[]) => {
-  //   if (!schedules || schedules.length === 0) return "";
+    fetchSchedules();
+  }, [teacherId]);
 
-  //   return schedules.map((schedule) => {
-  //     if (!schedule) return "";
-
-  //     const teacherCodes =
-  //       schedule.teachers?.map((t) => t.code).join(", ") || "";
-
-  //     if (schedule.course) {
-  //       return (
-  //         <>
-  //           <span className="schedule-course-code">
-  //             {schedule.course.courseCode}
-  //           </span>
-  //           <span className="schedule-teacher"> ({teacherCodes})</span>
-  //           <span className="schedule-room">
-  //             {" "}
-  //             [{schedule.classroom?.id || ""}]
-  //           </span>
-  //         </>
-  //       );
-  //     } else if (schedule.sessional) {
-  //       return (
-  //         <>
-  //           <span className="schedule-sessional-code">
-  //             {schedule.sessional.sessionalCode}
-  //           </span>
-  //           <span className="schedule-teacher"> ({teacherCodes})</span>
-  //           <span className="schedule-labroom">
-  //             {" "}
-  //             [{schedule.labroom?.id || ""}]
-  //           </span>
-  //         </>
-  //       );
-  //     }
-  //     return "";
-  //   });
-  // };
   const formatScheduleCell = (schedules: Schedule[]) => {
     if (!schedules || schedules.length === 0) return "";
 
     return schedules.map((schedule, index) => {
       if (!schedule) return "";
 
-      const teacherCodes =
-        schedule.teachers?.map((t) => t.code).join(", ") || "";
-
-      // Add Even/Odd badge for sessionals
       const weekTypeBadge =
         schedule.sessional && schedule.weekType ? (
           <span
@@ -165,10 +127,8 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
           <span className="schedule-course-code">
             {schedule.course.courseCode}
           </span>
-          <span className="schedule-teacher"> ({teacherCodes})</span>
           <span className="schedule-room">
-            {" "}
-            [{schedule.classroom?.roomNumber || ""}]
+            [{schedule.classroom?.roomNumber || "?"}]
           </span>
         </>
       ) : schedule.sessional ? (
@@ -176,10 +136,8 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
           <span className="schedule-sessional-code">
             {schedule.sessional.sessionalCode}
           </span>
-          <span className="schedule-teacher"> ({teacherCodes})</span>
           <span className="schedule-labroom">
-            {" "}
-            [{schedule.labroom?.roomNumber || ""}]
+            [{schedule.labroom?.roomNumber || "?"}]
           </span>
           {weekTypeBadge}
         </>
@@ -196,34 +154,20 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
     });
   };
 
-  // Get schedule for a specific day and time
   const getScheduleForTimeSlot = (day: number, timeSlot: string) => {
     return schedules.filter((s) => s.day === day && s.startTime === timeSlot);
   };
 
-  //get the info if its a course or sessional
   const isSessional = (schedules: Schedule[] | undefined) => {
     return schedules?.some((schedule) => schedule?.sessional) ?? false;
-  };
-  // const isSessional = (schedule: Schedule | undefined) => {
-  //   return schedule?.sessional ? true : false;
-  // };
-
-  // Get day name
-  const getDayName = (dayIndex: number) => {
-    return DAYS[dayIndex];
   };
 
   return (
     <div className="weekly-schedule-container mb-4">
-      {/* Header */}
       <div className="schedule-header mb-3">
-        <h5 className="schedule-title">
-          Weekly Class Schedule - Level {level}, Term {term === 1 ? "I" : "II"}
-        </h5>
+        <h5 className="schedule-title">Teacher: {teacherName}</h5>
       </div>
 
-      {/* Error Display */}
       {error && (
         <div
           className="alert alert-danger alert-dismissible fade show"
@@ -239,7 +183,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
         </div>
       )}
 
-      {/* Loading Spinner */}
       {loading && (
         <div className="text-center p-4">
           <div className="spinner-border text-primary" role="status">
@@ -249,7 +192,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
         </div>
       )}
 
-      {/* Schedule Table */}
       {!loading && !error && (
         <div className="table-responsive schedule-table-wrapper">
           <table className="table table-bordered text-center align-middle schedule-table">
@@ -268,27 +210,24 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
             </thead>
             <tbody>
               {DAYS.map((dayName, dayIndex) => {
-                //Time Slots
-                const slot1 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[0]); // 8:00
-                const slot2 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[1]); // 9:00
-                const slot3 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[2]); // 10:00
-                const slot4 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[4]); // 11:30
-                const slot5 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[5]); // 12:30
-                const slot6 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[6]); // 13:30
-                const slot7 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[7]); // 14:30
-                const slot8 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[8]); // 15:30
-                const slot9 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[9]); // 16:30
+                const slot1 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[0]);
+                const slot2 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[1]);
+                const slot3 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[2]);
+                const slot4 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[4]);
+                const slot5 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[5]);
+                const slot6 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[6]);
+                const slot7 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[7]);
+                const slot8 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[8]);
+                const slot9 = getScheduleForTimeSlot(dayIndex, TIME_SLOTS[9]);
 
-                //Session Slots
                 const sessionalSlot1 = isSessional(slot1);
                 const sessionalSlot2 = isSessional(slot4);
                 const sessionalSlot3 = isSessional(slot7);
 
                 return (
-                  <tr key={dayIndex} className="schedule-row">
+                  <tr key={dayIndex}>
                     <td className="day-cell fw-bold bg-light">{dayName}</td>
 
-                    {/* 8:00 - 8:50 - ONLY checking sessional here */}
                     <td
                       colSpan={sessionalSlot1 ? 3 : 1}
                       className={sessionalSlot1 ? "sessional-cell" : ""}
@@ -296,7 +235,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       {formatScheduleCell(slot1)}
                     </td>
 
-                    {/* 9:00 - 9:50 - NO sessional check */}
                     {!sessionalSlot1 && (
                       <td
                         className={isSessional(slot2) ? "sessional-cell" : ""}
@@ -305,7 +243,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       </td>
                     )}
 
-                    {/* 10:00 - 10:50 - NO sessional check */}
                     {!sessionalSlot1 && (
                       <td
                         className={isSessional(slot3) ? "sessional-cell" : ""}
@@ -314,12 +251,10 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       </td>
                     )}
 
-                    {/* Break */}
                     <td className="break-cell bg-warning bg-opacity-25">
                       10.50-11.30
                     </td>
 
-                    {/* 11:30 - 12:20 - ONLY checking sessional here */}
                     <td
                       colSpan={sessionalSlot2 ? 3 : 1}
                       className={sessionalSlot2 ? "sessional-cell" : ""}
@@ -327,7 +262,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       {formatScheduleCell(slot4)}
                     </td>
 
-                    {/* 12:30 - 13:20 - NO sessional check */}
                     {!sessionalSlot2 && (
                       <td
                         className={isSessional(slot5) ? "sessional-cell" : ""}
@@ -336,7 +270,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       </td>
                     )}
 
-                    {/* 13:30 - 14:20 - NO sessional check */}
                     {!sessionalSlot2 && (
                       <td
                         className={isSessional(slot6) ? "sessional-cell" : ""}
@@ -345,7 +278,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       </td>
                     )}
 
-                    {/* 14:30 - 15:20 - ONLY checking sessional here */}
                     <td
                       colSpan={sessionalSlot3 ? 3 : 1}
                       className={sessionalSlot3 ? "sessional-cell" : ""}
@@ -353,7 +285,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       {formatScheduleCell(slot7)}
                     </td>
 
-                    {/* 15:30 - 16:20 - NO sessional check */}
                     {!sessionalSlot3 && (
                       <td
                         className={isSessional(slot8) ? "sessional-cell" : ""}
@@ -362,7 +293,6 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                       </td>
                     )}
 
-                    {/* 16:30 - 17:20 - NO sessional check */}
                     {!sessionalSlot3 && (
                       <td
                         className={isSessional(slot9) ? "sessional-cell" : ""}
@@ -374,19 +304,18 @@ function WeeklyClassSchedule({ level, term, section }: Props) {
                 );
               })}
             </tbody>
-          </table>
+          </table>  
         </div>
       )}
 
-      {/* No Data Message */}
       {!loading && !error && schedules.length === 0 && (
         <div className="alert alert-info text-center" role="alert">
           <i className="bi bi-info-circle-fill me-2"></i>
-          No schedules found for Level {level}, Term {term === 1 ? "I" : "II"}
+          No schedules found for Teacher: {teacherName}
         </div>
       )}
     </div>
   );
 }
 
-export default WeeklyClassSchedule;
+export default RoutineForTeacher;
