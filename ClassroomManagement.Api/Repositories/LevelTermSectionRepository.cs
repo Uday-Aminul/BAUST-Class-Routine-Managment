@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassroomManagement.Api.Data;
+using ClassroomManagement.Api.Models;
+using ClassroomManagement.Api.Models.Domains;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClassroomManagement.Api.Repositories
@@ -155,6 +157,309 @@ namespace ClassroomManagement.Api.Repositories
             // level4_II_B.Classrooms.Add(room204);
             level4_II_B.Classrooms.Add(room311);
 
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task SeedTeacherAssignmentsAsync()
+        {
+            var levelTermSections = await _dbContext.LevelTermSections.ToListAsync();
+            var courses = await _dbContext.Courses.ToListAsync();
+            var sessionals = await _dbContext.Sessionals.ToListAsync();
+            var teachers = await _dbContext.Teachers.ToListAsync();
+
+            var teacherAssignments = new List<TeacherAssignment>();
+
+            // ===== Level 1, Term 1, Section A =====
+            var l1t1a = levelTermSections.First(lts => lts.Level == 1 && lts.Term == 1 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, CourseId = courses.First(c => c.CourseCode == "EEE 1163").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TQA") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NHC") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, CourseId = courses.First(c => c.CourseCode == "PHY 1131").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PHY") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, CourseId = courses.First(c => c.CourseCode == "ENG 1127").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ENG1") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, CourseId = courses.First(c => c.CourseCode == "MATH 1141").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH1") } },
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NHC"), teachers.First(t => t.Code == "MAM") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MH"), teachers.First(t => t.Code == "AHS") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "PHY 1132").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PHY") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 1164").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MA"), teachers.First(t => t.Code == "NHS") } }
+            });
+
+            // ===== Level 1, Term 1, Section B =====
+            var l1t1b = levelTermSections.First(lts => lts.Level == 1 && lts.Term == 1 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, CourseId = courses.First(c => c.CourseCode == "ENG 1127").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ENG1") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, CourseId = courses.First(c => c.CourseCode == "EEE 1163").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EEE1") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NHC") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, CourseId = courses.First(c => c.CourseCode == "PHY 1131").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PHY") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, CourseId = courses.First(c => c.CourseCode == "MATH 1141").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH1") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 1164").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MA") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "PHY 1132").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PHY") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MH"), teachers.First(t => t.Code == "AS") } },
+                new TeacherAssignment { LevelTermSectionId = l1t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AHS"), teachers.First(t => t.Code == "MAM") } }
+            });
+
+            // ===== Level 1, Term 2, Section A =====
+            var l1t2a = levelTermSections.First(lts => lts.Level == 1 && lts.Term == 2 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, CourseId = courses.First(c => c.CourseCode == "EEE 1269").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EMH") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, CourseId = courses.First(c => c.CourseCode == "MATH 1243").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH2") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AHS") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, CourseId = courses.First(c => c.CourseCode == "HUM 1221").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "HUM1") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1204").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH"), teachers.First(t => t.Code == "MH") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CE 1250").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PR") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "ENG 1228").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ENG2") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 1270").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EAS") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1208").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG"), teachers.First(t => t.Code == "MSZ") } }
+            });
+
+            // ===== Level 1, Term 2, Section B =====
+            var l1t2b = levelTermSections.First(lts => lts.Level == 1 && lts.Term == 2 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AHS") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 1203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ASM") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, CourseId = courses.First(c => c.CourseCode == "MATH 1243").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH2") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, CourseId = courses.First(c => c.CourseCode == "EEE 1269").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MA") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, CourseId = courses.First(c => c.CourseCode == "HUM 1221").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "HUM1") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1208").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG"), teachers.First(t => t.Code == "MSZ") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 1204").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ASM"), teachers.First(t => t.Code == "SG") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CE 1250").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "PR") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "ENG 1228").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ENG2") } },
+                new TeacherAssignment { LevelTermSectionId = l1t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 1270").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EAS") } }
+            });
+
+            // ===== Level 2, Term 1, Section A =====
+            var l2t1a = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 1 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSA") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, CourseId = courses.First(c => c.CourseCode == "CHEM 2133").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "CHEM") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, CourseId = courses.First(c => c.CourseCode == "MATH 2145").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH3") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MZH") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2105").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MO") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MZH"), teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SA") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MAM"), teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2108").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ST"), teachers.First(t => t.Code == "MSZ") } }
+            });
+
+            // ===== Level 2, Term 1, Section B =====
+            var l2t1b = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 1 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, CourseId = courses.First(c => c.CourseCode == "CHEM 2133").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "CHEM") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, CourseId = courses.First(c => c.CourseCode == "MATH 2145").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH3") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MZH") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SA") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2105").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MO") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MZH") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2108").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l2t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSA") } }
+            });
+
+            // ===== Level 2, Term 2, Section A =====
+            var l2t2a = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "RR") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "MATH 2247").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH4") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ST") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2205").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AKZ") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "EEE 2269").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EAS") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, CourseId = courses.First(c => c.CourseCode == "HUM 2221").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "HUM2") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 2270").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EEE2") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2206").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AKZ"), teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2202").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MO"), teachers.First(t => t.Code == "RR") } }
+            });
+
+            // ===== Level 2, Term 2, Section B =====
+            var l2t2b = levelTermSections.First(lts => lts.Level == 2 && lts.Term == 2 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "EEE 2269").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EAS") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "MATH 2247").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MATH4") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ST") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "HUM 2221").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "HUM2") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "RR") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 2205").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AKZ") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2206").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AKZ"), teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "EEE 2270").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "EEE2") } },
+                new TeacherAssignment { LevelTermSectionId = l2t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 2202").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MO"), teachers.First(t => t.Code == "RR") } }
+            });
+
+            // ===== Level 3, Term 1, Section A =====
+            var l3t1a = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 1 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3109").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3107").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MAM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "ME 3181").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ME") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3105").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MH") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM"), teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3110").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI"), teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MAM"), teachers.First(t => t.Code == "MO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG"), teachers.First(t => t.Code == "ASM") } }
+            });
+
+            // ===== Level 3, Term 1, Section B =====
+            var l3t1b = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 1 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3107").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MAM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3109").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "ME 3181").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ME") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3105").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MH") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM"), teachers.First(t => t.Code == "AS") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3110").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI"), teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3100").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MAM"), teachers.First(t => t.Code == "MO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SG"), teachers.First(t => t.Code == "ASM") } }
+            });
+
+            // ===== Level 3, Term 2, Section A =====
+            var l3t2a = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 2 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3207").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3205").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3209").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSZ") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3210").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS"), teachers.First(t => t.Code == "MSZ") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3200").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ST"), teachers.First(t => t.Code == "ASM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3206").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI"), teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3204").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SA"), teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3202").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS"), teachers.First(t => t.Code == "MI") } }
+            });
+
+            // ===== Level 3, Term 2, Section B =====
+            var l3t2b = levelTermSections.First(lts => lts.Level == 3 && lts.Term == 2 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3203").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3201").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3205").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3207").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 3209").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSZ") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3200").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "ST"), teachers.First(t => t.Code == "ASM") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3204").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "SA"), teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3210").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS"), teachers.First(t => t.Code == "MSZ") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3206").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MI"), teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l3t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 3202").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AS"), teachers.First(t => t.Code == "MI") } }
+            });
+
+            // ===== Level 4, Term 1, Section A =====
+            var l4t1a = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 1 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4141").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AZ") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, CourseId = courses.First(c => c.CourseCode == "HUM 4123").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "BBA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4139").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "JA") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AZ"), teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM"), teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4142").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH"), teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4140").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSA"), teachers.First(t => t.Code == "AZ") } }
+            });
+
+            // ===== Level 4, Term 1, Section B =====
+            var l4t1b = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 1 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4139").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4103").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, CourseId = courses.First(c => c.CourseCode == "HUM 4123").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "BBA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4101").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AZ") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4141").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4102").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NF1"), teachers.First(t => t.Code == "NAO") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4104").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "TMM"), teachers.First(t => t.Code == "AA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4142").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AH"), teachers.First(t => t.Code == "GR") } },
+                new TeacherAssignment { LevelTermSectionId = l4t1b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4140").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "MSA"), teachers.First(t => t.Code == "AZ") } }
+            });
+
+            // ===== Level 4, Term 2, Section A =====
+            var l4t2a = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 2 && lts.Section == "A");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "IPE 4217").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "IPE") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4251").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4215").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NF1") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4245").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "JA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "HUM 4273").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AIS") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4249").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "RA"), teachers.First(t => t.Code == "MAS") } },
+
+                // Sessionals
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4246").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "JA"), teachers.First(t => t.Code == "SA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2a.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4252").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR"), teachers.First(t => t.Code == "SA") } }
+            });
+
+            // ===== Level 4, Term 2, Section B =====
+            var l4t2b = levelTermSections.First(lts => lts.Level == 4 && lts.Term == 2 && lts.Section == "B");
+            teacherAssignments.AddRange(new[]
+            {
+                // Theory Courses (Same as Section A)
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "IPE 4217").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "IPE") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4251").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4215").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NF1") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4245").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "JA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "HUM 4273").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "AIS") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, CourseId = courses.First(c => c.CourseCode == "CSE 4249").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "RA"), teachers.First(t => t.Code == "MAS") } },
+
+                // Sessionals (Same as Section A)
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4246").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "JA"), teachers.First(t => t.Code == "SA") } },
+                new TeacherAssignment { LevelTermSectionId = l4t2b.Id, SessionalId = sessionals.First(s => s.SessionalCode == "CSE 4252").Id, Teachers = new List<Teacher> { teachers.First(t => t.Code == "NR"), teachers.First(t => t.Code == "SA") } }
+            });
+
+            await _dbContext.TeacherAssignments.AddRangeAsync(teacherAssignments);
             await _dbContext.SaveChangesAsync();
         }
     }

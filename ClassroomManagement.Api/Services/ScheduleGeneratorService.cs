@@ -27,14 +27,14 @@ namespace ClassroomManagement.Api.Services
         public async Task<List<string>> GenerateAllSchedulesAsync()
         {
             var response = new List<string>();
-            var levelTermSections = await _dbContext.LevelTermSections.ToListAsync();
+            var levelTermSections = await _dbContext.LevelTermSections.Include(lt => lt.AssignedTeachers).ThenInclude(at => at.Teachers).ToListAsync();
 
             // Clearing existing schedules before generating new ones
             await _dbContext.ClassSchedules.ExecuteDeleteAsync();
 
             foreach (var levelTermSection in levelTermSections)
             {
-                var sessionals075cr = await _dbContext.Sessionals.Include(s => s.Teachers).Include(s => s.Labrooms).Where(s => s.Level == levelTermSection.Level && s.Term == levelTermSection.Term && s.Credit == 0.75).ToListAsync();
+                var sessionals075cr = await _dbContext.Sessionals.Include(s => s.Labrooms).Where(s => s.Level == levelTermSection.Level && s.Term == levelTermSection.Term && s.Credit == 0.75).ToListAsync();
                 if (sessionals075cr.Count >= 2)
                 {
                     var schedulesToAdd = new List<ClassSchedule>();
@@ -85,7 +85,7 @@ namespace ClassroomManagement.Api.Services
             var sessionalsCopy = sessionals.ToList(); // To avoid modifying the original list while iterating
             foreach (var sessional in sessionalsCopy)
             {
-                var teachers = sessional.Teachers.ToList();
+                var teachers = levelTermSection.AssignedTeachers.First(at => at.SessionalId == sessional.Id).Teachers.ToList();
                 var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day);
                 var labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
                 if (allTeachersAvailable is true && labroom is not null)
@@ -101,7 +101,7 @@ namespace ClassroomManagement.Api.Services
                         EndTime = endTime,
                         LabroomId = labroom.Id,
                         SessionalId = sessional.Id,
-                        Teachers = sessional.Teachers,
+                        Teachers = teachers,
                         WeekType = weekType
                     };
                     schedulesToAdd.Add(schedule);
@@ -135,7 +135,6 @@ namespace ClassroomManagement.Api.Services
             //getting courses
             var courses = await _dbContext.Courses
                 .Where(course => course.Level == level && course.Term == term)
-                .Include(c => c.Teacher)
                 .ToListAsync();
             var totalCourseCredit = 0.0;
             foreach (var course in courses)
@@ -146,7 +145,6 @@ namespace ClassroomManagement.Api.Services
             //getting sessionals
             var sessionals = await _dbContext.Sessionals
                 .Where(s => s.Level == level && s.Term == term)
-                .Include(s => s.Teachers)
                 .Include(s => s.Labrooms)
                 .ToListAsync();
             var sessionalCount = sessionals.Count;
@@ -309,7 +307,14 @@ namespace ClassroomManagement.Api.Services
                     .ToList();
             }
             var placedCourses = new List<Course>();
-
+            var levelTermSection = await
+                        _dbContext.LevelTermSections
+                        .Include(lt => lt.AssignedTeachers)
+                        .ThenInclude(at => at.Teachers)
+                        .FirstOrDefaultAsync(lt =>
+                            lt.Level == schedulingState.Level &&
+                            lt.Term == schedulingState.Term &&
+                            lt.Section == schedulingState.Section);
             foreach (var slot in slots)
             {
                 var coursesCopy = courseToConsider
@@ -317,7 +322,7 @@ namespace ClassroomManagement.Api.Services
                     .ToList(); // Refreshing the copy for each slot
                 foreach (var course in coursesCopy)
                 {
-                    var teacher = course.Teacher;
+                    var teacher = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == course.Id).Teachers.FirstOrDefault();
                     var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
                     var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
                     if (teacherAvailable is true && availableClassroom is not null)
@@ -343,7 +348,7 @@ namespace ClassroomManagement.Api.Services
                     else
                     {
                         var swapPerformed = false;
-                        var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null);
+                        var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null).ToList(); // To avoid modifying the original list while iterating
                         //var courseSchedulesCopy = courseSchedules.ToList();
                         foreach (var courseSchedule in courseSchedules)
                         {
@@ -408,11 +413,19 @@ namespace ClassroomManagement.Api.Services
             TimeOnly startTime,
             TimeOnly endTime)
         {
+            var levelTermSection = await
+                        _dbContext.LevelTermSections
+                        .Include(lt => lt.AssignedTeachers)
+                        .ThenInclude(at => at.Teachers)
+                        .FirstOrDefaultAsync(lt =>
+                            lt.Level == schedulingState.Level &&
+                            lt.Term == schedulingState.Term &&
+                            lt.Section == schedulingState.Section);
             //Ordered by Ascending
             var sessionalsCopy = schedulingState.Sessionals.OrderBy(s => s.Credit).ToList(); // To avoid modifying the original list while iterating
             foreach (var sessional in sessionalsCopy)
             {
-                var teachers = sessional.Teachers.ToList();
+                var teachers = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.SessionalId == sessional.Id).Teachers.ToList();
                 var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day);
                 Labroom labroom = null;
                 bool? evenAvailability = null;
@@ -433,7 +446,7 @@ namespace ClassroomManagement.Api.Services
                             WeekType = evenAvailability.Value ? "EVEN" : "ODD",
                             LabroomId = labroom.Id,
                             SessionalId = sessional.Id,
-                            Teachers = sessional.Teachers,
+                            Teachers = teachers,
                         };
                         schedulingState.SchedulesToAdd.Add(schedule);
                         schedulingState.Sessionals.Remove(sessional);
@@ -456,7 +469,7 @@ namespace ClassroomManagement.Api.Services
                                 WeekType = "EVEN",
                                 LabroomId = labroom.Id,
                                 SessionalId = sessional.Id,
-                                Teachers = sessional.Teachers,
+                                Teachers = teachers,
                             };
                             schedulingState.SchedulesToAdd.Add(schedule);
                             schedulingState.Sessionals.Remove(sessional);
@@ -480,7 +493,7 @@ namespace ClassroomManagement.Api.Services
                             Section = schedulingState.Section,
                             LabroomId = labroom.Id,
                             SessionalId = sessional.Id,
-                            Teachers = sessional.Teachers,
+                            Teachers = teachers,
                         };
                         schedulingState.SchedulesToAdd.Add(schedule);
                         schedulingState.Sessionals.Remove(sessional);

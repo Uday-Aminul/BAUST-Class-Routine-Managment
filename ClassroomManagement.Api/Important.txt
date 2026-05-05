@@ -24,3 +24,7 @@ Problems:
 27. Need to control which levelterms will be scheduled first. Maybe by a custom for loop. 
 
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.
+
+28. var courseSchedules = schedulingState.SchedulesToAdd
+    .Where(s => s.Day == day && s.CourseId is not null)
+    .ToList();  // ← Add this!  In PlaceTheoryAsync

@@ -25,10 +25,8 @@ namespace ClassroomManagement.Api.Repositories
         .Include(l => l.AllowedSessionals)
         .Include(l => l.ClassSchedules)
             .ThenInclude(cs => cs.Course)
-            .ThenInclude(c => c.Teacher)
         .Include(l => l.ClassSchedules)
             .ThenInclude(cs => cs.Sessional)
-            .ThenInclude(s => s.Teachers)
         .FirstOrDefaultAsync(l => l.RoomNumber == roomNumber);
 
             return labroom;  // Returns Labroom? (could be null if not found)

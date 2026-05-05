@@ -18,6 +18,6 @@ namespace ClassroomManagement.Api.Models.Domains
         public LevelTermSection LevelTermSection { get; set; }
         public Course? Course { get; set; }
         public Sessional? Sessional { get; set; }
-        public List<Teacher> Teacher { get; set; }
+        public List<Teacher> Teachers { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace ClassroomManagement.Api.Repositories
     public interface ILevelTermSectionRepository
     {
         Task SeedClassroomsForLevelTermSectionsAsync();
+        Task SeedTeacherAssignmentsAsync();
     }
 }

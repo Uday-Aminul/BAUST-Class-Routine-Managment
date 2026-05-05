@@ -21,6 +21,7 @@ namespace ClassroomManagement.Api.Data
         public DbSet<LevelTermSection> LevelTermSections { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<ClassSchedule> ClassSchedules { get; set; }
+        public DbSet<TeacherAssignment> TeacherAssignments { get; set; }
 
         public DbSet<Dictionary<string, object>> SessionalTeacher { get; set; }
         public DbSet<Dictionary<string, object>> SessionalLabroom { get; set; }
@@ -265,7 +266,7 @@ namespace ClassroomManagement.Api.Data
                 new LevelTermSection { Id = 14, Level = 4, Term = 1, Section = "A" },
                 new LevelTermSection { Id = 15, Level = 4, Term = 1, Section = "B" },
                 
-                // Level 4, Term 2 - Section A only
+                // Level 4, Term 2 - Section A, B
                 new LevelTermSection { Id = 16, Level = 4, Term = 2, Section = "A" },
                 new LevelTermSection { Id = 17, Level = 4, Term = 2, Section = "B" },
             };

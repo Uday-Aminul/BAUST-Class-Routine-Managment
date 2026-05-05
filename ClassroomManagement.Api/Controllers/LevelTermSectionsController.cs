@@ -10,9 +10,9 @@ namespace ClassroomManagement.Api.Controllers
         private readonly ILevelTermSectionRepository _levelTermSectionRepository;
         private readonly IMapper _mapper;
 
-        public LevelTermSectionsController(ILevelTermSectionRepository labroomRepository, IMapper mapper)
+        public LevelTermSectionsController(ILevelTermSectionRepository levelTermSectionRepository, IMapper mapper)
         {
-            _levelTermSectionRepository = labroomRepository;
+            _levelTermSectionRepository = levelTermSectionRepository;
         }
 
         [HttpPost]
@@ -23,5 +23,12 @@ namespace ClassroomManagement.Api.Controllers
             return Ok("Classrooms assigned to Sections successfully.");
         }
 
+        [HttpPost]
+        [Route("AssignTeachers")]
+        public async Task<IActionResult> AssignTeachers()
+        {
+            await _levelTermSectionRepository.SeedTeacherAssignmentsAsync();
+            return Ok("Teachers assigned to Sections successfully.");
+        }
     }
 }
