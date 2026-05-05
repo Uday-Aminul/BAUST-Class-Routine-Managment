@@ -21,6 +21,6 @@ Problems:
 23. updating the allowed sessionals on a room.
 25. Improving teacher availability for 0.75cr sessional.
 26. Classrooms should be able to exist without any sections assigned to them. So, List of LevelTermSections in Classroom model should be nullable.
-
+27. Need to control which levelterms will be scheduled first. Maybe by a custom for loop. 
 
 9. Need to have a revision of all the crud operations are done in the API. hint:Add and Update operation for ClassSchedule.

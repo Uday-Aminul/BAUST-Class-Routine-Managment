@@ -10,7 +10,8 @@ namespace ClassroomManagement.Api.Models.Domains
         public float Credit { get; set; }
 
         //Navigation Property
-        public List<Teacher>? Teachers { get; set; } = new List<Teacher>();//Why need these
-        public List<Labroom>? Labrooms { get; set; } = new List<Labroom>();
+        public List<Labroom>? Labrooms { get; set; }
+        // public List<Teacher>? Teachers { get; set; } = new List<Teacher>();//Why need these
+        // public List<Labroom>? Labrooms { get; set; } = new List<Labroom>();
     }
 }

@@ -7,7 +7,7 @@ namespace ClassroomManagement.Api.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string? Code { get; set; }
+        public string Code { get; set; }
         public string Designation { get; set; }
         [NotMapped]
         public float AssignedCredit => (AssignedCourses?.Sum(c => c.Credit) ?? 0) + (AssignedSessionals?.Sum(s => s.Credit) ?? 0);

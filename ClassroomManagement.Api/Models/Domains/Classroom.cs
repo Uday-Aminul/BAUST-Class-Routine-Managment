@@ -8,7 +8,7 @@ namespace ClassroomManagement.Api.Models
         public int RoomNumber { get; set; }
 
         //Navigation Property
-        public List<LevelTermSection> LevelTermSections { get; set; }
+        public List<LevelTermSection>? LevelTermSections { get; set; }
         public List<ClassSchedule>? ClassSchedules { get; set; }
     }
 }

@@ -136,63 +136,63 @@ namespace ClassroomManagement.Api.Data
             var courses = new List<Course>
             {
                 // Level 1, Term 1
-                new Course { Id = 1, Name = "Introduction to Electrical Engineering", CourseCode = "EEE 1163", Level = 1, Term = 1, Credit = 3.0f, TeacherId = 1 },
-                new Course { Id = 2, Name = "Structured Programming Language", CourseCode = "CSE 1101", Level = 1, Term = 1, Credit = 3.0f, TeacherId = 2 },
-                new Course { Id = 3, Name = "Physics", CourseCode = "PHY 1131", Level = 1, Term = 1, Credit = 3.0f, TeacherId = 3 },
-                new Course { Id = 4, Name = "English", CourseCode = "ENG 1127", Level = 1, Term = 1, Credit = 3.0f, TeacherId = 5 },
-                new Course { Id = 5, Name = "MATH 1141", CourseCode = "MATH 1141", Level = 1, Term = 1, Credit = 3.0f, TeacherId = 49 },
+                new Course { Id = 1, Name = "Introduction to Electrical Engineering", CourseCode = "EEE 1163", Level = 1, Term = 1, Credit = 3.0f },
+                new Course { Id = 2, Name = "Structured Programming Language", CourseCode = "CSE 1101", Level = 1, Term = 1, Credit = 3.0f },
+                new Course { Id = 3, Name = "Physics", CourseCode = "PHY 1131", Level = 1, Term = 1, Credit = 3.0f },
+                new Course { Id = 4, Name = "English", CourseCode = "ENG 1127", Level = 1, Term = 1, Credit = 3.0f },
+                new Course { Id = 5, Name = "MATH 1141", CourseCode = "MATH 1141", Level = 1, Term = 1, Credit = 3.0f },
 
                 // Level 1, Term 2
-                new Course { Id = 6, Name = "Object Oriented Programming Language I", CourseCode = "CSE 1203", Level = 1, Term = 2, Credit = 3.0f, TeacherId = 8 },
-                new Course { Id = 7, Name = "Electronic Circuits", CourseCode = "EEE 1269", Level = 1, Term = 2, Credit = 3.0f, TeacherId = 10 },
-                new Course { Id = 8, Name = "MATH 1243", CourseCode = "MATH 1243", Level = 1, Term = 2, Credit = 3.0f, TeacherId = 11 },
-                new Course { Id = 9, Name = "Discrete Mathematics", CourseCode = "CSE 1201", Level = 1, Term = 2, Credit = 3.0f, TeacherId = 14 },
-                new Course { Id = 10, Name = "Bengali Language and Literature", CourseCode = "HUM 1221", Level = 1, Term = 2, Credit = 2.0f, TeacherId = 45 },
+                new Course { Id = 6, Name = "Object Oriented Programming Language I", CourseCode = "CSE 1203", Level = 1, Term = 2, Credit = 3.0f },
+                new Course { Id = 7, Name = "Electronic Circuits", CourseCode = "EEE 1269", Level = 1, Term = 2, Credit = 3.0f },
+                new Course { Id = 8, Name = "MATH 1243", CourseCode = "MATH 1243", Level = 1, Term = 2, Credit = 3.0f },
+                new Course { Id = 9, Name = "Discrete Mathematics", CourseCode = "CSE 1201", Level = 1, Term = 2, Credit = 3.0f },
+                new Course { Id = 10, Name = "Bengali Language and Literature", CourseCode = "HUM 1221", Level = 1, Term = 2, Credit = 2.0f },
 
                 // Level 2, Term 1
-                new Course { Id = 11, Name = "Digital Logic Design", CourseCode = "CSE 2101", Level = 2, Term = 1, Credit = 3.0f, TeacherId = 16 },
-                new Course { Id = 12, Name = "Chemistry", CourseCode = "CHEM 2133", Level = 2, Term = 1, Credit = 3.0f, TeacherId = 17 },
-                new Course { Id = 13, Name = "MATH 2145", CourseCode = "MATH 2145", Level = 2, Term = 1, Credit = 3.0f, TeacherId = 18 },
-                new Course { Id = 14, Name = "Data Structures and Algorithm I", CourseCode = "CSE 2103", Level = 2, Term = 1, Credit = 3.0f, TeacherId = 19 },
-                new Course { Id = 15, Name = "Applied Statistics", CourseCode = "CSE 2105", Level = 2, Term = 1, Credit = 3.0f, TeacherId = 20 },
+                new Course { Id = 11, Name = "Digital Logic Design", CourseCode = "CSE 2101", Level = 2, Term = 1, Credit = 3.0f },
+                new Course { Id = 12, Name = "Chemistry", CourseCode = "CHEM 2133", Level = 2, Term = 1, Credit = 3.0f },
+                new Course { Id = 13, Name = "MATH 2145", CourseCode = "MATH 2145", Level = 2, Term = 1, Credit = 3.0f },
+                new Course { Id = 14, Name = "Data Structures and Algorithm I", CourseCode = "CSE 2103", Level = 2, Term = 1, Credit = 3.0f },
+                new Course { Id = 15, Name = "Applied Statistics", CourseCode = "CSE 2105", Level = 2, Term = 1, Credit = 3.0f },
 
                 // Level 2, Term 2
-                new Course { Id = 16, Name = "Data Structures and Algorithm II", CourseCode = "CSE 2201", Level = 2, Term = 2, Credit = 3.0f, TeacherId = 21 },
-                new Course { Id = 17, Name = "MATH 2247", CourseCode = "MATH 2247", Level = 2, Term = 2, Credit = 3.0f, TeacherId = 22 },
-                new Course { Id = 18, Name = "Theory of Computation", CourseCode = "CSE 2203", Level = 2, Term = 2, Credit = 3.0f, TeacherId = 23 },
-                new Course { Id = 19, Name = "Electrical Drives", CourseCode = "EEE 2269", Level = 2, Term = 2, Credit = 3.0f, TeacherId = 26 },
-                new Course { Id = 20, Name = "Database Management Systems", CourseCode = "CSE 2205", Level = 2, Term = 2, Credit = 3.0f, TeacherId = 24 },
-                new Course { Id = 21, Name = "History of Bangladesh", CourseCode = "HUM 2221", Level = 2, Term = 2, Credit = 2.0f, TeacherId = 46 },
+                new Course { Id = 16, Name = "Data Structures and Algorithm II", CourseCode = "CSE 2201", Level = 2, Term = 2, Credit = 3.0f },
+                new Course { Id = 17, Name = "MATH 2247", CourseCode = "MATH 2247", Level = 2, Term = 2, Credit = 3.0f },
+                new Course { Id = 18, Name = "Theory of Computation", CourseCode = "CSE 2203", Level = 2, Term = 2, Credit = 3.0f },
+                new Course { Id = 19, Name = "Electrical Drives", CourseCode = "EEE 2269", Level = 2, Term = 2, Credit = 3.0f },
+                new Course { Id = 20, Name = "Database Management Systems", CourseCode = "CSE 2205", Level = 2, Term = 2, Credit = 3.0f },
+                new Course { Id = 21, Name = "History of Bangladesh", CourseCode = "HUM 2221", Level = 2, Term = 2, Credit = 2.0f },
 
                 // Level 3, Term 1
-                new Course { Id = 22, Name = "Compiler", CourseCode = "CSE 3109", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 28 },
-                new Course { Id = 23, Name = "Microprocessors", CourseCode = "CSE 3103", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 29 },
-                new Course { Id = 24, Name = "Data Communication", CourseCode = "CSE 3107", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 4 },
-                new Course { Id = 25, Name = "Software Engineering", CourseCode = "CSE 3101", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 12 },
-                new Course { Id = 26, Name = "Mechanical Engineering", CourseCode = "ME 3181", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 47 },
-                new Course { Id = 27, Name = "Computer Architecture", CourseCode = "CSE 3105", Level = 3, Term = 1, Credit = 3.0f, TeacherId = 9 },
+                new Course { Id = 22, Name = "Compiler", CourseCode = "CSE 3109", Level = 3, Term = 1, Credit = 3.0f },
+                new Course { Id = 23, Name = "Microprocessors", CourseCode = "CSE 3103", Level = 3, Term = 1, Credit = 3.0f },
+                new Course { Id = 24, Name = "Data Communication", CourseCode = "CSE 3107", Level = 3, Term = 1, Credit = 3.0f },
+                new Course { Id = 25, Name = "Software Engineering", CourseCode = "CSE 3101", Level = 3, Term = 1, Credit = 3.0f },
+                new Course { Id = 26, Name = "Mechanical Engineering", CourseCode = "ME 3181", Level = 3, Term = 1, Credit = 3.0f },
+                new Course { Id = 27, Name = "Computer Architecture", CourseCode = "CSE 3105", Level = 3, Term = 1, Credit = 3.0f },
 
                 // Level 3, Term 2
-                new Course { Id = 28, Name = "Artificial Intelligence", CourseCode = "CSE 3201", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 32 },
-                new Course { Id = 29, Name = "Operating System", CourseCode = "CSE 3203", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 30 },
-                new Course { Id = 30, Name = "Math Analysis", CourseCode = "CSE 3207", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 25 },
-                new Course { Id = 31, Name = "Computer Networks", CourseCode = "CSE 3205", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 31 },
-                new Course { Id = 32, Name = "Information System Design", CourseCode = "CSE 3209", Level = 3, Term = 2, Credit = 3.0f, TeacherId = 13 },
+                new Course { Id = 28, Name = "Artificial Intelligence", CourseCode = "CSE 3201", Level = 3, Term = 2, Credit = 3.0f },
+                new Course { Id = 29, Name = "Operating System", CourseCode = "CSE 3203", Level = 3, Term = 2, Credit = 3.0f },
+                new Course { Id = 30, Name = "Math Analysis", CourseCode = "CSE 3207", Level = 3, Term = 2, Credit = 3.0f },
+                new Course { Id = 31, Name = "Computer Networks", CourseCode = "CSE 3205", Level = 3, Term = 2, Credit = 3.0f },
+                new Course { Id = 32, Name = "Information System Design", CourseCode = "CSE 3209", Level = 3, Term = 2, Credit = 3.0f },
 
                 // Level 4, Term 1
-                new Course { Id = 33, Name = "Machine Learning", CourseCode = "CSE 4139", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 33 },
-                new Course { Id = 34, Name = "Computer Graphics", CourseCode = "CSE 4103", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 34 },
-                new Course { Id = 35, Name = "Engineering Economics", CourseCode = "HUM 4123", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 36 },
-                new Course { Id = 36, Name = "Object Oriented Software Eng", CourseCode = "CSE 4141", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 8 },
-                new Course { Id = 37, Name = "Computer Security", CourseCode = "CSE 4101", Level = 4, Term = 1, Credit = 3.0f, TeacherId = 35 },
+                new Course { Id = 33, Name = "Machine Learning", CourseCode = "CSE 4139", Level = 4, Term = 1, Credit = 3.0f },
+                new Course { Id = 34, Name = "Computer Graphics", CourseCode = "CSE 4103", Level = 4, Term = 1, Credit = 3.0f },
+                new Course { Id = 35, Name = "Engineering Economics", CourseCode = "HUM 4123", Level = 4, Term = 1, Credit = 3.0f },
+                new Course { Id = 36, Name = "Object Oriented Software Eng", CourseCode = "CSE 4141", Level = 4, Term = 1, Credit = 3.0f },
+                new Course { Id = 37, Name = "Computer Security", CourseCode = "CSE 4101", Level = 4, Term = 1, Credit = 3.0f },
 
                 // Level 4, Term 2
-                new Course { Id = 38, Name = "Industrial Management", CourseCode = "IPE 4217", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 39 },
-                new Course { Id = 39, Name = "Data Warehousing", CourseCode = "CSE 4251", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 31 },
-                new Course { Id = 40, Name = "Image Processing", CourseCode = "CSE 4245", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 33 },
-                new Course { Id = 41, Name = "Professional Ethics", CourseCode = "CSE 4215", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 38 },
-                new Course { Id = 42, Name = "Accounting", CourseCode = "HUM 4273", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 40 },
-                new Course { Id = 43, Name = "VLSI Design", CourseCode = "CSE 4249", Level = 4, Term = 2, Credit = 2.0f, TeacherId = 41 }
+                new Course { Id = 38, Name = "Industrial Management", CourseCode = "IPE 4217", Level = 4, Term = 2, Credit = 2.0f },
+                new Course { Id = 39, Name = "Data Warehousing", CourseCode = "CSE 4251", Level = 4, Term = 2, Credit = 2.0f },
+                new Course { Id = 40, Name = "Image Processing", CourseCode = "CSE 4245", Level = 4, Term = 2, Credit = 2.0f },
+                new Course { Id = 41, Name = "Professional Ethics", CourseCode = "CSE 4215", Level = 4, Term = 2, Credit = 2.0f },
+                new Course { Id = 42, Name = "Accounting", CourseCode = "HUM 4273", Level = 4, Term = 2, Credit = 2.0f },
+                new Course { Id = 43, Name = "VLSI Design", CourseCode = "CSE 4249", Level = 4, Term = 2, Credit = 2.0f }
             };
             modelBuilder.Entity<Course>().HasData(courses);
 

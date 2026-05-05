@@ -4,7 +4,7 @@ namespace ClassroomManagement.Api.Models.Domains
     {
         public int Id { get; set; }
         public int RoomNumber { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         //Navigation Property
         public List<Sessional>? AllowedSessionals { get; set; }
