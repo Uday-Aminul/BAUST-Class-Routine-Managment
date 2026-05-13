@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassroomManagement.Api.Migrations
 {
     [DbContext(typeof(ClassroomManagementDbContext))]
-    [Migration("20260505183042_Initial Create.")]
+    [Migration("20260509114914_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1250,7 +1250,7 @@ namespace ClassroomManagement.Api.Migrations
 
                     b.HasIndex("SessionalId");
 
-                    b.ToTable("TeacherAssignment");
+                    b.ToTable("TeacherAssignments");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
@@ -1273,12 +1273,7 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeacherAssignmentId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherAssignmentId");
 
                     b.ToTable("Teachers");
 
@@ -1643,6 +1638,21 @@ namespace ClassroomManagement.Api.Migrations
                     b.ToTable("LabroomSessional");
                 });
 
+            modelBuilder.Entity("TeacherTeacherAssignment", b =>
+                {
+                    b.Property<int>("AssignedSectionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignedSectionsId", "TeachersId");
+
+                    b.HasIndex("TeachersId");
+
+                    b.ToTable("TeacherTeacherAssignment");
+                });
+
             modelBuilder.Entity("ClassScheduleTeacher", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.ClassSchedule", null)
@@ -1737,13 +1747,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Sessional");
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Domains.TeacherAssignment", null)
-                        .WithMany("Teachers")
-                        .HasForeignKey("TeacherAssignmentId");
-                });
-
             modelBuilder.Entity("LabroomSessional", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Domains.Sessional", null)
@@ -1755,6 +1758,21 @@ namespace ClassroomManagement.Api.Migrations
                     b.HasOne("ClassroomManagement.Api.Models.Domains.Labroom", null)
                         .WithMany()
                         .HasForeignKey("LabroomsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TeacherTeacherAssignment", b =>
+                {
+                    b.HasOne("ClassroomManagement.Api.Models.Domains.TeacherAssignment", null)
+                        .WithMany()
+                        .HasForeignKey("AssignedSectionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1772,11 +1790,6 @@ namespace ClassroomManagement.Api.Migrations
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTermSection", b =>
                 {
                     b.Navigation("AssignedTeachers");
-                });
-
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.TeacherAssignment", b =>
-                {
-                    b.Navigation("Teachers");
                 });
 
             modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>

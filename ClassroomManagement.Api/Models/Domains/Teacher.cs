@@ -16,5 +16,6 @@ namespace ClassroomManagement.Api.Models
         public List<Course>? AssignedCourses { get; set; }
         public List<Sessional>? AssignedSessionals { get; set; }
         public List<ClassSchedule>? Classes { get; set; }
+        public List<TeacherAssignment>? AssignedSections { get; set; }
     }
 }

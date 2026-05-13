@@ -307,14 +307,7 @@ namespace ClassroomManagement.Api.Services
                     .ToList();
             }
             var placedCourses = new List<Course>();
-            var levelTermSection = await
-                        _dbContext.LevelTermSections
-                        .Include(lt => lt.AssignedTeachers)
-                        .ThenInclude(at => at.Teachers)
-                        .FirstOrDefaultAsync(lt =>
-                            lt.Level == schedulingState.Level &&
-                            lt.Term == schedulingState.Term &&
-                            lt.Section == schedulingState.Section);
+            var levelTermSection = await _dbContext.LevelTermSections.Include(lt => lt.AssignedTeachers).ThenInclude(at => at.Teachers).FirstOrDefaultAsync(lt => lt.Level == schedulingState.Level && lt.Term == schedulingState.Term && lt.Section == schedulingState.Section);
             foreach (var slot in slots)
             {
                 var coursesCopy = courseToConsider
@@ -322,6 +315,7 @@ namespace ClassroomManagement.Api.Services
                     .ToList(); // Refreshing the copy for each slot
                 foreach (var course in coursesCopy)
                 {
+                    //Error Debug
                     var teacher = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == course.Id).Teachers.FirstOrDefault();
                     var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
                     var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);

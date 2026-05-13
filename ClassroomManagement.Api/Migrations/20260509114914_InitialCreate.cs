@@ -56,6 +56,21 @@ namespace ClassroomManagement.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Teachers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Designation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teachers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ClassroomLevelTermSection",
                 columns: table => new
                 {
@@ -77,6 +92,52 @@ namespace ClassroomManagement.Api.Migrations
                         principalTable: "LevelTermSections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CourseCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Term = table.Column<int>(type: "int", nullable: false),
+                    Credit = table.Column<float>(type: "real", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Courses_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sessionals",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SessionalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    Term = table.Column<int>(type: "int", nullable: false),
+                    Credit = table.Column<float>(type: "real", nullable: false),
+                    TeacherId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sessionals", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Sessionals_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -106,9 +167,74 @@ namespace ClassroomManagement.Api.Migrations
                         principalTable: "Classrooms",
                         principalColumn: "Id");
                     table.ForeignKey(
+                        name: "FK_ClassSchedules_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_ClassSchedules_Labrooms_LabroomId",
                         column: x => x.LabroomId,
                         principalTable: "Labrooms",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ClassSchedules_Sessionals_SessionalId",
+                        column: x => x.SessionalId,
+                        principalTable: "Sessionals",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LabroomSessional",
+                columns: table => new
+                {
+                    AllowedSessionalsId = table.Column<int>(type: "int", nullable: false),
+                    LabroomsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LabroomSessional", x => new { x.AllowedSessionalsId, x.LabroomsId });
+                    table.ForeignKey(
+                        name: "FK_LabroomSessional_Labrooms_LabroomsId",
+                        column: x => x.LabroomsId,
+                        principalTable: "Labrooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LabroomSessional_Sessionals_AllowedSessionalsId",
+                        column: x => x.AllowedSessionalsId,
+                        principalTable: "Sessionals",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TeacherAssignments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    LevelTermSectionId = table.Column<int>(type: "int", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    SessionalId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TeacherAssignments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TeacherAssignments_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_TeacherAssignments_LevelTermSections_LevelTermSectionId",
+                        column: x => x.LevelTermSectionId,
+                        principalTable: "LevelTermSections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TeacherAssignments_Sessionals_SessionalId",
+                        column: x => x.SessionalId,
+                        principalTable: "Sessionals",
                         principalColumn: "Id");
                 });
 
@@ -128,112 +254,36 @@ namespace ClassroomManagement.Api.Migrations
                         principalTable: "ClassSchedules",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Term = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<float>(type: "real", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "LabroomSessional",
-                columns: table => new
-                {
-                    AllowedSessionalsId = table.Column<int>(type: "int", nullable: false),
-                    LabroomsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LabroomSessional", x => new { x.AllowedSessionalsId, x.LabroomsId });
                     table.ForeignKey(
-                        name: "FK_LabroomSessional_Labrooms_LabroomsId",
-                        column: x => x.LabroomsId,
-                        principalTable: "Labrooms",
+                        name: "FK_ClassScheduleTeacher_Teachers_TeachersId",
+                        column: x => x.TeachersId,
+                        principalTable: "Teachers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sessionals",
+                name: "TeacherTeacherAssignment",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SessionalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Level = table.Column<int>(type: "int", nullable: false),
-                    Term = table.Column<int>(type: "int", nullable: false),
-                    Credit = table.Column<float>(type: "real", nullable: false),
-                    TeacherId = table.Column<int>(type: "int", nullable: true)
+                    AssignedSectionsId = table.Column<int>(type: "int", nullable: false),
+                    TeachersId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sessionals", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeacherAssignment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    LevelTermSectionId = table.Column<int>(type: "int", nullable: false),
-                    CourseId = table.Column<int>(type: "int", nullable: true),
-                    SessionalId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeacherAssignment", x => x.Id);
+                    table.PrimaryKey("PK_TeacherTeacherAssignment", x => new { x.AssignedSectionsId, x.TeachersId });
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_TeacherAssignment_LevelTermSections_LevelTermSectionId",
-                        column: x => x.LevelTermSectionId,
-                        principalTable: "LevelTermSections",
+                        name: "FK_TeacherTeacherAssignment_TeacherAssignments_AssignedSectionsId",
+                        column: x => x.AssignedSectionsId,
+                        principalTable: "TeacherAssignments",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TeacherAssignment_Sessionals_SessionalId",
-                        column: x => x.SessionalId,
-                        principalTable: "Sessionals",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Teachers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Designation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TeacherAssignmentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Teachers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Teachers_TeacherAssignment_TeacherAssignmentId",
-                        column: x => x.TeacherAssignmentId,
-                        principalTable: "TeacherAssignment",
-                        principalColumn: "Id");
+                        name: "FK_TeacherTeacherAssignment_Teachers_TeachersId",
+                        column: x => x.TeachersId,
+                        principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -399,58 +449,58 @@ namespace ClassroomManagement.Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Teachers",
-                columns: new[] { "Id", "Code", "Designation", "Name", "TeacherAssignmentId" },
+                columns: new[] { "Id", "Code", "Designation", "Name" },
                 values: new object[,]
                 {
-                    { 1, "TQA", "Lecturer", "TQA", null },
-                    { 2, "NHC", "Lecturer", "NHC", null },
-                    { 3, "PHY", "Assistant Professor", "PHY", null },
-                    { 4, "MAM", "Assistant Professor", "MAM", null },
-                    { 5, "ENG1", "Lecturer", "ENG1", null },
-                    { 6, "EEE1", "Lecturer", "EEE1", null },
-                    { 7, "MA", "Lecturer", "MA", null },
-                    { 8, "AH", "Assistant Professor", "AH", null },
-                    { 9, "MH", "Lecturer", "MH", null },
-                    { 10, "EMH", "Lecturer", "EMH", null },
-                    { 11, "MATH2", "Assistant Professor", "MATH2", null },
-                    { 12, "SG", "Lecturer", "SG", null },
-                    { 13, "MSZ", "Lecturer", "MSZ", null },
-                    { 14, "AHS", "Lecturer", "AHS", null },
-                    { 15, "ASM", "Lecturer", "ASM", null },
-                    { 16, "MSA", "Assistant Professor", "MSA", null },
-                    { 17, "CHEM", "Assistant Professor", "CHEM", null },
-                    { 18, "MATH3", "Professor", "MATH3", null },
-                    { 19, "MZH", "Assistant Professor", "MZH", null },
-                    { 20, "MO", "Lecturer", "MO", null },
-                    { 21, "RR", "Assistant Professor", "RR", null },
-                    { 22, "MATH4", "Professor", "MATH4", null },
-                    { 23, "ST", "Assistant Professor", "ST", null },
-                    { 24, "AKZ", "Lecturer", "AKZ", null },
-                    { 25, "GR", "Assistant Professor", "GR", null },
-                    { 26, "EAS", "Lecturer", "EAS", null },
-                    { 27, "EEE2", "Lecturer", "EEE2", null },
-                    { 28, "MI", "Assistant Professor", "MI", null },
-                    { 29, "TMM", "Lecturer", "TMM", null },
-                    { 30, "NAO", "Lecturer", "NAO", null },
-                    { 31, "NR", "Assistant Professor", "NR", null },
-                    { 32, "AS", "Assistant Professor", "AS", null },
-                    { 33, "JA", "Lecturer", "JA", null },
-                    { 34, "AA", "Lecturer", "AA", null },
-                    { 35, "AZ", "Lecturer", "AZ", null },
-                    { 36, "BBA", "Lecturer", "BBA", null },
-                    { 37, "SA", "Lecturer", "SA", null },
-                    { 38, "NF1", "Lecturer", "NF1", null },
-                    { 39, "IPE", "Assistant Professor", "IPE", null },
-                    { 40, "AIS", "Lecturer", "AIS", null },
-                    { 41, "RA", "Lecturer", "RA", null },
-                    { 42, "MAS", "Lecturer", "MAS", null },
-                    { 43, "PR", "Lecturer", "PR", null },
-                    { 44, "ENG2", "Lecturer", "ENG2", null },
-                    { 45, "HUM1", "Lecturer", "HUM1", null },
-                    { 46, "HUM2", "Lecturer", "HUM2", null },
-                    { 47, "ME", "Assistant Professor", "ME", null },
-                    { 48, "NHS", "Lecturer", "NHS", null },
-                    { 49, "MATH1", "Professor", "MATH1", null }
+                    { 1, "TQA", "Lecturer", "TQA" },
+                    { 2, "NHC", "Lecturer", "NHC" },
+                    { 3, "PHY", "Assistant Professor", "PHY" },
+                    { 4, "MAM", "Assistant Professor", "MAM" },
+                    { 5, "ENG1", "Lecturer", "ENG1" },
+                    { 6, "EEE1", "Lecturer", "EEE1" },
+                    { 7, "MA", "Lecturer", "MA" },
+                    { 8, "AH", "Assistant Professor", "AH" },
+                    { 9, "MH", "Lecturer", "MH" },
+                    { 10, "EMH", "Lecturer", "EMH" },
+                    { 11, "MATH2", "Assistant Professor", "MATH2" },
+                    { 12, "SG", "Lecturer", "SG" },
+                    { 13, "MSZ", "Lecturer", "MSZ" },
+                    { 14, "AHS", "Lecturer", "AHS" },
+                    { 15, "ASM", "Lecturer", "ASM" },
+                    { 16, "MSA", "Assistant Professor", "MSA" },
+                    { 17, "CHEM", "Assistant Professor", "CHEM" },
+                    { 18, "MATH3", "Professor", "MATH3" },
+                    { 19, "MZH", "Assistant Professor", "MZH" },
+                    { 20, "MO", "Lecturer", "MO" },
+                    { 21, "RR", "Assistant Professor", "RR" },
+                    { 22, "MATH4", "Professor", "MATH4" },
+                    { 23, "ST", "Assistant Professor", "ST" },
+                    { 24, "AKZ", "Lecturer", "AKZ" },
+                    { 25, "GR", "Assistant Professor", "GR" },
+                    { 26, "EAS", "Lecturer", "EAS" },
+                    { 27, "EEE2", "Lecturer", "EEE2" },
+                    { 28, "MI", "Assistant Professor", "MI" },
+                    { 29, "TMM", "Lecturer", "TMM" },
+                    { 30, "NAO", "Lecturer", "NAO" },
+                    { 31, "NR", "Assistant Professor", "NR" },
+                    { 32, "AS", "Assistant Professor", "AS" },
+                    { 33, "JA", "Lecturer", "JA" },
+                    { 34, "AA", "Lecturer", "AA" },
+                    { 35, "AZ", "Lecturer", "AZ" },
+                    { 36, "BBA", "Lecturer", "BBA" },
+                    { 37, "SA", "Lecturer", "SA" },
+                    { 38, "NF1", "Lecturer", "NF1" },
+                    { 39, "IPE", "Assistant Professor", "IPE" },
+                    { 40, "AIS", "Lecturer", "AIS" },
+                    { 41, "RA", "Lecturer", "RA" },
+                    { 42, "MAS", "Lecturer", "MAS" },
+                    { 43, "PR", "Lecturer", "PR" },
+                    { 44, "ENG2", "Lecturer", "ENG2" },
+                    { 45, "HUM1", "Lecturer", "HUM1" },
+                    { 46, "HUM2", "Lecturer", "HUM2" },
+                    { 47, "ME", "Assistant Professor", "ME" },
+                    { 48, "NHS", "Lecturer", "NHS" },
+                    { 49, "MATH1", "Professor", "MATH1" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -499,85 +549,29 @@ namespace ClassroomManagement.Api.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_CourseId",
-                table: "TeacherAssignment",
+                name: "IX_TeacherAssignments_CourseId",
+                table: "TeacherAssignments",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_LevelTermSectionId",
-                table: "TeacherAssignment",
+                name: "IX_TeacherAssignments_LevelTermSectionId",
+                table: "TeacherAssignments",
                 column: "LevelTermSectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherAssignment_SessionalId",
-                table: "TeacherAssignment",
+                name: "IX_TeacherAssignments_SessionalId",
+                table: "TeacherAssignments",
                 column: "SessionalId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teachers_TeacherAssignmentId",
-                table: "Teachers",
-                column: "TeacherAssignmentId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ClassSchedules_Courses_CourseId",
-                table: "ClassSchedules",
-                column: "CourseId",
-                principalTable: "Courses",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ClassSchedules_Sessionals_SessionalId",
-                table: "ClassSchedules",
-                column: "SessionalId",
-                principalTable: "Sessionals",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_ClassScheduleTeacher_Teachers_TeachersId",
-                table: "ClassScheduleTeacher",
-                column: "TeachersId",
-                principalTable: "Teachers",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Courses_Teachers_TeacherId",
-                table: "Courses",
-                column: "TeacherId",
-                principalTable: "Teachers",
-                principalColumn: "Id");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_LabroomSessional_Sessionals_AllowedSessionalsId",
-                table: "LabroomSessional",
-                column: "AllowedSessionalsId",
-                principalTable: "Sessionals",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Sessionals_Teachers_TeacherId",
-                table: "Sessionals",
-                column: "TeacherId",
-                principalTable: "Teachers",
-                principalColumn: "Id");
+                name: "IX_TeacherTeacherAssignment_TeachersId",
+                table: "TeacherTeacherAssignment",
+                column: "TeachersId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_TeacherAssignment_LevelTermSections_LevelTermSectionId",
-                table: "TeacherAssignment");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_TeacherAssignment_Courses_CourseId",
-                table: "TeacherAssignment");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_TeacherAssignment_Sessionals_SessionalId",
-                table: "TeacherAssignment");
-
             migrationBuilder.DropTable(
                 name: "ClassroomLevelTermSection");
 
@@ -588,7 +582,13 @@ namespace ClassroomManagement.Api.Migrations
                 name: "LabroomSessional");
 
             migrationBuilder.DropTable(
+                name: "TeacherTeacherAssignment");
+
+            migrationBuilder.DropTable(
                 name: "ClassSchedules");
+
+            migrationBuilder.DropTable(
+                name: "TeacherAssignments");
 
             migrationBuilder.DropTable(
                 name: "Classrooms");
@@ -597,19 +597,16 @@ namespace ClassroomManagement.Api.Migrations
                 name: "Labrooms");
 
             migrationBuilder.DropTable(
-                name: "LevelTermSections");
+                name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "LevelTermSections");
 
             migrationBuilder.DropTable(
                 name: "Sessionals");
 
             migrationBuilder.DropTable(
                 name: "Teachers");
-
-            migrationBuilder.DropTable(
-                name: "TeacherAssignment");
         }
     }
 }
