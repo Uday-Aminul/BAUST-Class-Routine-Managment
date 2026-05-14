@@ -1,8 +1,10 @@
 using System.Text;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Repositories;
+using ClassroomManagement.Api.Repositories.SQLCourse;
 using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
+using CourseManagement.Api.Repositories.SQLCourse;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -49,11 +51,16 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddScoped<IClassroomRepository, SQLClassroomRepository>();
 builder.Services.AddScoped<ILabroomRepository, SQLLabroomRepository>();
+
 builder.Services.AddScoped<ITeacherRepository, SQLTeacherRepository>();
+
 builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>();
-builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>();
+
 builder.Services.AddScoped<ILevelTermSectionRepository, LevelTermSectionRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 

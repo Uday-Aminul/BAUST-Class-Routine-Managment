@@ -50,6 +50,10 @@ namespace ClassroomManagement.Api.Repositories
                 .Include(x => x.ClassSchedules)
                 .ThenInclude(x => x.Teachers)
                 .FirstOrDefaultAsync(x => x.RoomNumber == roomNumber);
+            if (classroomDomain is null)
+            {
+                return null;
+            }
             return classroomDomain;
         }
 
