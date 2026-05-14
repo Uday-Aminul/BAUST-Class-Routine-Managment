@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.Domains;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClassroomManagement.Api.Repositories
+namespace LevelTermSectionManagement.Api.Repositories
 {
     public class LevelTermSectionRepository : ILevelTermSectionRepository
     {
@@ -15,6 +11,69 @@ namespace ClassroomManagement.Api.Repositories
         public LevelTermSectionRepository(ClassroomManagementDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task<LevelTermSection> CreateLevelTermSectionAsync(LevelTermSection levelTermSection)
+        {
+            await _dbContext.LevelTermSections.AddAsync(levelTermSection);
+            await _dbContext.SaveChangesAsync();
+            return levelTermSection;
+        }
+
+        public async Task<List<LevelTermSection>?> DeleteLevelTermSectionByIdAsync(int id)
+        {
+            var LevelTermSection = await _dbContext.LevelTermSections.FirstOrDefaultAsync(x => x.Id == id);
+            if (LevelTermSection is null)
+            {
+                return null;
+            }
+            _dbContext.LevelTermSections.Remove(LevelTermSection);
+            await _dbContext.SaveChangesAsync();
+            return await _dbContext.LevelTermSections.ToListAsync();
+        }
+
+        public async Task<List<LevelTermSection>> GetAllLevelTermSectionsAsync()
+        {
+            var levelTermSectionDomains = await _dbContext.LevelTermSections
+                .Include(x => x.Classrooms)
+                .Include(x => x.AssignedTeachers)
+                .ThenInclude(x => x.Teachers)
+                .ToListAsync();
+            return levelTermSectionDomains;
+        }
+
+        public async Task<LevelTermSection?> GetLevelTermSectionByLevelTermSectionAsync(int level, int term, string section)
+        {
+            var levelTermSectionDomain = await _dbContext.LevelTermSections
+                .Include(x => x.Classrooms)
+                .Include(x => x.AssignedTeachers)
+                .ThenInclude(x => x.Teachers)
+                .FirstOrDefaultAsync(x => x.Level == level && x.Term == term && x.Section == section);
+            if (levelTermSectionDomain is null)
+            {
+                return null;
+            }
+            return levelTermSectionDomain;
+        }
+
+        public async Task<LevelTermSection?> UpdateLevelTermSectionByIdAsync(int id, LevelTermSection levelTermSection)
+        {
+            var existingLevelTermSection = await _dbContext.LevelTermSections
+                .Include(x => x.AssignedTeachers)
+                .ThenInclude(x => x.Teachers)
+                .Include(x => x.Classrooms)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (existingLevelTermSection is null)
+            {
+                return null;
+            }
+            existingLevelTermSection.Level = levelTermSection.Level;
+            existingLevelTermSection.Term = levelTermSection.Term;
+            existingLevelTermSection.Section = levelTermSection.Section;
+            existingLevelTermSection.AssignedTeachers = levelTermSection.AssignedTeachers;
+            existingLevelTermSection.Classrooms = levelTermSection.Classrooms;
+            await _dbContext.SaveChangesAsync();
+            return existingLevelTermSection;
         }
 
         public async Task SeedClassroomsForLevelTermSectionsAsync()

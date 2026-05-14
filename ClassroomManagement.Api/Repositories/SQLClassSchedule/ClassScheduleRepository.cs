@@ -22,57 +22,21 @@ namespace ClassScheduleManagement.Api.Repositories
 
         public async Task<List<ClassSchedule>?> DeleteClassScheduleByIdAsync(int id)
         {
-            // var classSchedule = await _dbContext.ClassSchedules.FirstOrDefaultAsync(x => x.Id == id);
-            // if (classSchedule is null)
-            // {
-            //     return null;
-            // }
-            // _dbContext.ClassSchedules.Remove(classSchedule);
-            // await _dbContext.SaveChangesAsync();
-            // var classScheduleDomains = await _dbContext.ClassSchedules
-            //     .Include(x => x.Classroom)
-            //     .Include(x => x.Labroom)
-            //     .Include(x => x.Course)
-            //     .Include(x => x.Sessional)
-            //     .Include(x => x.Teachers)
-            //     .ToListAsync();
-            // return classScheduleDomains;
-            var levelTermSection = await
-                _dbContext
-                .LevelTermSections
-                .Include(lt => lt.AssignedTeachers)
-                .ThenInclude(at => at.Teachers)
-                .FirstOrDefaultAsync(lt =>
-                    lt.Level == 1 &&
-                    lt.Term == 1 &&
-                    lt.Section == "A");
-            //Error Debug
-            var course = await _dbContext.Courses.FirstOrDefaultAsync(c => c.CourseCode == "CSE 1101");
-            var assignment = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == course.Id);
-            if (assignment is null)
+            var classSchedule = await _dbContext.ClassSchedules.FirstOrDefaultAsync(x => x.Id == id);
+            if (classSchedule is null)
             {
-                Console.WriteLine($"No TeacherAssignment .");
+                return null;
             }
-            var teacher = assignment.Teachers.FirstOrDefault();
-            if (assignment is not null && teacher is null)
-            {
-                var demoTeacher = assignment.Teachers.ToList();
-                Console.WriteLine($"TeacherAssignment exists but no Teacher for Course: {course.CourseCode}, ");
-                if (demoTeacher.Any())
-                {
-                    var teacherCodes = string.Join(", ", demoTeacher.Select(t => t.Code));
-                    Console.WriteLine($"Teachers for Course {course.CourseCode}: {teacherCodes}");
-                }
-            }
-            else if (assignment is null && teacher is null)
-            {
-                Console.WriteLine($"No TeacherAssignment and no Teacher for Course: {course.CourseCode}");
-            }
-            else if (assignment is not null && teacher is not null)
-            {
-                Console.WriteLine($"TeacherAssignment and Teacher exist for Course: {course.CourseCode}, Teacher Code: {teacher.Code}");
-            }
-            return null;
+            _dbContext.ClassSchedules.Remove(classSchedule);
+            await _dbContext.SaveChangesAsync();
+            var classScheduleDomains = await _dbContext.ClassSchedules
+                .Include(x => x.Classroom)
+                .Include(x => x.Labroom)
+                .Include(x => x.Course)
+                .Include(x => x.Sessional)
+                .Include(x => x.Teachers)
+                .ToListAsync();
+            return classScheduleDomains;
         }
 
         public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(int? level, int? term, string? section)
@@ -132,8 +96,16 @@ namespace ClassScheduleManagement.Api.Repositories
             existingClassSchedule.Day = updatedClassSchedule.Day;
             existingClassSchedule.StartTime = updatedClassSchedule.StartTime;
             existingClassSchedule.EndTime = updatedClassSchedule.EndTime;
+            existingClassSchedule.Level = updatedClassSchedule.Level;
+            existingClassSchedule.Term = updatedClassSchedule.Term;
+            existingClassSchedule.Section = updatedClassSchedule.Section;
+            existingClassSchedule.WeekType = updatedClassSchedule.WeekType;
+
             existingClassSchedule.ClassroomId = updatedClassSchedule.ClassroomId;
+            existingClassSchedule.LabroomId = updatedClassSchedule.LabroomId;
+
             existingClassSchedule.CourseId = updatedClassSchedule.CourseId;
+            existingClassSchedule.SessionalId = updatedClassSchedule.SessionalId;
             await _dbContext.SaveChangesAsync();
             return existingClassSchedule;
         }

@@ -1,5 +1,6 @@
 using AutoMapper;
 using ClassroomManagement.Api.Repositories;
+using LevelTermSectionManagement.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassroomManagement.Api.Controllers

@@ -5,9 +5,11 @@ using ClassroomManagement.Api.Repositories.SQLCourse;
 using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
 using CourseManagement.Api.Repositories.SQLCourse;
+using LevelTermSectionManagement.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment;
 using TeacherManagement.Api.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -59,6 +61,8 @@ builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>(
 
 builder.Services.AddScoped<ILevelTermSectionRepository, LevelTermSectionRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+
+builder.Services.AddScoped<ITeacherAssignment, TeacherAssignmentRepository>();
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 

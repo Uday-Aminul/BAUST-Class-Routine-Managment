@@ -81,12 +81,12 @@ namespace teachersManagement.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = teacherDto.Id }, teacherDto);
         }
 
-        [HttpPost]
-        [Route("AssignSessionals")]
-        public async Task<IActionResult> AssignSessionals()
-        {
-            await _teachersRepository.SeedSessionalsForTeachersAsync();
-            return Ok("Sessionals assigned to teachers successfully.");
-        }
+        // [HttpPost]
+        // [Route("AssignSessionals")]
+        // public async Task<IActionResult> AssignSessionals()
+        // {
+        //     await _teachersRepository.SeedSessionalsForTeachersAsync();
+        //     return Ok("Sessionals assigned to teachers successfully.");
+        // }
     }
 }
