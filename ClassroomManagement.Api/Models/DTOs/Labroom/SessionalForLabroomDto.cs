@@ -13,8 +13,5 @@ namespace ClassroomManagement.Api.Models.DTOs.Labroom
         public int Level { get; set; }
         public int Term { get; set; }
         public float Credit { get; set; }
-
-        //Navigation Property
-        public TeacherForLabroomDto? Teacher { get; set; }
     }
 }

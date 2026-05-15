@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassroomManagement.Api.Models.DTOs.Teacher
+namespace ClassroomManagement.Api.Models.DTOs.LevelTermSection
 {
-    public class LabroomForTeacherDto
+    public class ClassroomForLevelTermSectionDto
     {
         public int Id { get; set; }
         public int RoomNumber { get; set; }
-        public string? Name { get; set; }
     }
 }

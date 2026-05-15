@@ -7,6 +7,11 @@ namespace ClassroomManagement.Api.Models.DTOs.Teacher
 {
     public class SessionalForTeacherDto
     {
-        
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string SessionalCode { get; set; }
+        public int Level { get; set; }
+        public int Term { get; set; }
+        public float Credit { get; set; }
     }
 }

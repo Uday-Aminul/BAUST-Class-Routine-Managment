@@ -62,7 +62,7 @@ builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>(
 builder.Services.AddScoped<ILevelTermSectionRepository, LevelTermSectionRepository>();
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 
-builder.Services.AddScoped<ITeacherAssignment, TeacherAssignmentRepository>();
+builder.Services.AddScoped<ITeacherAssignmentRepository, TeacherAssignmentRepository>();
 
 builder.Services.AddScoped<ITokenRepository, TokenRepository>();
 

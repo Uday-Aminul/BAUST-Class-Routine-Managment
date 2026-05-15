@@ -7,6 +7,11 @@ namespace ClassroomManagement.Api.Models.DTOs.Teacher
 {
     public class CourseForTeacherDto
     {
-        
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string CourseCode { get; set; }
+        public int Level { get; set; }
+        public int Term { get; set; }
+        public float Credit { get; set; }
     }
 }

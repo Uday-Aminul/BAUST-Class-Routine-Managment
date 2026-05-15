@@ -28,3 +28,5 @@ Problems:
 28. var courseSchedules = schedulingState.SchedulesToAdd
     .Where(s => s.Day == day && s.CourseId is not null)
     .ToList();  // ← Add this!  In PlaceTheoryAsync
+
+29. Update operation in ClassSchedules...There's a list of teachers...So need to take list of foreignkey to add them.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ClassroomManagement.Api.Models.DTOs.Labroom
+namespace ClassroomManagement.Api.Models.DTOs.TeacherAssignment
 {
-    public class TeacherForLabroomDto
+    public class TeacherForTeacherAssignmentDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

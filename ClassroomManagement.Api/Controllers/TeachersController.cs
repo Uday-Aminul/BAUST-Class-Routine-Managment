@@ -80,13 +80,5 @@ namespace teachersManagement.Api.Controllers
             var teacherDto = _mapper.Map<TeacherDto>(teacherDomain);
             return CreatedAtAction(nameof(GetById), new { id = teacherDto.Id }, teacherDto);
         }
-
-        // [HttpPost]
-        // [Route("AssignSessionals")]
-        // public async Task<IActionResult> AssignSessionals()
-        // {
-        //     await _teachersRepository.SeedSessionalsForTeachersAsync();
-        //     return Ok("Sessionals assigned to teachers successfully.");
-        // }
     }
 }

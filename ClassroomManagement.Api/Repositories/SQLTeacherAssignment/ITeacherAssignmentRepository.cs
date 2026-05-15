@@ -6,7 +6,7 @@ using ClassroomManagement.Api.Models.Domains;
 
 namespace TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment
 {
-    public interface ITeacherAssignment
+    public interface ITeacherAssignmentRepository
     {
         Task<List<TeacherAssignment>> GetAllTeacherAssignmentsAsync();
         Task<TeacherAssignment?> GetTeacherAssignmentByIdAsync(int id);

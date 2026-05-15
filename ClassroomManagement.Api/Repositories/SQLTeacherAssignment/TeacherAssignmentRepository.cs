@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment
 {
-    public class TeacherAssignmentRepository : ITeacherAssignment
+    public class TeacherAssignmentRepository : ITeacherAssignmentRepository
     {
         private readonly ClassroomManagementDbContext _dbContext;
         public TeacherAssignmentRepository(ClassroomManagementDbContext dbContext)

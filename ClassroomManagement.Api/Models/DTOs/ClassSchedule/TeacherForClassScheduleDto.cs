@@ -11,6 +11,7 @@ namespace ClassroomManagement.Api.Models.DTOs.ClassSchedules
         public string Name { get; set; }
         public string? Code { get; set; }
         public string Designation { get; set; }
+
         public float AssignedCredit { get; set; }
     }
 }
