@@ -11,7 +11,9 @@ namespace ClassroomManagement.Api.Repositories
     {
         Task<List<Labroom>> GetAllLabroomsAsync();
         Task<Labroom?> GetLabroomByRoomNumberAsync(int roomNumber);
-        Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom);
+        Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom, List<int>? allowedSessionalIds);
+        Task<Labroom> CreateLabroomAsync(Labroom labroom, List<int>? allowedSessionalIds);
+        Task<List<Labroom>?> DeleteLabroomByIdAsync(int id);
         Task SeedSessionalsForLabroomsAsync();
     }
 }

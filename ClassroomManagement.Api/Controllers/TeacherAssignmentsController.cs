@@ -62,7 +62,7 @@ namespace TeacherAssignmentManagement.Api.Controllers
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] TeacherAssignmentUpdateRequestDto updatedTeacherAssignment)
         {
             var teacherAssignmentDomain = _mapper.Map<TeacherAssignment>(updatedTeacherAssignment);
-            teacherAssignmentDomain = await _teacherAssignmentsRepository.UpdateTeacherAssignmentByIdAsync(id, teacherAssignmentDomain);
+            teacherAssignmentDomain = await _teacherAssignmentsRepository.UpdateTeacherAssignmentByIdAsync(id, teacherAssignmentDomain, updatedTeacherAssignment.TeacherIds);
             if (teacherAssignmentDomain is null)
             {
                 return NotFound();
@@ -75,7 +75,7 @@ namespace TeacherAssignmentManagement.Api.Controllers
         public async Task<IActionResult> Create([FromBody] TeacherAssignmentAddRequestDto newTeacherAssignment)
         {
             var teacherAssignmentDomain = _mapper.Map<TeacherAssignment>(newTeacherAssignment);
-            teacherAssignmentDomain = await _teacherAssignmentsRepository.CreateTeacherAssignmentAsync(teacherAssignmentDomain);
+            teacherAssignmentDomain = await _teacherAssignmentsRepository.CreateTeacherAssignmentAsync(teacherAssignmentDomain, newTeacherAssignment.TeacherIds);
             var TeacherAssignmentDto = _mapper.Map<TeacherAssignmentDto>(teacherAssignmentDomain);
             return CreatedAtAction(nameof(GetById), new { id = teacherAssignmentDomain.Id }, TeacherAssignmentDto);
         }

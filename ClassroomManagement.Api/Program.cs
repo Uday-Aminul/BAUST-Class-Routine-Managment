@@ -1,8 +1,6 @@
-using System.Text;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Repositories;
 using ClassroomManagement.Api.Repositories.SQLCourse;
-using ClassroomManagement.Api.Repositories.SQLSessional;
 using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
 using CourseManagement.Api.Repositories.SQLCourse;
@@ -10,6 +8,7 @@ using LevelTermSectionManagement.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using SessionalManagement.Api.Repositories.SQLSessional;
 using TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment;
 using TeacherManagement.Api.Repositories;
 

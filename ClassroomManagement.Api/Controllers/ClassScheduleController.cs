@@ -71,7 +71,7 @@ namespace ClassroomManagement.Api.Controllers
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateClassScheduleRequestDto updatedclassSchedules)
         {
             var classScheduleDomain = _mapper.Map<ClassSchedule>(updatedclassSchedules);
-            classScheduleDomain = await _classSchedulesRepository.UpdateClassScheduleByIdAsync(id, classScheduleDomain);
+            classScheduleDomain = await _classSchedulesRepository.UpdateClassScheduleByIdAsync(id, classScheduleDomain, updatedclassSchedules.TeacherIds);
             if (classScheduleDomain is null)
             {
                 return NotFound();
@@ -84,7 +84,7 @@ namespace ClassroomManagement.Api.Controllers
         public async Task<IActionResult> Create([FromBody] AddClassScheduleRequestDto newClassSchedules)
         {
             var classScheduleDomain = _mapper.Map<ClassSchedule>(newClassSchedules);
-            classScheduleDomain = await _classSchedulesRepository.CreateClassScheduleAsync(classScheduleDomain);
+            classScheduleDomain = await _classSchedulesRepository.CreateClassScheduleAsync(classScheduleDomain, newClassSchedules.TeacherIds);
             var classScheduleDto = _mapper.Map<ClassScheduleDto>(classScheduleDomain);
             return CreatedAtAction(nameof(GetById), new { id = classScheduleDto.Id }, classScheduleDto);
         }

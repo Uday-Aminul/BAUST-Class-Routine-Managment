@@ -22,12 +22,12 @@ namespace ClassroomManagement.Api.Repositories
         public async Task<Labroom?> GetLabroomByRoomNumberAsync(int roomNumber)
         {
             var labroom = await _dbContext.Labrooms
-        .Include(l => l.AllowedSessionals)
-        .Include(l => l.ClassSchedules)
-            .ThenInclude(cs => cs.Course)
-        .Include(l => l.ClassSchedules)
-            .ThenInclude(cs => cs.Sessional)
-        .FirstOrDefaultAsync(l => l.RoomNumber == roomNumber);
+                .Include(l => l.AllowedSessionals)
+                .Include(l => l.ClassSchedules)
+                .ThenInclude(cs => cs.Course)
+                .Include(l => l.ClassSchedules)
+                .ThenInclude(cs => cs.Sessional)
+                .FirstOrDefaultAsync(l => l.RoomNumber == roomNumber);
 
             return labroom;  // Returns Labroom? (could be null if not found)
         }
@@ -188,22 +188,48 @@ namespace ClassroomManagement.Api.Repositories
             // lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
             // lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 23));  // CSE 3206
 
-
-
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom)
+        public async Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom, List<int>? allowedSessionalIds)
         {
             var existingLabroom = await _dbContext.Labrooms.Include(l => l.AllowedSessionals).FirstOrDefaultAsync(l => l.RoomNumber == id);
             if (existingLabroom is null)
             {
                 return null;
             }
+            var allowedSessionals = await _dbContext.Sessionals.Where(s => allowedSessionalIds.Contains(s.Id)).ToListAsync();
             existingLabroom.Name = updatedLabroom.Name;
-            existingLabroom.AllowedSessionals = await _dbContext.Sessionals.Where(s => updatedLabroom.AllowedSessionalCodes.Contains(s.SessionalCode)).ToListAsync();
+            existingLabroom.RoomNumber = updatedLabroom.RoomNumber;
+            existingLabroom.AllowedSessionals = allowedSessionals;
             await _dbContext.SaveChangesAsync();
             return existingLabroom;
+        }
+
+        public async Task<Labroom> CreateLabroomAsync(Labroom labroom, List<int>? allowedSessionalIds)
+        {
+            var allowedSessionals = await _dbContext.Sessionals.Where(s => allowedSessionalIds.Contains(s.Id)).ToListAsync();
+            var labroomDomain = new Labroom
+            {
+                Name = labroom.Name,
+                RoomNumber = labroom.RoomNumber,
+                AllowedSessionals = allowedSessionals
+            };
+            await _dbContext.Labrooms.AddAsync(labroomDomain);
+            await _dbContext.SaveChangesAsync();
+            return labroomDomain;
+        }
+
+        public async Task<List<Labroom>?> DeleteLabroomByIdAsync(int id)
+        {
+            var labroom = await _dbContext.Labrooms.FirstOrDefaultAsync(x => x.Id == id);
+            if (labroom is null)
+            {
+                return null;
+            }
+            _dbContext.Labrooms.Remove(labroom);
+            await _dbContext.SaveChangesAsync();
+            return await _dbContext.Labrooms.ToListAsync();
         }
     }
 }

@@ -232,15 +232,10 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeacherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Courses");
 
@@ -928,15 +923,10 @@ namespace ClassroomManagement.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("TeacherId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Term")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
 
                     b.ToTable("Sessionals");
 
@@ -1707,20 +1697,6 @@ namespace ClassroomManagement.Api.Migrations
                     b.Navigation("Sessional");
                 });
 
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Course", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
-                        .WithMany("AssignedCourses")
-                        .HasForeignKey("TeacherId");
-                });
-
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.Sessional", b =>
-                {
-                    b.HasOne("ClassroomManagement.Api.Models.Teacher", null)
-                        .WithMany("AssignedSessionals")
-                        .HasForeignKey("TeacherId");
-                });
-
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.TeacherAssignment", b =>
                 {
                     b.HasOne("ClassroomManagement.Api.Models.Course", "Course")
@@ -1787,13 +1763,6 @@ namespace ClassroomManagement.Api.Migrations
             modelBuilder.Entity("ClassroomManagement.Api.Models.Domains.LevelTermSection", b =>
                 {
                     b.Navigation("AssignedTeachers");
-                });
-
-            modelBuilder.Entity("ClassroomManagement.Api.Models.Teacher", b =>
-                {
-                    b.Navigation("AssignedCourses");
-
-                    b.Navigation("AssignedSessionals");
                 });
 #pragma warning restore 612, 618
         }

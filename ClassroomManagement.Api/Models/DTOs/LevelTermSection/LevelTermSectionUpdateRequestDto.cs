@@ -11,6 +11,6 @@ namespace ClassroomManagement.Api.Models.DTOs.LevelTermSection
         public int Term { get; set; }
         public string Section { get; set; }
 
-        public List<ClassroomForLevelTermSectionDto> Classrooms { get; set; }
+        public List<int>? ClassroomIds { get; set; }
     }
 }

@@ -13,11 +13,29 @@ namespace ClassScheduleManagement.Api.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<ClassSchedule> CreateClassScheduleAsync(ClassSchedule classSchedule)
+        public async Task<ClassSchedule> CreateClassScheduleAsync(ClassSchedule classSchedule, List<int>? teacherIds)
         {
-            await _dbContext.ClassSchedules.AddAsync(classSchedule);
+            var teachers = await _dbContext.Teachers.Where(x => teacherIds.Contains(x.Id)).ToListAsync();
+            var classScheduleDomain = new ClassSchedule
+            {
+                Day = classSchedule.Day,
+                StartTime = classSchedule.StartTime,
+                EndTime = classSchedule.EndTime,
+                Level = classSchedule.Level,
+                Term = classSchedule.Term,
+                Section = classSchedule.Section,
+                WeekType = classSchedule.WeekType,
+
+                ClassroomId = classSchedule.ClassroomId,
+                LabroomId = classSchedule.LabroomId,
+
+                CourseId = classSchedule.CourseId,
+                SessionalId = classSchedule.SessionalId,
+                Teachers = teachers
+            };
+            await _dbContext.ClassSchedules.AddAsync(classScheduleDomain);
             await _dbContext.SaveChangesAsync();
-            return classSchedule;
+            return classScheduleDomain;
         }
 
         public async Task<List<ClassSchedule>?> DeleteClassScheduleByIdAsync(int id)
@@ -82,7 +100,7 @@ namespace ClassScheduleManagement.Api.Repositories
             return ClassScheduleDomain;
         }
 
-        public async Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule updatedClassSchedule)
+        public async Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule updatedClassSchedule, List<int>? teacherIds)
         {
             var existingClassSchedule = await _dbContext.ClassSchedules
                 .Include(x => x.Classroom)
@@ -93,6 +111,9 @@ namespace ClassScheduleManagement.Api.Repositories
             {
                 return null;
             }
+
+            var teachers = await _dbContext.Teachers.Where(x => teacherIds.Contains(x.Id)).ToListAsync();
+
             existingClassSchedule.Day = updatedClassSchedule.Day;
             existingClassSchedule.StartTime = updatedClassSchedule.StartTime;
             existingClassSchedule.EndTime = updatedClassSchedule.EndTime;
@@ -106,6 +127,7 @@ namespace ClassScheduleManagement.Api.Repositories
 
             existingClassSchedule.CourseId = updatedClassSchedule.CourseId;
             existingClassSchedule.SessionalId = updatedClassSchedule.SessionalId;
+            existingClassSchedule.Teachers = teachers;
             await _dbContext.SaveChangesAsync();
             return existingClassSchedule;
         }

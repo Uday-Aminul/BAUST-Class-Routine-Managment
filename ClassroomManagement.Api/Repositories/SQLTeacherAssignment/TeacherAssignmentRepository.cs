@@ -16,8 +16,10 @@ namespace TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment
             _dbContext = dbContext;
         }
 
-        public async Task<TeacherAssignment> CreateTeacherAssignmentAsync(TeacherAssignment newTeacherAssignment)
+        public async Task<TeacherAssignment> CreateTeacherAssignmentAsync(TeacherAssignment newTeacherAssignment, List<int> teacherIds)
         {
+            var teachers = await _dbContext.Teachers.Where(t => teacherIds.Contains(t.Id)).ToListAsync();
+            newTeacherAssignment.Teachers = teachers;
             await _dbContext.TeacherAssignments.AddAsync(newTeacherAssignment);
             await _dbContext.SaveChangesAsync();
             return newTeacherAssignment;
@@ -61,8 +63,10 @@ namespace TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment
             return teacherAssignmentDomain;
         }
 
-        public async Task<TeacherAssignment?> UpdateTeacherAssignmentByIdAsync(int id, TeacherAssignment teacherAssignment)
+        public async Task<TeacherAssignment?> UpdateTeacherAssignmentByIdAsync(int id, TeacherAssignment teacherAssignment, List<int> teacherIds)
         {
+            var teachers = await _dbContext.Teachers.Where(t => teacherIds.Contains(t.Id)).ToListAsync();
+            teacherAssignment.Teachers = teachers;
             var existingTeacherAssignment = await _dbContext.TeacherAssignments
                 .Include(x => x.LevelTermSection)
                 .Include(x => x.Course)

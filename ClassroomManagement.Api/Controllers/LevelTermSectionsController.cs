@@ -29,6 +29,7 @@ namespace LevelTermSectionManagement.Api.Controllers
         }
 
         [HttpGet]
+        [Route("{id:int}")]
         public async Task<IActionResult> GetByRoomNumber([FromQuery] int level, [FromQuery] int term, [FromQuery] string section)
         {
             var levelTermSectionDomain = await _levelTermSectionsRepository.GetLevelTermSectionByLevelTermSectionAsync(level, term, section);
@@ -58,7 +59,7 @@ namespace LevelTermSectionManagement.Api.Controllers
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] LevelTermSectionUpdateRequestDto updatedLevelTermSection)
         {
             var levelTermSectionDomain = _mapper.Map<LevelTermSection>(updatedLevelTermSection);
-            levelTermSectionDomain = await _levelTermSectionsRepository.UpdateLevelTermSectionByIdAsync(id, levelTermSectionDomain);
+            levelTermSectionDomain = await _levelTermSectionsRepository.UpdateLevelTermSectionByIdAsync(id, levelTermSectionDomain, updatedLevelTermSection.ClassroomIds);
             if (levelTermSectionDomain is null)
             {
                 return NotFound();
@@ -71,7 +72,7 @@ namespace LevelTermSectionManagement.Api.Controllers
         public async Task<IActionResult> Create([FromBody] LevelTermSectionAddRequestDto newLevelTermSection)
         {
             var levelTermSectionDomain = _mapper.Map<LevelTermSection>(newLevelTermSection);
-            levelTermSectionDomain = await _levelTermSectionsRepository.CreateLevelTermSectionAsync(levelTermSectionDomain);
+            levelTermSectionDomain = await _levelTermSectionsRepository.CreateLevelTermSectionAsync(levelTermSectionDomain, newLevelTermSection.ClassroomIds);
             var LevelTermSectionDto = _mapper.Map<LevelTermSectionDto>(levelTermSectionDomain);
             return CreatedAtAction(nameof(GetByRoomNumber), new { id = levelTermSectionDomain.Id }, LevelTermSectionDto);
         }

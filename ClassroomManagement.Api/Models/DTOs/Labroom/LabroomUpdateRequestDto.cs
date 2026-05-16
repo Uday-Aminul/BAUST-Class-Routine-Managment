@@ -9,6 +9,6 @@ namespace ClassroomManagement.Api.Models.DTOs.Labroom
     {
         public int RoomNumber { get; set; }
         public string Name { get; set; }
-        public List<int> AllowedSessionalIds { get; set; }
+        public List<int>? AllowedSessionalIds { get; set; }
     }
 }

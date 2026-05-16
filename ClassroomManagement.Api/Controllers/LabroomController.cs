@@ -8,7 +8,7 @@ using ClassroomManagement.Api.Models.DTOs.Labroom;
 using ClassroomManagement.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClassroomManagement.Api.Controllers
+namespace LabroomManagement.Api.Controllers
 {
     [Controller]
     [Route("api/[controller]")]
@@ -43,13 +43,35 @@ namespace ClassroomManagement.Api.Controllers
         [Route("{id:int}")]
         public async Task<IActionResult> UpdateLabroom([FromRoute] int id, [FromBody] LabroomUpdateRequestDto labroomUpdateRequestDto)
         {
-            var labroomDomain = await _labroomRepository.UpdateLabroomByIdAsync(id, labroomUpdateRequestDto);
+            var labroomDomain = await _labroomRepository.UpdateLabroomByIdAsync(id, labroomUpdateRequestDto, labroomUpdateRequestDto.AllowedSessionalIds);
             if (labroomDomain is null)
             {
                 return NotFound();
             }
             var labroomDto = _mapper.Map<LabroomDto>(labroomDomain);
             return Ok(labroomDto);
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            var labroomDomains = await _labroomRepository.DeleteLabroomByIdAsync(id);
+            if (labroomDomains is null)
+            {
+                return NotFound();
+            }
+            var LabroomDtos = _mapper.Map<List<LabroomDto>>(labroomDomains);
+            return Ok(LabroomDtos);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AddLabroomRequestDto newLabroom)
+        {
+            var labroomDomain = _mapper.Map<Labroom>(newLabroom);
+            labroomDomain = await _labroomRepository.CreateLabroomAsync(labroomDomain, newLabroom.AllowedSessionalIds);
+            var LabroomDto = _mapper.Map<LabroomDto>(labroomDomain);
+            return CreatedAtAction(nameof(GetByRoomNumber), new { id = labroomDomain.Id }, LabroomDto);
         }
 
         [HttpPost]

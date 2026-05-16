@@ -13,6 +13,6 @@ namespace ClassroomManagement.Api.Models.DTOs.TeacherAssignment
         public int? SessionalId { get; set; }
 
         //navigation Property
-        public List<int>? Teachers { get; set; }
+        public List<int> TeacherIds { get; set; }
     }
 }

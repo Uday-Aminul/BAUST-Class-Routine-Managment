@@ -10,8 +10,8 @@ namespace TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment
     {
         Task<List<TeacherAssignment>> GetAllTeacherAssignmentsAsync();
         Task<TeacherAssignment?> GetTeacherAssignmentByIdAsync(int id);
-        Task<TeacherAssignment> CreateTeacherAssignmentAsync(TeacherAssignment newTeacherAssignment);
-        Task<TeacherAssignment?> UpdateTeacherAssignmentByIdAsync(int id, TeacherAssignment updatedTeacherAssignment);
+        Task<TeacherAssignment> CreateTeacherAssignmentAsync(TeacherAssignment newTeacherAssignment, List<int> teacherIds);
+        Task<TeacherAssignment?> UpdateTeacherAssignmentByIdAsync(int id, TeacherAssignment updatedTeacherAssignment, List<int> teacherIds);
         Task<List<TeacherAssignment>?> DeleteTeacherAssignmentByIdAsync(int id);
     }
 }

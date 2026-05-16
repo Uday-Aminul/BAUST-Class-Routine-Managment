@@ -13,9 +13,17 @@ namespace LevelTermSectionManagement.Api.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<LevelTermSection> CreateLevelTermSectionAsync(LevelTermSection levelTermSection)
+        public async Task<LevelTermSection> CreateLevelTermSectionAsync(LevelTermSection levelTermSection, List<int>? classroomIds)
         {
-            await _dbContext.LevelTermSections.AddAsync(levelTermSection);
+            var classrooms = await _dbContext.Classrooms.Where(c => classroomIds.Contains(c.Id)).ToListAsync();
+            var levelTermSectionDomain = new LevelTermSection
+            {
+                Level = levelTermSection.Level,
+                Term = levelTermSection.Term,
+                Section = levelTermSection.Section,
+                Classrooms = classrooms
+            };
+            await _dbContext.LevelTermSections.AddAsync(levelTermSectionDomain);
             await _dbContext.SaveChangesAsync();
             return levelTermSection;
         }
@@ -56,7 +64,7 @@ namespace LevelTermSectionManagement.Api.Repositories
             return levelTermSectionDomain;
         }
 
-        public async Task<LevelTermSection?> UpdateLevelTermSectionByIdAsync(int id, LevelTermSection levelTermSection)
+        public async Task<LevelTermSection?> UpdateLevelTermSectionByIdAsync(int id, LevelTermSection levelTermSection, List<int>? classroomIds)
         {
             var existingLevelTermSection = await _dbContext.LevelTermSections
                 .Include(x => x.AssignedTeachers)
@@ -67,11 +75,12 @@ namespace LevelTermSectionManagement.Api.Repositories
             {
                 return null;
             }
+            var classrooms = await _dbContext.Classrooms.Where(c => classroomIds.Contains(c.Id)).ToListAsync();
+
             existingLevelTermSection.Level = levelTermSection.Level;
             existingLevelTermSection.Term = levelTermSection.Term;
             existingLevelTermSection.Section = levelTermSection.Section;
-            existingLevelTermSection.AssignedTeachers = levelTermSection.AssignedTeachers;
-            existingLevelTermSection.Classrooms = levelTermSection.Classrooms;
+            existingLevelTermSection.Classrooms = classrooms;
             await _dbContext.SaveChangesAsync();
             return existingLevelTermSection;
         }
