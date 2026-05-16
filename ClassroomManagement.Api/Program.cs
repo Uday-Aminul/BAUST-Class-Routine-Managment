@@ -2,6 +2,7 @@ using System.Text;
 using ClassroomManagement.Api.Data;
 using ClassroomManagement.Api.Repositories;
 using ClassroomManagement.Api.Repositories.SQLCourse;
+using ClassroomManagement.Api.Repositories.SQLSessional;
 using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
 using CourseManagement.Api.Repositories.SQLCourse;
@@ -60,7 +61,9 @@ builder.Services.AddScoped<IClassScheduleRepository, SQLClassScheduleRepository>
 builder.Services.AddScoped<IScheduleGeneratorService, ScheduleGeneratorService>();
 
 builder.Services.AddScoped<ILevelTermSectionRepository, LevelTermSectionRepository>();
+
 builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ISessionalRepository, SessionalRepository>();
 
 builder.Services.AddScoped<ITeacherAssignmentRepository, TeacherAssignmentRepository>();
 

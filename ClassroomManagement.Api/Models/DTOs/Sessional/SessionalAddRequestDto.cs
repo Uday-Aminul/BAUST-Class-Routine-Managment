@@ -7,7 +7,6 @@ namespace ClassroomManagement.Api.Models.DTOs.Sessional
 {
     public class SessionalAddRequestDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public string SessionalCode { get; set; }
         public int Level { get; set; }
