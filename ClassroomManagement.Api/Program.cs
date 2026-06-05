@@ -1,4 +1,5 @@
 using ClassroomManagement.Api.Data;
+using ClassroomManagement.Api.Middlewares;
 using ClassroomManagement.Api.Repositories;
 using ClassroomManagement.Api.Repositories.SQLCourse;
 using ClassroomManagement.Api.Services;
@@ -8,6 +9,7 @@ using LevelTermSectionManagement.Api.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using SessionalManagement.Api.Repositories.SQLSessional;
 using TeacherAssignmentManagement.Api.Repositories.SQLTeacherAssignment;
 using TeacherManagement.Api.Repositories;
@@ -15,6 +17,10 @@ using TeacherManagement.Api.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var logger = new LoggerConfiguration().WriteTo.Console().WriteTo.File("Logs/NZWalks_Log.txt", rollingInterval: RollingInterval.Infinite).MinimumLevel.Information().CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddDbContext<ClassroomManagementDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("ClassroomManagementConnectionString")
     ));
@@ -23,6 +29,7 @@ builder.Services.AddDbContext<ClassroomManagementDbContext>(options => options.U
 //     ));
 
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -135,6 +142,8 @@ if (app.Environment.IsDevelopment())
         options.RoutePrefix = string.Empty; // makes Swagger UI the default page
     });
 }
+app.UseExceptionHandlerMiddleware();
+
 app.UseCors("AllowReactApp");
 app.UseHttpsRedirection();
 
