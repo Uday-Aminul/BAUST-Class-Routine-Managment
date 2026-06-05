@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ClassroomManagement.Api.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class ClassroomManagementAuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
