@@ -1,0 +1,375 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  font-family: 'Outfit', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: #e2e8f0;
+  background-color: #0d1117;
+
+  /* Color Palette */
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  
+  --accent-green: #008f4c;
+  --accent-green-hover: #00b35e;
+  --accent-green-alpha: rgba(0, 143, 76, 0.15);
+  
+  --card-border: rgba(255, 255, 255, 0.08);
+  --card-bg: rgba(22, 27, 34, 0.7);
+  --card-glow: rgba(0, 143, 76, 0.1);
+  
+  --text-muted: #8b949e;
+  --text-bright: #f0f6fc;
+  
+  --border-radius-sm: 6px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 20px;
+  
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: radial-gradient(circle at 50% 0%, rgba(0, 143, 76, 0.08) 0%, #0d1117 70%);
+  overflow-x: hidden;
+}
+
+/* Sidebar and Main Layout */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 2.5rem;
+  margin-left: 260px; /* Sidebar width */
+  min-width: 0;
+  transition: margin-left var(--transition-smooth);
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 80px; /* Collapsed sidebar */
+    padding: 1.5rem;
+  }
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-tertiary);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-green);
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: var(--border-radius-md);
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 143, 76, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), 0 0 15px 0 var(--card-glow);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--border-radius-sm);
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+  outline: none;
+}
+
+.btn-primary {
+  background-color: var(--accent-green);
+  color: #fff;
+}
+.btn-primary:hover {
+  background-color: var(--accent-green-hover);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-bright);
+  border-color: var(--card-border);
+}
+.btn-secondary:hover {
+  background-color: #2b3139;
+  border-color: var(--text-muted);
+}
+
+.btn-danger {
+  background-color: #7d1a1a;
+  color: #fff;
+}
+.btn-danger:hover {
+  background-color: #a62424;
+}
+
+/* Input Fields & Forms */
+.form-group {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.form-control, .form-select {
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--card-border);
+  color: var(--text-bright);
+  font-family: inherit;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 3px rgba(0, 143, 76, 0.25);
+}
+
+/* Timetable Routine Grid Layout (DOCX Look for Student routine) */
+.routine-export-container {
+  background: white;
+  color: #1a1a1a;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  font-family: 'Arial', sans-serif;
+}
+
+.routine-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #1a1a1a;
+  padding-bottom: 1rem;
+}
+
+.routine-header-logo {
+  position: absolute;
+  left: 0;
+  width: 75px;
+  height: auto;
+}
+
+.routine-header-text {
+  text-align: center;
+}
+
+.routine-header-text h1 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #0b3d1b;
+  text-transform: uppercase;
+}
+
+.routine-header-text h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: #1a1a1a;
+}
+
+.routine-header-text h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #4a4a4a;
+}
+
+.routine-meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  font-size: 0.95rem;
+  font-weight: bold;
+}
+
+.routine-meta-row .left {
+  text-align: left;
+}
+
+.routine-meta-row .right {
+  text-align: right;
+}
+
+.routine-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.85rem;
+  table-layout: fixed;
+}
+
+.routine-grid-table th, .routine-grid-table td {
+  border: 1px solid #1a1a1a;
+  text-align: center;
+  padding: 0.5rem 0.25rem;
+  vertical-align: middle;
+}
+
+.routine-grid-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.routine-grid-table td.day-cell {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.routine-grid-table td.empty-cell {
+  background-color: #ffffff;
+}
+
+.routine-grid-table .class-info {
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.routine-grid-table .class-teacher {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.routine-grid-table .class-room {
+  font-size: 0.75rem;
+  font-weight: normal;
+  display: block;
+}
+
+/* Course and Teacher Tables side-by-side */
+.routine-tables-flex {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 1.5rem;
+}
+
+.routine-sub-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.routine-sub-table th, .routine-sub-table td {
+  border: 1px solid #1a1a1a;
+  padding: 0.35rem 0.5rem;
+  text-align: left;
+}
+
+.routine-sub-table th {
+  background-color: #b4c6e7;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+}
+
+.routine-sub-table .center-align {
+  text-align: center;
+}
+
+.routine-sub-table .right-align {
+  text-align: right;
+}
+
+.routine-sub-table .bold-text {
+  font-weight: bold;
+}
+
+/* Print CSS overrides */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .app-container {
+    display: block !important;
+  }
+
+  .sidebar-container {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .routine-export-container {
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  /* Force landscape print for routines */
+  @page {
+    size: A4 landscape;
+    margin: 0.5cm;
+  }
+}
