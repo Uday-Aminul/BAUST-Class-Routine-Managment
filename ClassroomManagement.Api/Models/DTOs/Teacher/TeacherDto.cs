@@ -13,7 +13,7 @@ namespace ClassroomManagement.Api.Models.DTOs
         public float AssignedCredit { get; set; }
 
         //Navigation Property
-        public List<ClassScheduleDtoForTeacher>? Classes { get; set; }
+        public List<ClassScheduleForTeacherDto>? Classes { get; set; }
         public List<TeacherAssignmentForTeacherDto>? AssignedSections { get; set; }
     }
 }

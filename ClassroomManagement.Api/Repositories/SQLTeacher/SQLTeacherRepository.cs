@@ -46,8 +46,24 @@ namespace TeacherManagement.Api.Repositories
 
         public async Task<Teacher?> GetTeacherByIdAsync(int id)
         {
-            var TeacherDomain = await _dbContext.Teachers.Include(x => x.Classes).Include(x => x.AssignedSections).FirstOrDefaultAsync(x => x.Id == id);
-            return TeacherDomain;
+            var teacherDomain = await _dbContext.Teachers
+                .Include(x => x.Classes)
+                    .ThenInclude(c => c.Course)
+                .Include(x => x.Classes)
+                    .ThenInclude(c => c.Sessional)
+                .Include(x => x.Classes)
+                    .ThenInclude(c => c.Classroom)
+                .Include(x => x.Classes)
+                    .ThenInclude(c => c.Labroom)
+                .Include(x => x.AssignedSections)
+                    .ThenInclude(a => a.Course)
+                .Include(x => x.AssignedSections)
+                    .ThenInclude(a => a.Sessional)
+                .Include(x => x.AssignedSections)
+                    .ThenInclude(a => a.LevelTermSection)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return teacherDomain;
         }
 
         public async Task<Teacher?> UpdateTeacherByIdAsync(int id, Teacher updatedTeacher)

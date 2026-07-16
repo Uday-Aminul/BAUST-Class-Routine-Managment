@@ -6,7 +6,7 @@ using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
 
 namespace ClassroomManagement.Api.Models.DTOs.Teacher
 {
-    public class ClassScheduleDtoForTeacher
+    public class ClassScheduleForTeacherDto
     {
         public int Id { get; set; }
         public DayOfWeek Day { get; set; }
