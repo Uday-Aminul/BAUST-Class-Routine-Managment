@@ -17,7 +17,6 @@ namespace ClassroomManagement.Api.Mappings
     {
         public AutoMapperProfiles()
         {
-            //New section
             //Classroom mappings
             CreateMap<Classroom, ClassroomDto>();
             CreateMap<UpdateClassroomRequestDto, Classroom>();

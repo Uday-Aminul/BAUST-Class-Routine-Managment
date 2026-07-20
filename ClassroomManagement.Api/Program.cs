@@ -17,7 +17,8 @@ using TeacherManagement.Api.Repositories;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var logger = new LoggerConfiguration().WriteTo.Console().WriteTo.File("Logs/NZWalks_Log.txt", rollingInterval: RollingInterval.Infinite).MinimumLevel.Information().CreateLogger();
+var timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+var logger = new LoggerConfiguration().WriteTo.Console().WriteTo.File($"Logs/NZWalks_Log_{timestamp}.txt", rollingInterval: RollingInterval.Infinite).MinimumLevel.Information().CreateLogger();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 
