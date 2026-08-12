@@ -30,7 +30,7 @@ namespace LevelTermSectionManagement.Api.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        public async Task<IActionResult> GetByRoomNumber([FromQuery] int level, [FromQuery] int term, [FromQuery] string section)
+        public async Task<IActionResult> GetById([FromQuery] int level, [FromQuery] int term, [FromQuery] string section)
         {
             var levelTermSectionDomain = await _levelTermSectionsRepository.GetLevelTermSectionByLevelTermSectionAsync(level, term, section);
             if (levelTermSectionDomain is null)
@@ -74,7 +74,7 @@ namespace LevelTermSectionManagement.Api.Controllers
             var levelTermSectionDomain = _mapper.Map<LevelTermSection>(newLevelTermSection);
             levelTermSectionDomain = await _levelTermSectionsRepository.CreateLevelTermSectionAsync(levelTermSectionDomain, newLevelTermSection.ClassroomIds);
             var LevelTermSectionDto = _mapper.Map<LevelTermSectionDto>(levelTermSectionDomain);
-            return CreatedAtAction(nameof(GetByRoomNumber), new { id = levelTermSectionDomain.Id }, LevelTermSectionDto);
+            return CreatedAtAction(nameof(GetById), new { id = levelTermSectionDomain.Id }, LevelTermSectionDto);
         }
 
         [HttpPost]

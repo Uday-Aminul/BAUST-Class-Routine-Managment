@@ -62,9 +62,9 @@ namespace ClassroomManagement.Api.Repositories
             var lab109 = labrooms.First(l => l.RoomNumber == 109);
 
             //Extra 
-            lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 14));  // CSE 2202
+            //lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 14));  // CSE 2202
             //Should remove
-            lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
+            //lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
             // lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 28));  // CSE 4140
             // lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 13)); // CSE 2100
             // lab109.AllowedSessionals.Add(sessionals.First(s => s.Id == 15));  // CSE 2206
@@ -83,7 +83,7 @@ namespace ClassroomManagement.Api.Repositories
             lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 12));  // CSE 2108
 
             //Extra 
-            lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 25)); // CSE 3200
+            //lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 25)); // CSE 3200
 
             // lab210.AllowedSessionals.Add(sessionals.First(s => s.Id == 2));  // CSE 1102
 
@@ -189,7 +189,7 @@ namespace ClassroomManagement.Api.Repositories
             lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 21));  // CSE 3202
 
             //Extra Should remove
-            lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
+            //lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 22));  // CSE 3204
 
             // lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 30));  // CSE 4246
             // lab411.AllowedSessionals.Add(sessionals.First(s => s.Id == 1));   // CSE 1100
@@ -205,7 +205,7 @@ namespace ClassroomManagement.Api.Repositories
 
         public async Task<Labroom?> UpdateLabroomByIdAsync(int id, LabroomUpdateRequestDto updatedLabroom, List<int>? allowedSessionalIds)
         {
-            var existingLabroom = await _dbContext.Labrooms.Include(l => l.AllowedSessionals).FirstOrDefaultAsync(l => l.RoomNumber == id);
+            var existingLabroom = await _dbContext.Labrooms.Include(l => l.AllowedSessionals).FirstOrDefaultAsync(l => l.Id == id);
             if (existingLabroom is null)
             {
                 return null;

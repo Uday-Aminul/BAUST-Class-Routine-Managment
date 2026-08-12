@@ -71,7 +71,7 @@ namespace LabroomManagement.Api.Controllers
             var labroomDomain = _mapper.Map<Labroom>(newLabroom);
             labroomDomain = await _labroomRepository.CreateLabroomAsync(labroomDomain, newLabroom.AllowedSessionalIds);
             var LabroomDto = _mapper.Map<LabroomDto>(labroomDomain);
-            return CreatedAtAction(nameof(GetByRoomNumber), new { id = labroomDomain.Id }, LabroomDto);
+            return CreatedAtAction(nameof(GetByRoomNumber), new { roomNumber = labroomDomain.RoomNumber }, LabroomDto);
         }
 
         [HttpPost]

@@ -28,16 +28,22 @@ namespace ClassroomManagement.Api.Mappings
 
             //Labroom mappings
             CreateMap<Labroom, LabroomDto>();
+            CreateMap<AddLabroomRequestDto, Labroom>();
+            CreateMap<LabroomUpdateRequestDto, Labroom>();
             CreateMap<Teacher, TeacherForLabroomDto>();
             CreateMap<ClassSchedule, ClassScheduleForLabroomDto>();
             CreateMap<Sessional, SessionalForLabroomDto>();
 
             //Course mappings
             CreateMap<Course, CourseDto>();
+            CreateMap<AddCourseRequestDto, Course>();
+            CreateMap<UpdateCourseRequestDto, Course>();
 
             //Sessional mappings
             CreateMap<Sessional, SessionalDto>();
             CreateMap<Labroom, LabroomForSessionalDto>();
+            CreateMap<SessionalAddRequestDto, Sessional>();
+            CreateMap<SessionalUpdateRequestDto, Sessional>();
 
             //Teacher mappings
             CreateMap<Teacher, TeacherDto>();
@@ -59,6 +65,8 @@ namespace ClassroomManagement.Api.Mappings
 
             //TeacherAssignment mappings 
             CreateMap<TeacherAssignment, TeacherAssignmentDto>();
+            CreateMap<TeacherAssignmentAddRequestDto, TeacherAssignment>();
+            CreateMap<TeacherAssignmentUpdateRequestDto, TeacherAssignment>();
             CreateMap<Teacher, TeacherForTeacherAssignmentDto>();
             CreateMap<Course, CourseForTeacherAssignmentDto>();
             CreateMap<Sessional, SessionalForTeacherAssignmentDto>();
@@ -66,6 +74,8 @@ namespace ClassroomManagement.Api.Mappings
 
             //LevelTermSection mappings
             CreateMap<LevelTermSection, LevelTermSectionDto>();
+            CreateMap<LevelTermSectionAddRequestDto, LevelTermSection>();
+            CreateMap<LevelTermSectionUpdateRequestDto, LevelTermSection>();
             CreateMap<Teacher, TeacherForLevelTermSectionDto>();
             CreateMap<Classroom, ClassroomForLevelTermSectionDto>();
             CreateMap<TeacherAssignment, TeacherAssignmentForLevelTermSectionDto>();

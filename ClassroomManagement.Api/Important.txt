@@ -30,3 +30,10 @@ Problems:
     .ToList();  // ← Add this!  In PlaceTheoryAsync
 
 29. Update operation in ClassSchedules...There's a list of teachers...So need to take list of foreignkey to add them.
+
+
+
+30. The assignedCredit is returning 0 in the TeachersRepository.
+
+31. when updating sessional remove it's previous rooms and add the latest rooms.
+32. 

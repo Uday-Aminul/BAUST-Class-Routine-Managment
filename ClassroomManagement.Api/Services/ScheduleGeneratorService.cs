@@ -86,8 +86,8 @@ namespace ClassroomManagement.Api.Services
             foreach (var sessional in sessionalsCopy)
             {
                 var teachers = levelTermSection.AssignedTeachers.First(at => at.SessionalId == sessional.Id).Teachers.ToList();
-                var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day);
-                var labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
+                var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day, schedulingState: null);
+                var labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day, schedulingState: null);
                 if (allTeachersAvailable is true && labroom is not null)
                 {
                     var weekType = EvenPlaced ? "ODD" : "EVEN";
@@ -216,7 +216,13 @@ namespace ClassroomManagement.Api.Services
                 //Placing theory in case lab couldn't be placed.
                 if (sessionalPlacedBeforeBreak is false && isBusyBeforeBreak is false)
                 {
-                    placedTheoryCoursesBeforeBreak = await PlaceTheoryAsync(schedulingState, day, new TimeOnly(8, 0), new TimeOnly(8, 50), new TimeOnly(9, 0), new TimeOnly(9, 50), new TimeOnly(10, 0), new TimeOnly(10, 50), placedTheoryCoursesBeforeBreak);
+                    var slots = new List<Slot>
+                    {
+                        new Slot { StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50) },
+                        new Slot { StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50) },
+                        new Slot { StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50) }
+                    };
+                    placedTheoryCoursesBeforeBreak = await PlaceChainedTheoryAsync(schedulingState, day, slots, placedTheoryCoursesBeforeBreak);
                 }
 
                 //After Tiffin Break
@@ -247,7 +253,19 @@ namespace ClassroomManagement.Api.Services
                 //Placing theory in case lab couldn't be placed.
                 if (sessionalPlacedAfterBreak is false && isBusyAfterBreak is false)
                 {
-                    await PlaceTheoryAsync(schedulingState, day, new TimeOnly(11, 30), new TimeOnly(12, 20), new TimeOnly(12, 30), new TimeOnly(13, 20), new TimeOnly(13, 30), new TimeOnly(14, 20), placedTheoryCoursesBeforeBreak);
+                    var slots = new List<Slot>
+                    {
+                        // Morning slots
+                        // new Slot { StartTime = new TimeOnly(8, 0), EndTime = new TimeOnly(8, 50) },
+                        // new Slot { StartTime = new TimeOnly(9, 0), EndTime = new TimeOnly(9, 50) },
+                        // new Slot { StartTime = new TimeOnly(10, 0), EndTime = new TimeOnly(10, 50) },
+                        
+                        // Afternoon slots
+                        new Slot { StartTime = new TimeOnly(11, 30), EndTime = new TimeOnly(12, 20) },
+                        new Slot { StartTime = new TimeOnly(12, 30), EndTime = new TimeOnly(13, 20) },
+                        new Slot { StartTime = new TimeOnly(13, 30), EndTime = new TimeOnly(14, 20) }
+                    };
+                    await PlaceChainedTheoryAsync(schedulingState, day, slots, placedTheoryCoursesBeforeBreak);
                 }
 
                 if (schedulingState.LabPlacedToday >= 2)
@@ -285,20 +303,218 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Placing a theory
-        private async Task<List<Course>> PlaceTheoryAsync(
+        // private async Task<List<Course>> PlaceTheoryAsync(
+        //     SchedulingState schedulingState,
+        //     DayOfWeek day,
+        //     TimeOnly startTime1, TimeOnly endTime1,
+        //     TimeOnly startTime2, TimeOnly endTime2,
+        //     TimeOnly startTime3, TimeOnly endTime3,
+        //     List<Course> coursesPlacedBeforeBreak)
+        // {
+        //     var slots = new[]{
+        //         new { Start = startTime1, End = endTime1 },
+        //         new { Start = startTime2, End = endTime2 },
+        //         new { Start = startTime3, End = endTime3 }
+        //         };
+
+        //     // For Modifying the list while iterating
+        //     var courseToConsider = schedulingState.Courses.Where(c => c.Credit > 0).ToList();
+
+        //     if (coursesPlacedBeforeBreak != null && coursesPlacedBeforeBreak.Any())
+        //     {
+        //         courseToConsider = courseToConsider
+        //             .Where(c => !coursesPlacedBeforeBreak.Any(pc => pc.Id == c.Id))
+        //             .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
+        //             .ToList();
+        //     }
+        //     var placedCourses = new List<Course>();
+        //     var levelTermSection = await _dbContext.LevelTermSections
+        //         .Include(lt => lt.AssignedTeachers)
+        //         .ThenInclude(at => at.Teachers)
+        //         .FirstOrDefaultAsync(lt =>
+        //             lt.Level == schedulingState.Level &&
+        //             lt.Term == schedulingState.Term &&
+        //             lt.Section == schedulingState.Section);
+        //     foreach (var slot in slots)
+        //     {
+        //         var coursesCopy = courseToConsider
+        //             .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
+        //             .ToList(); // Refreshing the copy for each slot
+        //         foreach (var course in coursesCopy)
+        //         {
+        //             //Error Debug
+        //             var teacher = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == course.Id).Teachers.FirstOrDefault();
+        //             var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
+        //             var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+        //             if (teacherAvailable is true && availableClassroom is not null)
+        //             {
+        //                 var schedule = new ClassSchedule
+        //                 {
+        //                     Day = day,
+        //                     StartTime = slot.Start,
+        //                     EndTime = slot.End,
+        //                     Level = schedulingState.Level,
+        //                     Term = schedulingState.Term,
+        //                     Section = schedulingState.Section,
+        //                     ClassroomId = availableClassroom.Id,
+        //                     CourseId = course.Id,
+        //                     Teachers = new List<Teacher> { teacher }
+        //                 };
+        //                 schedulingState.SchedulesToAdd.Add(schedule);
+        //                 courseToConsider.Remove(course);
+        //                 placedCourses.Add(course);
+        //                 schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+        //                 break; // Done assigning a course to this slot.
+        //             }
+        //             else
+        //             {
+        //                 var swapPerformed = false;
+        //                 var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null).ToList(); // To avoid modifying the original list while iterating
+        //                 foreach (var courseSchedule in courseSchedules)
+        //                 {
+        //                     teacherAvailable = await IsTeacherAvailable(teacher.Id, courseSchedule.StartTime, courseSchedule.EndTime, day);
+        //                     availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule.StartTime, day);
+        //                     if (teacherAvailable is true && availableClassroom is not null)
+        //                     {
+        //                         var teacherAvailableToExchange = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, slot.Start, slot.End, day);
+        //                         var classroomAvailableToExchange = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+        //                         if (teacherAvailableToExchange is true && classroomAvailableToExchange is not null)
+        //                         {
+        //                             //Exchange
+        //                             var schedule = new ClassSchedule
+        //                             {
+        //                                 Day = day,
+        //                                 StartTime = slot.Start,
+        //                                 EndTime = slot.End,
+        //                                 Level = schedulingState.Level,
+        //                                 Term = schedulingState.Term,
+        //                                 Section = schedulingState.Section,
+        //                                 ClassroomId = classroomAvailableToExchange.Id,
+        //                                 CourseId = courseSchedule.CourseId,
+        //                                 Teachers = courseSchedule.Teachers
+        //                             };
+        //                             schedulingState.SchedulesToAdd.Add(schedule);
+        //                             courseSchedule.ClassroomId = availableClassroom.Id;
+        //                             courseSchedule.CourseId = course.Id;
+        //                             courseSchedule.Teachers = new List<Teacher> { teacher };
+
+        //                             courseToConsider.Remove(course);
+        //                             placedCourses.Add(course);
+        //                             schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+        //                             swapPerformed = true;
+        //                             break; // Done assigning a course to this slot.
+        //                         }
+        //                     }
+        //                 }
+        //                 if (swapPerformed is true)
+        //                 {
+        //                     break; // Move to the next slot after a successful swap and placement
+        //                 }
+        //             }
+
+
+        //             //Manual 2step hopping
+        //             // else
+        //             // {
+        //             //     var swapPerformed = false;
+        //             //     var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null).ToList(); // To avoid modifying the original list while iterating
+        //             //     foreach (var courseSchedule in courseSchedules)
+        //             //     {
+        //             //         teacherAvailable = await IsTeacherAvailable(teacher.Id, courseSchedule.StartTime, courseSchedule.EndTime, day);
+        //             //         availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule.StartTime, day);
+        //             //         if (teacherAvailable is true && availableClassroom is not null)
+        //             //         {
+        //             //             var teacherAvailableToExchange = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, slot.Start, slot.End, day);
+        //             //             var classroomAvailableToExchange = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+        //             //             if (teacherAvailableToExchange is true && classroomAvailableToExchange is not null)
+        //             //             {
+        //             //                 //Exchange
+        //             //                 var schedule = new ClassSchedule
+        //             //                 {
+        //             //                     Day = day,
+        //             //                     StartTime = slot.Start,
+        //             //                     EndTime = slot.End,
+        //             //                     Level = schedulingState.Level,
+        //             //                     Term = schedulingState.Term,
+        //             //                     Section = schedulingState.Section,
+        //             //                     ClassroomId = classroomAvailableToExchange.Id,
+        //             //                     CourseId = courseSchedule.CourseId,
+        //             //                     Teachers = courseSchedule.Teachers
+        //             //                 };
+        //             //                 schedulingState.SchedulesToAdd.Add(schedule);
+        //             //                 courseSchedule.ClassroomId = availableClassroom.Id;
+        //             //                 courseSchedule.CourseId = course.Id;
+        //             //                 courseSchedule.Teachers = new List<Teacher> { teacher };
+
+        //             //                 courseToConsider.Remove(course);
+        //             //                 placedCourses.Add(course);
+        //             //                 schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+        //             //                 swapPerformed = true;
+        //             //                 break; // Done assigning a course to this slot.
+        //             //             }
+        //             //             else
+        //             //             {
+        //             //                 foreach (var courseSchedule1 in courseSchedules)
+        //             //                 {
+        //             //                     var teacherAvailable1 = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, courseSchedule1.StartTime, courseSchedule1.EndTime, day);
+        //             //                     var availableClassroom1 = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule1.StartTime, day);
+        //             //                     if (teacherAvailable1 is true && availableClassroom1 is not null)
+        //             //                     {
+        //             //                         var teacherAvailableToExchange1 = await IsTeacherAvailable(courseSchedule1.Teachers.First().Id, slot.Start, slot.End, day);
+        //             //                         var classroomAvailableToExchange1 = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+        //             //                         if (teacherAvailableToExchange1 is true && classroomAvailableToExchange1 is not null)
+        //             //                         {
+        //             //                             //One Hop Exchange
+        //             //                             var schedule = new ClassSchedule
+        //             //                             {
+        //             //                                 Day = day,
+        //             //                                 StartTime = slot.Start,
+        //             //                                 EndTime = slot.End,
+        //             //                                 Level = schedulingState.Level,
+        //             //                                 Term = schedulingState.Term,
+        //             //                                 Section = schedulingState.Section,
+        //             //                                 ClassroomId = classroomAvailableToExchange1.Id,
+        //             //                                 CourseId = courseSchedule1.CourseId,
+        //             //                                 Teachers = courseSchedule1.Teachers
+        //             //                             };
+        //             //                             schedulingState.SchedulesToAdd.Add(schedule);
+        //             //                             courseSchedule1.ClassroomId = availableClassroom1.Id;
+        //             //                             courseSchedule1.CourseId = courseSchedule.Course.Id;
+        //             //                             courseSchedule1.Teachers = courseSchedule.Teachers;
+
+        //             //                             courseSchedule.ClassroomId = availableClassroom.Id;
+        //             //                             courseSchedule.CourseId = course.Id;
+        //             //                             courseSchedule.Teachers = new List<Teacher> { teacher };
+
+        //             //                             courseToConsider.Remove(course);
+        //             //                             placedCourses.Add(course);
+        //             //                             schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
+        //             //                             swapPerformed = true;
+        //             //                             break; // Done assigning a course to this slot.
+        //             //                         }
+        //             //                     }
+        //             //                 }
+        //             //             }
+        //             //         }
+        //             //         if (swapPerformed is true)
+        //             //         {
+        //             //             break; // Move to the next slot after a successful swap and placement
+        //             //         }
+        //             //     }
+        //             // }
+        //         }
+
+        //     }
+        //     return placedCourses;
+        // }
+
+        //Placing a theory with a chain reaction
+        private async Task<List<Course>> PlaceChainedTheoryAsync(
             SchedulingState schedulingState,
             DayOfWeek day,
-            TimeOnly startTime1, TimeOnly endTime1,
-            TimeOnly startTime2, TimeOnly endTime2,
-            TimeOnly startTime3, TimeOnly endTime3,
+            List<Slot> slots,
             List<Course> coursesPlacedBeforeBreak)
         {
-            var slots = new[]{
-                new { Start = startTime1, End = endTime1 },
-                new { Start = startTime2, End = endTime2 },
-                new { Start = startTime3, End = endTime3 }
-                };
-
             // For Modifying the list while iterating
             var courseToConsider = schedulingState.Courses.Where(c => c.Credit > 0).ToList();
 
@@ -309,6 +525,13 @@ namespace ClassroomManagement.Api.Services
                     .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
                     .ToList();
             }
+            else
+            {
+                courseToConsider = courseToConsider
+                    .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
+                    .ToList();
+            }
+
             var placedCourses = new List<Course>();
             var levelTermSection = await _dbContext.LevelTermSections
                 .Include(lt => lt.AssignedTeachers)
@@ -317,261 +540,108 @@ namespace ClassroomManagement.Api.Services
                     lt.Level == schedulingState.Level &&
                     lt.Term == schedulingState.Term &&
                     lt.Section == schedulingState.Section);
+
             foreach (var slot in slots)
             {
                 var coursesCopy = courseToConsider
                     .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
                     .ToList(); // Refreshing the copy for each slot
-                foreach (var course in coursesCopy)
+                foreach (var course in coursesCopy) // Create a copy to avoid modifying the collection during iteration
                 {
-                    //Error Debug
                     var teacher = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == course.Id).Teachers.FirstOrDefault();
-                    var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
-                    var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
-                    if (teacherAvailable is true && availableClassroom is not null)
+                    var visitedStartTimes = new HashSet<TimeOnly>();
+                    var placed = await TryPlaceCourseInSlotAsync(course, teacher, slot.StartTime, slot.EndTime, visitedStartTimes, schedulingState, day, placedCourses, courseToConsider);
+                    if (placed)
                     {
-                        var schedule = new ClassSchedule
-                        {
-                            Day = day,
-                            StartTime = slot.Start,
-                            EndTime = slot.End,
-                            Level = schedulingState.Level,
-                            Term = schedulingState.Term,
-                            Section = schedulingState.Section,
-                            ClassroomId = availableClassroom.Id,
-                            CourseId = course.Id,
-                            Teachers = new List<Teacher> { teacher }
-                        };
-                        schedulingState.SchedulesToAdd.Add(schedule);
-                        courseToConsider.Remove(course);
-                        placedCourses.Add(course);
-                        schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
-                        break; // Done assigning a course to this slot.
+                        break; // Move to the next slot after a successful placement
                     }
-                    else
-                    {
-                        var swapPerformed = false;
-                        var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null).ToList(); // To avoid modifying the original list while iterating
-                        foreach (var courseSchedule in courseSchedules)
-                        {
-                            teacherAvailable = await IsTeacherAvailable(teacher.Id, courseSchedule.StartTime, courseSchedule.EndTime, day);
-                            availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule.StartTime, day);
-                            if (teacherAvailable is true && availableClassroom is not null)
-                            {
-                                var teacherAvailableToExchange = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, slot.Start, slot.End, day);
-                                var classroomAvailableToExchange = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
-                                if (teacherAvailableToExchange is true && classroomAvailableToExchange is not null)
-                                {
-                                    //Exchange
-                                    var schedule = new ClassSchedule
-                                    {
-                                        Day = day,
-                                        StartTime = slot.Start,
-                                        EndTime = slot.End,
-                                        Level = schedulingState.Level,
-                                        Term = schedulingState.Term,
-                                        Section = schedulingState.Section,
-                                        ClassroomId = classroomAvailableToExchange.Id,
-                                        CourseId = courseSchedule.CourseId,
-                                        Teachers = courseSchedule.Teachers
-                                    };
-                                    schedulingState.SchedulesToAdd.Add(schedule);
-                                    courseSchedule.ClassroomId = availableClassroom.Id;
-                                    courseSchedule.CourseId = course.Id;
-                                    courseSchedule.Teachers = new List<Teacher> { teacher };
-
-                                    courseToConsider.Remove(course);
-                                    placedCourses.Add(course);
-                                    schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
-                                    swapPerformed = true;
-                                    break; // Done assigning a course to this slot.
-                                }
-                            }
-                        }
-                        if (swapPerformed is true)
-                        {
-                            break; // Move to the next slot after a successful swap and placement
-                        }
-                    }
-
-
-                    //Manual 2step hopping
-                    // else
-                    // {
-                    //     var swapPerformed = false;
-                    //     var courseSchedules = schedulingState.SchedulesToAdd.Where(s => s.Day == day && s.CourseId is not null).ToList(); // To avoid modifying the original list while iterating
-                    //     foreach (var courseSchedule in courseSchedules)
-                    //     {
-                    //         teacherAvailable = await IsTeacherAvailable(teacher.Id, courseSchedule.StartTime, courseSchedule.EndTime, day);
-                    //         availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule.StartTime, day);
-                    //         if (teacherAvailable is true && availableClassroom is not null)
-                    //         {
-                    //             var teacherAvailableToExchange = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, slot.Start, slot.End, day);
-                    //             var classroomAvailableToExchange = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
-                    //             if (teacherAvailableToExchange is true && classroomAvailableToExchange is not null)
-                    //             {
-                    //                 //Exchange
-                    //                 var schedule = new ClassSchedule
-                    //                 {
-                    //                     Day = day,
-                    //                     StartTime = slot.Start,
-                    //                     EndTime = slot.End,
-                    //                     Level = schedulingState.Level,
-                    //                     Term = schedulingState.Term,
-                    //                     Section = schedulingState.Section,
-                    //                     ClassroomId = classroomAvailableToExchange.Id,
-                    //                     CourseId = courseSchedule.CourseId,
-                    //                     Teachers = courseSchedule.Teachers
-                    //                 };
-                    //                 schedulingState.SchedulesToAdd.Add(schedule);
-                    //                 courseSchedule.ClassroomId = availableClassroom.Id;
-                    //                 courseSchedule.CourseId = course.Id;
-                    //                 courseSchedule.Teachers = new List<Teacher> { teacher };
-
-                    //                 courseToConsider.Remove(course);
-                    //                 placedCourses.Add(course);
-                    //                 schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
-                    //                 swapPerformed = true;
-                    //                 break; // Done assigning a course to this slot.
-                    //             }
-                    //             else
-                    //             {
-                    //                 foreach (var courseSchedule1 in courseSchedules)
-                    //                 {
-                    //                     var teacherAvailable1 = await IsTeacherAvailable(courseSchedule.Teachers.First().Id, courseSchedule1.StartTime, courseSchedule1.EndTime, day);
-                    //                     var availableClassroom1 = await FindAvailableClassroom(schedulingState.Classrooms, courseSchedule1.StartTime, day);
-                    //                     if (teacherAvailable1 is true && availableClassroom1 is not null)
-                    //                     {
-                    //                         var teacherAvailableToExchange1 = await IsTeacherAvailable(courseSchedule1.Teachers.First().Id, slot.Start, slot.End, day);
-                    //                         var classroomAvailableToExchange1 = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
-                    //                         if (teacherAvailableToExchange1 is true && classroomAvailableToExchange1 is not null)
-                    //                         {
-                    //                             //One Hop Exchange
-                    //                             var schedule = new ClassSchedule
-                    //                             {
-                    //                                 Day = day,
-                    //                                 StartTime = slot.Start,
-                    //                                 EndTime = slot.End,
-                    //                                 Level = schedulingState.Level,
-                    //                                 Term = schedulingState.Term,
-                    //                                 Section = schedulingState.Section,
-                    //                                 ClassroomId = classroomAvailableToExchange1.Id,
-                    //                                 CourseId = courseSchedule1.CourseId,
-                    //                                 Teachers = courseSchedule1.Teachers
-                    //                             };
-                    //                             schedulingState.SchedulesToAdd.Add(schedule);
-                    //                             courseSchedule1.ClassroomId = availableClassroom1.Id;
-                    //                             courseSchedule1.CourseId = courseSchedule.Course.Id;
-                    //                             courseSchedule1.Teachers = courseSchedule.Teachers;
-
-                    //                             courseSchedule.ClassroomId = availableClassroom.Id;
-                    //                             courseSchedule.CourseId = course.Id;
-                    //                             courseSchedule.Teachers = new List<Teacher> { teacher };
-
-                    //                             courseToConsider.Remove(course);
-                    //                             placedCourses.Add(course);
-                    //                             schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
-                    //                             swapPerformed = true;
-                    //                             break; // Done assigning a course to this slot.
-                    //                         }
-                    //                     }
-                    //                 }
-                    //             }
-                    //         }
-                    //         if (swapPerformed is true)
-                    //         {
-                    //             break; // Move to the next slot after a successful swap and placement
-                    //         }
-                    //     }
-                    // }
                 }
 
+                //Re arrange based on course credit left
+                courseToConsider = courseToConsider
+                    .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
+                    .ToList();
             }
             return placedCourses;
         }
 
-        //Placing a theory with a chain reaction
-        private async Task<bool> PlaceChainedTheoryAsync(
-            SchedulingState schedulingState,
-            DayOfWeek day,
-            TimeOnly startTime1, TimeOnly endTime1,
-            TimeOnly startTime2, TimeOnly endTime2,
-            TimeOnly startTime3, TimeOnly endTime3,
-            List<Course> coursesPlacedBeforeBreak)
+        //Second method for the chaining
+        private async Task<bool> TryPlaceCourseInSlotAsync(Course course,
+        Teacher teacher,
+        TimeOnly slotStart,
+        TimeOnly slotEnd,
+        HashSet<TimeOnly> visitedStartTimes,
+        SchedulingState schedulingState,
+        DayOfWeek day,
+        List<Course> placedCourses,
+        List<Course> courseToConsider,
+        bool isRelocation = false)
         {
-            HashSet<int> visitedSlotIds;
-
-            var slots = new[]{
-                new { Start = startTime1, End = endTime1 },
-                new { Start = startTime2, End = endTime2 },
-                new { Start = startTime3, End = endTime3 }
-                };
-
-            // For Modifying the list while iterating
-            var courseToConsider = schedulingState.Courses.Where(c => c.Credit > 0).ToList();
-
-            if (coursesPlacedBeforeBreak != null && coursesPlacedBeforeBreak.Any())
+            if (visitedStartTimes.Contains(slotStart))
             {
-                courseToConsider = courseToConsider
-                    .Where(c => !coursesPlacedBeforeBreak.Any(pc => pc.Id == c.Id))
-                    .OrderByDescending(c => c.Credit)  // Sort from highest credit to lowest
-                    .ToList();
+                return false; // Already tried this slot, avoid infinite loops
             }
-            var placedCourses = new List<Course>();
-            var levelTermSection = await _dbContext.LevelTermSections
-                .Include(lt => lt.AssignedTeachers)
-                .ThenInclude(at => at.Teachers)
-                .FirstOrDefaultAsync(lt =>
-                    lt.Level == schedulingState.Level &&
-                    lt.Term == schedulingState.Term &&
-                    lt.Section == schedulingState.Section);
-            foreach (var slot in slots)
+            visitedStartTimes.Add(slotStart);
+
+            var teacherAvailable = await IsTeacherAvailable(teacher.Id, slotStart, slotEnd, day, schedulingState);
+            var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slotStart, day, schedulingState);
+
+            if (teacherAvailable is true && availableClassroom is not null)
             {
-                if (visitedSlotIds.contains(slot.Id))
+                var schedule = new ClassSchedule
                 {
-                    continue;
+                    Day = day,
+                    StartTime = slotStart,
+                    EndTime = slotEnd,
+                    Level = schedulingState.Level,
+                    Term = schedulingState.Term,
+                    Section = schedulingState.Section,
+                    ClassroomId = availableClassroom.Id,
+                    CourseId = course.Id,
+                    Teachers = new List<Teacher> { teacher }
+                };
+                schedulingState.SchedulesToAdd.Add(schedule);
+
+                if (isRelocation is false)
+                {
+                    placedCourses.Add(course);
+                    courseToConsider.Remove(course);
+                    schedulingState.Courses.FirstOrDefault(c => c.Id == course.Id).Credit--;
                 }
-                visitedSlotIds.Add(slot.Id);
 
-                var teacher = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.CourseId == courseToConsider.First().Id).Teachers.FirstOrDefault();
-                var teacherAvailable = await IsTeacherAvailable(teacher.Id, slot.Start, slot.End, day);
-                var availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, slot.Start, day);
+                return true;
+            }
 
+            // Direct placement failed — try relocating an already-placed course to free up a slot for this one
+            var occupiedSchedules = schedulingState.SchedulesToAdd
+                .Where(s => s.Day == day && s.CourseId is not null && !visitedStartTimes.Contains(s.StartTime))
+                .ToList();
+
+            foreach (var occupantSchedule in occupiedSchedules)
+            {
+                teacherAvailable = await IsTeacherAvailable(teacher.Id, occupantSchedule.StartTime, occupantSchedule.EndTime, day, schedulingState);
+                availableClassroom = await FindAvailableClassroom(schedulingState.Classrooms, occupantSchedule.StartTime, day, schedulingState);
                 if (teacherAvailable is false || availableClassroom is null)
                 {
-                    continue;
+                    continue; // Can't move this occupant, try the next one
                 }
 
-                if (slot.courseId is null)
-                {
-                    var schedule = new ClassSchedule
-                    {
-                        Day = day,
-                        StartTime = slot.Start,
-                        EndTime = slot.End,
-                        Level = schedulingState.Level,
-                        Term = schedulingState.Term,
-                        Section = schedulingState.Section,
-                        ClassroomId = availableClassroom.Id,
-                        CourseId = courseToConsider.First().Id,
-                        Teachers = new List<Teacher> { teacher }
-                    };
-                    schedulingState.SchedulesToAdd.Add(schedule);
-                    schedulingState.Courses.FirstOrDefault(c => c.Id == courseToConsider.First().Id).Credit--;
-                    placedCourses.Add(courseToConsider.First());
-                    courseToConsider.Remove(courseToConsider.First());
+                var occupantCourse = schedulingState.Courses.FirstOrDefault(c => c.Id == occupantSchedule.CourseId);
+                var occupantTeacher = occupantSchedule.Teachers.FirstOrDefault();
+                if (occupantCourse is null || occupantTeacher is null)
+                    continue;
 
+                if (await TryPlaceCourseInSlotAsync(occupantCourse, occupantTeacher, slotStart, slotEnd, visitedStartTimes, schedulingState, day, placedCourses, courseToConsider, isRelocation: true))
+                {
+                    // Occupant successfully relocated (possibly several hops deep) — its old slot is now free
+                    occupantSchedule.CourseId = course.Id;
+                    occupantSchedule.Teachers = new List<Teacher> { teacher };
+                    occupantSchedule.ClassroomId = availableClassroom.Id;
                     return true;
                 }
-                else
-                {
-                    var occupantCourseId = GetCourseById(slot.CourseId.Value, schedulingState);
-                    var originalCourseId = slot.CourseId;
-                    var originalTeachers = slot.Teachers;
-                    var originalClassroomId = slot.ClassroomId;
-                }
-                //Re arrange based on course credit left
+                //Relocation failed, continue to the next occupant
             }
+            return false; //Could not place the course in this slot, even after trying to relocate others
         }
 
         //Placing a lab
@@ -594,7 +664,7 @@ namespace ClassroomManagement.Api.Services
             foreach (var sessional in sessionalsCopy)
             {
                 var teachers = levelTermSection.AssignedTeachers.FirstOrDefault(at => at.SessionalId == sessional.Id).Teachers.ToList();
-                var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day);
+                var allTeachersAvailable = await AreAllTeachersAvailable(teachers, startTime, endTime, day, schedulingState);
                 Labroom labroom = null;
                 bool? evenAvailability = null;
                 //Verifying for 0.75credit labs
@@ -623,7 +693,7 @@ namespace ClassroomManagement.Api.Services
                     }
                     else if (allTeachersAvailable is true && labroom is null)
                     {
-                        labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
+                        labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day, schedulingState);
                         if (labroom is not null)
                         {
                             var schedule = new ClassSchedule
@@ -648,7 +718,7 @@ namespace ClassroomManagement.Api.Services
                 }
                 if (sessional.Credit == 1.5)
                 {
-                    labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day);
+                    labroom = await FindAvailableLabroom(sessional.Labrooms, startTime, day, schedulingState);
                     if (allTeachersAvailable is true && labroom is not null)
                     {
                         var schedule = new ClassSchedule
@@ -674,11 +744,11 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Checks a list of teachers availability
-        private async Task<bool> AreAllTeachersAvailable(List<Teacher> teachers, TimeOnly startTime, TimeOnly endTime, DayOfWeek day)
+        private async Task<bool> AreAllTeachersAvailable(List<Teacher> teachers, TimeOnly startTime, TimeOnly endTime, DayOfWeek day, SchedulingState schedulingState)
         {
             foreach (var teacher in teachers)
             {
-                var teacherAvailability = await IsTeacherAvailable(teacher.Id, startTime, endTime, day);
+                var teacherAvailability = await IsTeacherAvailable(teacher.Id, startTime, endTime, day, schedulingState);
                 if (teacherAvailability is false)
                 {
                     return false; // At least one teacher is not available
@@ -688,11 +758,11 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Find if any of the classroom is available
-        private async Task<Classroom?> FindAvailableClassroom(List<Classroom> classrooms, TimeOnly startTime, DayOfWeek day)
+        private async Task<Classroom?> FindAvailableClassroom(List<Classroom> classrooms, TimeOnly startTime, DayOfWeek day, SchedulingState schedulingState)
         {
             foreach (var classroom in classrooms)
             {
-                var classroomAvailability = await IsClassroomAvailable(classroom.Id, startTime, day);
+                var classroomAvailability = await IsClassroomAvailable(classroom.Id, startTime, day, schedulingState);
                 if (classroomAvailability is true)
                 {
                     return classroom; // Found an available labroom
@@ -702,11 +772,11 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Find if any of the labrooms is available
-        private async Task<Labroom?> FindAvailableLabroom(List<Labroom> labrooms, TimeOnly startTime, DayOfWeek day)
+        private async Task<Labroom?> FindAvailableLabroom(List<Labroom> labrooms, TimeOnly startTime, DayOfWeek day, SchedulingState schedulingState)
         {
             foreach (var labroom in labrooms)
             {
-                var labroomAvailability = await IsLabroomAvailable(labroom.Id, startTime, day);
+                var labroomAvailability = await IsLabroomAvailable(labroom.Id, startTime, day, schedulingState);
                 if (labroomAvailability is true)
                 {
                     return labroom; // Found an available labroom
@@ -730,7 +800,7 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Checks if the teacher is available for the given time slot and day.
-        private async Task<bool> IsTeacherAvailable(int teacherId, TimeOnly startTime, TimeOnly endTime, DayOfWeek day)
+        private async Task<bool> IsTeacherAvailable(int teacherId, TimeOnly startTime, TimeOnly endTime, DayOfWeek day, SchedulingState schedulingState)
         {
             var overlappingSchedules = await _dbContext.ClassSchedules
                 .Where(cs =>
@@ -739,6 +809,18 @@ namespace ClassroomManagement.Api.Services
                     && (cs.EndTime > startTime))
                     .Where(cs => cs.Teachers.Any(t => t.Id == teacherId))
                     .AnyAsync();
+
+            //For Chained method
+            if (schedulingState is not null)
+            {
+                overlappingSchedules = overlappingSchedules || schedulingState.SchedulesToAdd
+                .Any(cs =>
+                    cs.Day == day
+                    && (cs.StartTime < endTime)
+                    && (cs.EndTime > startTime)
+                    && cs.Teachers.Any(t => t.Id == teacherId));
+            }
+
             if (overlappingSchedules)
             {
                 return false; // Teacher is not available
@@ -747,13 +829,21 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Checks if the labroom is available for the given time slot and day.
-        private async Task<bool> IsClassroomAvailable(int classroomId, TimeOnly startTime, DayOfWeek day)
+        private async Task<bool> IsClassroomAvailable(int classroomId, TimeOnly startTime, DayOfWeek day, SchedulingState schedulingState)
         {
             var isBooked = await _dbContext.ClassSchedules
                 .AnyAsync(cs =>
                 cs.ClassroomId == classroomId
                 && cs.Day == day
                 && cs.StartTime == startTime);
+
+            //For Chained method
+            isBooked = isBooked || schedulingState.SchedulesToAdd
+                .Any(cs =>
+                    cs.ClassroomId == classroomId
+                    && cs.Day == day
+                    && cs.StartTime == startTime);
+
             if (isBooked)
             {
                 return false; // Labroom is not available
@@ -762,13 +852,24 @@ namespace ClassroomManagement.Api.Services
         }
 
         //Checks if the labroom is available for the given time slot and day.
-        private async Task<bool> IsLabroomAvailable(int labroomId, TimeOnly startTime, DayOfWeek day)
+        private async Task<bool> IsLabroomAvailable(int labroomId, TimeOnly startTime, DayOfWeek day, SchedulingState schedulingState)
         {
             var isBooked = await _dbContext.ClassSchedules
                 .AnyAsync(cs =>
                 cs.LabroomId == labroomId
                 && cs.Day == day
                 && cs.StartTime == startTime);
+
+            //For Chained method
+            if (schedulingState is not null)
+            {
+                isBooked = isBooked || schedulingState.SchedulesToAdd
+                .Any(cs =>
+                    cs.LabroomId == labroomId
+                    && cs.Day == day
+                    && cs.StartTime == startTime);
+            }
+
             if (isBooked)
             {
                 return false; // Labroom is not available
