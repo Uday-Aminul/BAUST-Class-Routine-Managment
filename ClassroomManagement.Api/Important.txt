@@ -35,5 +35,5 @@ Problems:
 
 30. The assignedCredit is returning 0 in the TeachersRepository.
 
-31. when updating sessional remove it's previous rooms and add the latest rooms.
+31. 
 32. 

@@ -17,6 +17,6 @@ namespace ClassroomManagement.Api.Models.DTOs
         //Navigation Properties
         public CourseForClassroomDto? Course { get; set; }
         public SessionalForClassroomDto? Sessional { get; set; }
-        public List<TeacherForClassroomDto> Teacher { get; set; }
+        public List<TeacherForClassroomDto> Teachers { get; set; }
     }
 }
