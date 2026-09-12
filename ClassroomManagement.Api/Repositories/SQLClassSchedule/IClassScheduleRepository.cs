@@ -14,7 +14,7 @@ namespace ClassScheduleManagement.Api.Repositories
         Task<ClassSchedule?> GetClassScheduleByIdAsync(int id);
         Task<ClassSchedule> CreateClassScheduleAsync(ClassSchedule ClassSchedule, List<int>? teacherIds);
         Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule ClassSchedule, List<int>? teacherIds);
-        Task<List<ClassSchedule>?> DeleteClassScheduleByIdAsync(int id);
+        Task<bool> DeleteAllClassSchedulesAsync();
         Task<List<String>> InputClassSchedulesAsync(Stream stream);
     }
 }

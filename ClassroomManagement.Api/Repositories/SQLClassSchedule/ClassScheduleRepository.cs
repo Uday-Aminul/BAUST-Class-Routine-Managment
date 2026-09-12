@@ -48,24 +48,15 @@ namespace ClassScheduleManagement.Api.Repositories
             return classScheduleDomain;
         }
 
-        public async Task<List<ClassSchedule>?> DeleteClassScheduleByIdAsync(int id)
+        public async Task<bool> DeleteAllClassSchedulesAsync()
         {
-            var classSchedule = await _dbContext.ClassSchedules
-                .FirstOrDefaultAsync(x => x.Id == id);
-            if (classSchedule is null) return null;
-
-            _dbContext.ClassSchedules.Remove(classSchedule);
-            await _dbContext.SaveChangesAsync();
-
-            var classScheduleDomains = await _dbContext.ClassSchedules
-                .Include(x => x.Classroom)
-                .Include(x => x.Labroom)
-                .Include(x => x.Course)
-                .Include(x => x.Sessional)
-                .Include(x => x.Teachers)
-                .ToListAsync();
-
-            return classScheduleDomains;
+            await _dbContext.ClassSchedules.ExecuteDeleteAsync();
+            var count = await _dbContext.ClassSchedules.CountAsync();
+            if (count == 0)
+            {
+                return true;
+            }
+            return false;
         }
 
         public async Task<List<ClassSchedule>> GetAllClassSchedulesAsync(

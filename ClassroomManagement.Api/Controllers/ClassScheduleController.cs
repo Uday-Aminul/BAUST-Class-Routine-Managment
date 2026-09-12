@@ -54,17 +54,15 @@ namespace ClassroomManagement.Api.Controllers
             return Ok(classScheduleDto);
         }
 
-        [HttpDelete]
-        [Route("{id:int}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
+        [HttpDelete("DeleteAll")]
+        public async Task<IActionResult> DeleteAll()
         {
-            var classScheduleDomains = await _classSchedulesRepository.DeleteClassScheduleByIdAsync(id);
-            if (classScheduleDomains is null)
+            var success = await _classSchedulesRepository.DeleteAllClassSchedulesAsync();
+            if (success)
             {
-                return NotFound();
+                return Ok("All class schedules deleted successfully.");
             }
-            var classScheduleDtos = _mapper.Map<List<ClassScheduleDto>>(classScheduleDomains);
-            return Ok(classScheduleDtos);
+            return Ok("Failed to delete all class schedules.");
         }
 
         [HttpPut]

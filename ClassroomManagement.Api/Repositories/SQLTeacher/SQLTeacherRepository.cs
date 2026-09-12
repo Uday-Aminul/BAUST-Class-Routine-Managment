@@ -40,6 +40,9 @@ namespace TeacherManagement.Api.Repositories
             var TeacherDomains = await _dbContext.Teachers
                 .Include(x => x.Classes)
                 .Include(x => x.AssignedSections)
+                .ThenInclude(a => a.Course)
+                .Include(x => x.AssignedSections)
+                .ThenInclude(a => a.Sessional)
                 .ToListAsync();
             return TeacherDomains;
         }
