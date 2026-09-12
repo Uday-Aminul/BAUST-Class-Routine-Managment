@@ -1,6 +1,7 @@
 using AutoMapper;
 using ClassroomManagement.Api.Models;
 using ClassroomManagement.Api.Models.DTOs;
+using ClassroomManagement.Api.Models.DTOs.ClassSchedule;
 using ClassroomManagement.Api.Models.DTOs.ClassSchedules;
 using ClassroomManagement.Api.Services;
 using ClassScheduleManagement.Api.Repositories;
@@ -87,6 +88,20 @@ namespace ClassroomManagement.Api.Controllers
             classScheduleDomain = await _classSchedulesRepository.CreateClassScheduleAsync(classScheduleDomain, newClassSchedules.TeacherIds);
             var classScheduleDto = _mapper.Map<ClassScheduleDto>(classScheduleDomain);
             return CreatedAtAction(nameof(GetById), new { id = classScheduleDto.Id }, classScheduleDto);
+        }
+
+        [HttpPost]
+        [Route("InputClassSchedules")]
+        public async Task<IActionResult> InputClassSchedules([FromForm] InputClassScheduleRequestDto classScheduleInputs)
+        {
+            if (classScheduleInputs.File == null || classScheduleInputs.File.Length == 0)
+            {
+                return BadRequest("No file uploaded.");
+            }
+
+            using var stream = classScheduleInputs.File.OpenReadStream();
+            var messages = await _classSchedulesRepository.InputClassSchedulesAsync(stream);
+            return Ok(messages);
         }
 
         // [HttpPost]

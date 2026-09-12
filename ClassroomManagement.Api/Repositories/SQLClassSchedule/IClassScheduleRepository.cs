@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ClassroomManagement.Api.Models;
+using ClassroomManagement.Api.Models.DTOs.ClassSchedule;
 
 namespace ClassScheduleManagement.Api.Repositories
 {
@@ -14,5 +15,6 @@ namespace ClassScheduleManagement.Api.Repositories
         Task<ClassSchedule> CreateClassScheduleAsync(ClassSchedule ClassSchedule, List<int>? teacherIds);
         Task<ClassSchedule?> UpdateClassScheduleByIdAsync(int id, ClassSchedule ClassSchedule, List<int>? teacherIds);
         Task<List<ClassSchedule>?> DeleteClassScheduleByIdAsync(int id);
+        Task<List<String>> InputClassSchedulesAsync(Stream stream);
     }
 }
