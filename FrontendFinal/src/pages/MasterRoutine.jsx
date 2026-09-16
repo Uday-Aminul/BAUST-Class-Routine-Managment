@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Calendar, Printer } from 'lucide-react';
 import { routineApi, sectionApi } from '../api/api';
 import UniversityHeader from '../components/UniversityHeader';
@@ -59,7 +59,7 @@ const getSlotSpan = (startTime, endTime) => {
   const startParts = startTime.split(':');
   const endParts = endTime.split(':');
   const startHour = parseInt(startParts[0], 10);
-  const endHour = parseInt(endParts[1], 10);
+  const endHour = parseInt(endParts[0], 10);
 
   const diffHours = endHour - startHour;
   if (diffHours >= 2) return 3;
@@ -67,6 +67,7 @@ const getSlotSpan = (startTime, endTime) => {
 };
 
 const MasterRoutine = () => {
+  const contentRef = useRef(null);
   const [sections, setSections] = useState([]);
   const [schedules, setSchedules] = useState([]);
   
@@ -76,6 +77,116 @@ const MasterRoutine = () => {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+// const convertImagesToBase64 = async (container) => {
+//   const images = container.querySelectorAll('img');
+//   for (const img of images) {
+//     // Skip conversion if already base64, but still set dimensions below
+//     if (!img.src.startsWith('data:')) {
+//       try {
+//         const response = await fetch(img.src);
+//         const blob = await response.blob();
+//         const base64 = await new Promise((resolve) => {
+//           const reader = new FileReader();
+//           reader.onloadend = () => resolve(reader.result);
+//           reader.readAsDataURL(blob);
+//         });
+//         img.src = base64;
+//       } catch (err) {
+//         console.warn('Failed to inline image:', img.src, err);
+//       }
+//     }
+
+//     // Set explicit dimensions — Word needs inline attrs, not CSS classes
+//     const targetWidth = img.classList.contains('routine-header-logo')
+//       ? 75
+//       : (img.naturalWidth || 80);
+
+//     const ratio = img.naturalWidth
+//       ? img.naturalHeight / img.naturalWidth
+//       : 1;
+//     const targetHeight = Math.round(targetWidth * ratio);
+
+//     img.setAttribute('width', String(targetWidth));
+//     img.setAttribute('height', String(targetHeight));
+//   }
+// };
+
+//   const downloadDocx = async () => {
+//   if (!contentRef.current) {
+//     alert('Content not ready yet.');
+//     return;
+//   }
+
+//   // Clone the content so we don't mutate the live DOM
+//   const clone = contentRef.current.cloneNode(true);
+//   await convertImagesToBase64(clone);
+
+//   const content = clone.innerHTML;
+
+//   const fullHTML = `
+//     <!DOCTYPE html>
+//     <html>
+//       <head>
+//         <meta charset="UTF-8">
+//         <style>
+//           body { font-family: Arial, sans-serif; }
+//           h1 { color: #333; }
+//           table { border-collapse: collapse; width: 100%; }
+//           th, td { border: 1px solid #000; padding: 8px; font-size: 10pt; }
+//         </style>
+//       </head>
+//       <body>${content}</body>
+//     </html>
+//   `;
+
+//   const blob = window.htmlDocx.asBlob(fullHTML, {
+//     orientation: 'landscape',
+//     margins: {
+//       top: 720,     // 0.5 inch (720 twips = 0.5")
+//       right: 720,
+//       bottom: 720,
+//       left: 720
+//     }
+//   });
+
+//   const url = URL.createObjectURL(blob);
+//   const a = document.createElement('a');
+//   a.href = url;
+//   a.download = `master-routine-${activeSeason}-${activeYear}.docx`;
+//   document.body.appendChild(a);
+//   a.click();
+//   document.body.removeChild(a);
+//   URL.revokeObjectURL(url);
+// };
+
+// const downloadDocx = async () => {
+//   if (!sections.length || !schedules.length) {
+//     alert('No routine data available.');
+//     return;
+//   }
+//   try {
+//     const blob = await downloadRoutineDocx({
+//       sections,
+//       schedules,
+//       routineMode,
+//       season: activeSeason,
+//       year: activeYear,
+//       logoUrl: '/baust_logo.png',
+//     });
+//     const url = URL.createObjectURL(blob);
+//     const a = document.createElement('a');
+//     a.href = url;
+//     a.download = `master-routine-${activeSeason}-${activeYear}.docx`;
+//     document.body.appendChild(a);
+//     a.click();
+//     document.body.removeChild(a);
+//     URL.revokeObjectURL(url);
+//   } catch (err) {
+//     console.error('DOCX generation failed:', err);
+//     alert('Failed to generate DOCX: ' + err.message);
+//   }
+// };
 
   useEffect(() => {
     const handleTermChange = () => {
@@ -258,6 +369,9 @@ const MasterRoutine = () => {
           <button className="btn btn-primary" onClick={handlePrint} disabled={loading || sections.length === 0}>
             <Printer size={16} /> Print Master Routine (PDF)
           </button>
+          <button className="btn btn-primary" onClick={downloadDocx} disabled={loading || sections.length === 0}>
+            Download Master Routine (DOCX)
+          </button>
         </div>
       </div>
 
@@ -284,13 +398,13 @@ const MasterRoutine = () => {
         </div>
       ) : (
         /* Printable Master sheet */
-        <div className="routine-export-container" style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
+        <div className="routine-export-container" ref={contentRef} style={{ display: 'flex', flexDirection: 'column', gap: '4rem' }}>
           
           <UniversityHeader subTitle={`Master Weekly Class Routine — ${activeSeason} ${activeYear} ${routineMode === 'ramadan' ? '(Ramadan Days)' : ''}`} />
           
-          <div style={{ fontSize: '0.9rem', color: '#333', textAlign: 'center', marginTop: '-1rem', marginBottom: '2rem', borderBottom: '1px solid #1a1a1a', paddingBottom: '0.5rem' }}>
+          {/* <div style={{ fontSize: '0.9rem', color: '#333', textAlign: 'center', marginTop: '-1rem', marginBottom: '2rem', borderBottom: '1px solid #1a1a1a', paddingBottom: '0.5rem' }}>
             Bangladesh Army University of Science and Technology (BAUST), Saidpur — Dept. of CSE
-          </div>
+          </div> */}
 
           {DAYS_OF_WEEK.map((day, dayIdx) => {
             const dayGrid = getDayGrid(day.value);

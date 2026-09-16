@@ -23,8 +23,15 @@ export const routineApi = {
   getById: (id) => api.get(`/ClassSchedule/${id}`),
   create: (data) => api.post('/ClassSchedule', data),
   update: (id, data) => api.put(`/ClassSchedule/${id}`, data),
-  delete: (id) => api.delete(`/ClassSchedule/${id}`),
+  deleteAll: () => api.delete('/ClassSchedule/DeleteAll'),
   generateAll: () => api.post('/ClassSchedule/GenerateClassSchedulesForAll?act=true'),
+  importMasterDocx: (file) => {
+    const formData = new FormData();
+    formData.append('File', file);
+    return api.post('/ClassSchedule/InputClassSchedules', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
 };
 
 export const teacherApi = {

@@ -170,7 +170,7 @@ const RoutineTable = ({ schedules = [], mode = 'normal' }) => {
             ))}
 
             {/* Break column header (Normal Mode only) */}
-            {isNormalMode && <th style={{ width: '30px', padding: '0.2rem', fontSize: '0.75rem' }}>BREAK</th>}
+            {isNormalMode && <th style={{ width: '30px', padding: '0.2rem', fontSize: '0.75rem' }}></th>}
 
             {/* Afternoon slots 4-9 */}
             {slots.slice(3).map(slot => (
