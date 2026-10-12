@@ -1,0 +1,28 @@
+services:
+  testdb:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Test!Pass123"
+    ports:
+      - "1434:1433"
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 5s
+      retries: 20
+      start_period: 15s
+
+  testdb-init:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    depends_on:
+      testdb:
+        condition: service_healthy
+    environment:
+      MSSQL_SA_PASSWORD: "Test!Pass123"
+    volumes:
+      - ./db/schema.sql:/schema.sql
+    command: >
+      bash -c "/opt/mssql-tools18/bin/sqlcmd -C -S testdb -U sa -P $$MSSQL_SA_PASSWORD -b
+      -Q \"IF DB_ID('ClassroomTestDb') IS NULL CREATE DATABASE ClassroomTestDb\" &&
+      /opt/mssql-tools18/bin/sqlcmd -C -S testdb -U sa -P $$MSSQL_SA_PASSWORD -b
+      -d ClassroomTestDb -i /schema.sql"
