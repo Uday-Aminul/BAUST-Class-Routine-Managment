@@ -12,13 +12,13 @@ using Moq;
 
 namespace ClassRoutineManagement.Tests
 {
-    public class ClassroomControllerTests
+    public class ClassroomControllerUnitTests
     {
         private readonly Mock<IClassroomRepository> _classroomRepository;
         private readonly Mock<IMapper> _mapper;
         private readonly ClassroomController _classroomController;
 
-        public ClassroomControllerTests()
+        public ClassroomControllerUnitTests()
         {
             _classroomRepository = new Mock<IClassroomRepository>();
             _mapper = new Mock<IMapper>();
