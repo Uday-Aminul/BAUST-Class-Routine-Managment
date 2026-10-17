@@ -1,0 +1,9 @@
+2026-10-17 04:39:05.703 +06:00 [INF] Saved 2 entities to in-memory store.
+2026-10-17 04:39:05.707 +06:00 [INF] Request starting HTTP/1.1 GET http://localhost/api/Classroom - null null
+2026-10-17 04:39:05.711 +06:00 [WRN] Failed to determine the https port for redirect.
+2026-10-17 04:39:05.711 +06:00 [INF] Executing endpoint 'ClassroomManagement.Api.Controllers.ClassroomController.GetAll (ClassroomManagement.Api)'
+2026-10-17 04:39:05.715 +06:00 [INF] Route matched with {action = "GetAll", controller = "Classroom"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAll() on controller ClassroomManagement.Api.Controllers.ClassroomController (ClassroomManagement.Api).
+2026-10-17 04:39:05.812 +06:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ClassroomManagement.Api.Models.DTOs.ClassroomDto, ClassroomManagement.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-10-17 04:39:05.829 +06:00 [INF] Executed action ClassroomManagement.Api.Controllers.ClassroomController.GetAll (ClassroomManagement.Api) in 112.9484ms
+2026-10-17 04:39:05.829 +06:00 [INF] Executed endpoint 'ClassroomManagement.Api.Controllers.ClassroomController.GetAll (ClassroomManagement.Api)'
+2026-10-17 04:39:05.829 +06:00 [INF] Request finished HTTP/1.1 GET http://localhost/api/Classroom - 200 null application/json; charset=utf-8 122.0489ms

@@ -1,0 +1,36 @@
+services:
+  db: 
+    build: ./ClassroomManagement.Api/db/
+    environment:
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - 1433:1433
+    volumes:
+      - sqldata:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P "$$MSSQL_SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 10s
+      retries: 10
+      start_period: 30s
+  backend: 
+    build: ./ClassroomManagement.Api/
+    ports:
+      - 8080:8080
+    depends_on:
+      db: 
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__ClassroomManagementConnectionString: "Server=db,1433;Database=ClassroomDb;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
+
+  frontend: 
+    build: ./FrontendFinal
+    ports: 
+      - 3000:5173
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_URL=http://localhost:8080
+
+volumes:
+  sqldata:
