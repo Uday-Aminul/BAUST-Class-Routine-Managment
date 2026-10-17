@@ -1,7 +1,5 @@
 # BAUST Class Routine Management System
 
-<img src="ClassRoutineManagement.jpg" alt="Class Routine Management" width="600" />
-
 A production timetable system in active use by the CSE department at Bangladesh Army University of Science and Technology (BAUST). It replaces a fully manual routine-creation process with an automated, conflict-free scheduler.
 
 ---
