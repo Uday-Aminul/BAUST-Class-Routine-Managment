@@ -2,49 +2,36 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: "9.0.x"
 
       - name: Restore
-        run: dotnet restore
+        run: dotnet restore ClassRoutineManagement.Tests
 
       - name: Build
-        run: dotnet build --no-restore
+        run: dotnet build ClassRoutineManagement.Tests --no-restore
 
-      - name: Start SQL Server for integration tests
-        run: docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml up -d
+      - name: Start SQL Server (waits until the schema is loaded)
+        run: docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml up -d --build --wait
 
-      - name: Wait for SQL Server to be healthy
-        run: |
-          for i in {1..30}; do
-            status=$(docker inspect --format='{{.State.Health.Status}}' \
-              $(docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml ps -q db))
-            if [ "$status" = "healthy" ]; then
-              echo "DB is healthy"
-              exit 0
-            fi
-            echo "Waiting for DB (status: $status)..."
-            sleep 2
-          done
-          echo "DB did not become healthy"
-          docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml logs db
-          exit 1
+      - name: Show db logs on failure
+        if: failure()
+        run: docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml logs db
 
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test ClassRoutineManagement.Tests --no-build --verbosity normal
 
       - name: Tear down DB
         if: always()
