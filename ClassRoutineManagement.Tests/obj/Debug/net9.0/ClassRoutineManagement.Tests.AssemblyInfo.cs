@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ClassRoutineManagement.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7ae7632ddb629a24809fc7693856bab9ec83408")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c020a4628990e7534094311884ac71b3e1fa9f7")]
 [assembly: System.Reflection.AssemblyProductAttribute("ClassRoutineManagement.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ClassRoutineManagement.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
