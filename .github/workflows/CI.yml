@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Start SQL Server for integration tests
+        run: docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml up -d
+
+      - name: Wait for SQL Server to be healthy
+        run: |
+          for i in {1..30}; do
+            status=$(docker inspect --format='{{.State.Health.Status}}' \
+              $(docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml ps -q db))
+            if [ "$status" = "healthy" ]; then
+              echo "DB is healthy"
+              exit 0
+            fi
+            echo "Waiting for DB (status: $status)..."
+            sleep 2
+          done
+          echo "DB did not become healthy"
+          docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml logs db
+          exit 1
+
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Tear down DB
+        if: always()
+        run: docker compose -f ClassRoutineManagement.Tests/IntegrationTest.yml down -v
