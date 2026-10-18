@@ -11,7 +11,7 @@ GO
 BEGIN TRANSACTION;
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Classrooms] (
@@ -23,7 +23,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Courses] (
@@ -39,7 +39,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Labrooms] (
@@ -52,7 +52,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [LevelTermSections] (
@@ -66,7 +66,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Sessionals] (
@@ -82,7 +82,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [Teachers] (
@@ -96,7 +96,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [ClassroomLevelTermSection] (
@@ -110,7 +110,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [ClassSchedules] (
@@ -136,7 +136,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [LabroomSessional] (
@@ -150,7 +150,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [TeacherAssignments] (
@@ -167,7 +167,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [ClassScheduleTeacher] (
@@ -181,7 +181,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE TABLE [TeacherTeacherAssignment] (
@@ -195,7 +195,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'RoomNumber') AND [object_id] = OBJECT_ID(N'[Classrooms]'))
@@ -224,7 +224,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'CourseCode', N'Credit', N'Level', N'Name', N'Term') AND [object_id] = OBJECT_ID(N'[Courses]'))
@@ -280,7 +280,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Name', N'RoomNumber') AND [object_id] = OBJECT_ID(N'[Labrooms]'))
@@ -311,7 +311,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Level', N'Section', N'Term') AND [object_id] = OBJECT_ID(N'[LevelTermSections]'))
@@ -339,7 +339,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Credit', N'Level', N'Name', N'SessionalCode', N'Term') AND [object_id] = OBJECT_ID(N'[Sessionals]'))
@@ -382,7 +382,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     IF EXISTS (SELECT * FROM [sys].[identity_columns] WHERE [name] IN (N'Id', N'Code', N'Designation', N'Name') AND [object_id] = OBJECT_ID(N'[Teachers]'))
@@ -444,7 +444,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassroomLevelTermSection_LevelTermSectionsId] ON [ClassroomLevelTermSection] ([LevelTermSectionsId]);
@@ -452,7 +452,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassSchedules_ClassroomId] ON [ClassSchedules] ([ClassroomId]);
@@ -460,7 +460,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassSchedules_CourseId] ON [ClassSchedules] ([CourseId]);
@@ -468,7 +468,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassSchedules_LabroomId] ON [ClassSchedules] ([LabroomId]);
@@ -476,7 +476,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassSchedules_SessionalId] ON [ClassSchedules] ([SessionalId]);
@@ -484,7 +484,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_ClassScheduleTeacher_TeachersId] ON [ClassScheduleTeacher] ([TeachersId]);
@@ -492,7 +492,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_LabroomSessional_LabroomsId] ON [LabroomSessional] ([LabroomsId]);
@@ -500,7 +500,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_TeacherAssignments_CourseId] ON [TeacherAssignments] ([CourseId]);
@@ -508,7 +508,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_TeacherAssignments_LevelTermSectionId] ON [TeacherAssignments] ([LevelTermSectionId]);
@@ -516,7 +516,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_TeacherAssignments_SessionalId] ON [TeacherAssignments] ([SessionalId]);
@@ -524,7 +524,7 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     CREATE INDEX [IX_TeacherTeacherAssignment_TeachersId] ON [TeacherTeacherAssignment] ([TeachersId]);
@@ -532,11 +532,11 @@ END;
 
 IF NOT EXISTS (
     SELECT * FROM [__EFMigrationsHistory]
-    WHERE [MigrationId] = N'20260811204339_Initial Create'
+    WHERE [MigrationId] = N'20261017222017_InitialCreate'
 )
 BEGIN
     INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-    VALUES (N'20260811204339_Initial Create', N'9.0.10');
+    VALUES (N'20261017222017_InitialCreate', N'9.0.10');
 END;
 
 COMMIT;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Layers, Plus, Edit, Trash2, X, Check } from 'lucide-react';
-import { sectionApi, classroomApi } from '../api/api';
+import { Layers, Plus, Edit, Trash2, X, Check, Database } from 'lucide-react';
+import { sectionApi, classroomApi, labroomApi } from '../api/api';
 
 const ManageSections = () => {
   const [sections, setSections] = useState([]);
@@ -151,6 +151,20 @@ const ManageSections = () => {
     }
   };
 
+  const triggerSeedSessionals = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      await labroomApi.assignSessionals();
+      showSuccess('Sessionals successfully mapped to Labrooms.');
+      await fetchData();
+    } catch (err) {
+      console.error(err);
+      setError('Failed to auto-assign sessionals to labrooms.');
+      setLoading(false);
+    }
+  };
+
   const termRoman = (termVal) => {
     if (termVal === 1) return 'I';
     if (termVal === 2) return 'II';
@@ -289,14 +303,17 @@ const ManageSections = () => {
               flexDirection: 'column',
               gap: '0.75rem'
             }}>
-              <span style={{ display: 'block', fontSize: '0.85rem', color: '#8b949e' }}>
-                Batch Database Seed Utilities:
+              <span style={{ display: 'block', fontSize: '0.85rem', color: '#8b949e', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Database size={14} /> Batch Database Seed Utilities:
               </span>
               <button type="button" className="btn btn-secondary" onClick={triggerSeedClassrooms} disabled={loading}>
                 Auto-Assign Classrooms (Seeds)
               </button>
               <button type="button" className="btn btn-secondary" onClick={triggerSeedTeachers} disabled={loading}>
                 Auto-Assign Teachers (Seeds)
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={triggerSeedSessionals} disabled={loading}>
+                Auto-Assign Sessionals to Labrooms
               </button>
             </div>
           )}

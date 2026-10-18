@@ -2,7 +2,7 @@ services:
   db: 
     build: ./ClassroomManagement.Api/db/
     environment:
-      MSSQL_SA_PASSWORD: ${DB_PASSWORD}
+      MSSQL_SA_PASSWORD: ${DB_PASSWORD:-YourStrong!Pass123}
     ports:
       - 1433:1433
     volumes:
@@ -21,7 +21,7 @@ services:
         condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__ClassroomManagementConnectionString: "Server=db,1433;Database=ClassroomDb;User Id=sa;Password=${DB_PASSWORD};TrustServerCertificate=True"
+      ConnectionStrings__ClassroomManagementConnectionString: "Server=db,1433;Database=ClassroomDb;User Id=sa;Password=${DB_PASSWORD:-YourStrong!Pass123};TrustServerCertificate=True"
 
   frontend: 
     build: ./FrontendFinal
